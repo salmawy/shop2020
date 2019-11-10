@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8'?>  
+<!DOCTYPE hibernate-mapping PUBLIC  
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"  
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">  
+<hibernate-mapping>  
+<class name="App.core.beans.CustomerOrder" table="CUSTOMER_ORDER" lazy="false">  
+      <id name = "id" type = "int" column = "ID">
+          <generator class="increment"></generator>  
+          </id>  
+               <property name = "customerId" column = "CUSTOMER_ID" />
+               <property name = "storeId" column = "Store_ID" />
+              
+               <property name = "productId" column = "PRODUCT_ID" />
+             	
+              <property name = "nolun" column = "NOLUN" />
+                <property name = "grossweight" column = "GROSS_WEIGHT" /> 
+                
+               <property name = "netWeight" column = "NET_WEIGHT" />
+               <property name = "orderDate" column = "ORDER_DATE" />
+              <property name = "totalPrice" column = "TOTAL_PRICE" />
+               <property name = "netPrice" column = "NET_PRICE" />
+               <property name = "editeDate" column = "EDIT_DATE" />
+               <property name = "dueDate" column = "DUE_DATE" />
+              <property name = "tips" column = "TIPS" />
+               <property name = "commision" column = "COMMISION" />
+               <property name = "notes" column = "NOTES" />
+               <property name = "finished" column = "FINISHED" />
+              <property name = "vechileType" column = "VECHILE_TYPE" />
+               <property name = "dued" column = "DUED" />
+               <property name = "units" column = "UNITES" />
+              <property name = "ratio" column = "RATIO" />
+               <property name = "buyPrice" column = "BUY_PRICE" />
+               <property name = "periodId" column = "PERIOD_ID" />
+               <property name = "fridageId" column = "FRIDAGE_ID" />
+              <property name = "seasonId" column = "SEASON_ID" />
+               <property name = "unitePrice" column = "UNITE_PRICE" />
+			   <property name = "orderTag" column = "ORDER_TAG" />
+          
+            
+       <property name = "changeDate" column = "CHANGE_DATE" />
+               <property name = "timestamp" column = "TIMESTAMP" />
+               <property name = "changerId" column = "CHANGER_ID" />
+               
+                
+ 
+        
+        
+		<many-to-one 
+		name="customer" 
+		column="CUSTOMER_ID"
+			class="App.core.beans.Customer" 
+			not-null="true" 
+			insert="false"
+			update="false" 
+			lazy="false" />
+        
+        
+   	<many-to-one 
+		name="product" 
+		column="PRODUCT_ID"
+			class="App.core.beans.Product" 
+			not-null="true" 
+			insert="false"
+			update="false" 
+			lazy="false" />
+        
+       	<many-to-one 
+		name="fridage" 
+		column="FRIDAGE_ID"
+			class="App.core.beans.Fridage" 
+			not-null="true" 
+			insert="false"
+			update="false" 
+			lazy="false" />
+         
+         
+       
+         
+</class>  
+            
+            
+            
+
+            
+</hibernate-mapping>  

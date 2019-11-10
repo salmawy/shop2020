@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.*?>
+<?import com.jfoenix.controls.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="400.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="App.com.login.view.LoginPersenter">
+   <children>
+      <Pane layoutX="19.0" layoutY="15.0" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="220.0" prefWidth="366.0" style="-fx-background-color: #ffffff;" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="19.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
+         <children>
+            <JFXTextField fx:id="usernameTF" focusColor="#12bfdd" layoutX="79.0" layoutY="59.0" prefHeight="25.0" prefWidth="250.0" promptText="UserName" />
+            <JFXPasswordField fx:id="passwordPass" focusColor="#12bfdd" layoutX="79.0" layoutY="114.0" prefHeight="25.0" prefWidth="250.0" promptText="Password" />
+            <JFXButton fx:id="loginBtn" layoutX="166.0" layoutY="170.0" onAction="#makeLogin" prefHeight="25.0" prefWidth="60.0" ripplerFill="WHITE" style="-fx-background-color: #7fc5f8;" text="Login" textFill="WHITE" />
+         </children>
+         <effect>
+            <DropShadow />
+         </effect>
+      </Pane>
+   </children>
+</AnchorPane>

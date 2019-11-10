@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.*?>
+<?import javafx.geometry.*?>
+<?import com.jfoenix.controls.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import de.jensd.fx.glyphs.fontawesome.*?>
+
+<AnchorPane id="AnchorPane" fx:id="anchorPane" prefHeight="413.0" prefWidth="608.0" stylesheets="@custom.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="App.com.application.view.ApplicationPersenter">
+   <children>
+      <BorderPane prefHeight="413.0" prefWidth="608.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <top>
+            <HBox fx:id="topContainer" prefHeight="65.0" prefWidth="608.0" style="-fx-min-height: 42; -fx-background-color: #005c99;" BorderPane.alignment="CENTER" />
+         </top>
+         <bottom>
+            <HBox prefHeight="31.0" prefWidth="608.0" BorderPane.alignment="CENTER" />
+         </bottom>
+         <center>
+            <VBox fx:id="appContainer" alignment="TOP_RIGHT" prefHeight="317.0" prefWidth="358.0" BorderPane.alignment="CENTER" />
+         </center>
+         <right>
+            <VBox prefHeight="200.0" prefWidth="250.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Accordion fx:id="App_Components" nodeOrientation="RIGHT_TO_LEFT" prefHeight="322.0" prefWidth="250.0">
+                     <panes>
+                        <TitledPane fx:id="customersComp" text="untitled 1">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="180.0" prefWidth="200.0">
+							      <children>
+           <JFXButton fx:id="dischargingBTN" layoutX="10.0" onAction="#loadDischargePanel" prefHeight="42.0" prefWidth="139.0" style="-fx-alignment: center-left;" styleClass="nav-button" text="Pricing" textFill="#a1aec4" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <font>
+                  <Font name="Roboto Bold" size="14.0" />
+               </font>
+              
+            </JFXButton>
+            <JFXButton fx:id="transactionsBTN" layoutX="10.0" layoutY="42.0" prefHeight="42.0" prefWidth="139.0" style="-fx-alignment: center-left;" styleClass="nav-button" text="Contacts" textFill="#a1aec4" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <font>
+                  <Font name="Roboto Bold" size="14.0" />
+               </font>
+             
+            </JFXButton>
+            <JFXButton fx:id="purchasesBTN" layoutX="10.0" layoutY="84.0" prefHeight="42.0" prefWidth="139.0" style="-fx-alignment: center-left;" styleClass="nav-button" text="Widgets" textFill="#a1aec4" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <font>
+                  <Font name="Roboto Bold" size="14.0" />
+               </font>
+              
+            </JFXButton>
+          
+
+
+	   </children>
+							  
+							  </AnchorPane>
+                           </content>
+                        </TitledPane>
+                        <TitledPane fx:id="sellerComp" text="untitled 2">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="183.0">
+							  					      <children>       <JFXButton fx:id="btnPricing" layoutX="10.0" prefHeight="42.0" prefWidth="139.0" style="-fx-alignment: center-left;" styleClass="nav-button" text="Pricing" textFill="#a1aec4" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <font>
+                  <Font name="Roboto Bold" size="14.0" />
+               </font>
+              
+            </JFXButton>
+            <JFXButton fx:id="btnContacts" layoutX="10.0" layoutY="42.0" prefHeight="42.0" prefWidth="139.0" style="-fx-alignment: center-left;" styleClass="nav-button" text="Contacts" textFill="#a1aec4" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <font>
+                  <Font name="Roboto Bold" size="14.0" />
+               </font>
+             
+            </JFXButton>
+            <JFXButton fx:id="btnWidgets" layoutX="10.0" layoutY="84.0" prefHeight="42.0" prefWidth="139.0" style="-fx-alignment: center-left;" styleClass="nav-button" text="Widgets" textFill="#a1aec4" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <font>
+                  <Font name="Roboto Bold" size="14.0" />
+               </font>
+              
+            </JFXButton>
+          
+
+	   </children>
+							  
+							  </AnchorPane>
+                           </content>
+                        </TitledPane>
+                        <TitledPane text="untitled 3">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                           </content>
+                        </TitledPane>
+                     </panes>
+                  </Accordion>
+               </children>
+            </VBox>
+         </right>
+      </BorderPane>
+   </children>
+</AnchorPane>

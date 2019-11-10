@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8'?>  
+<!DOCTYPE hibernate-mapping PUBLIC  
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"  
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">  
+<hibernate-mapping>  
+<class name="App.core.beans.SellerOrder" table="SELLER_ORDER">  
+      <id name = "id" type = "int" column = "ID">
+          <generator class="increment"></generator>  
+          </id>  
+            	<property name = "sellerId" column = "SELLER_ID" />
+               <property name = "totalCost" column = "TOTAL_COST" />
+             	<property name = "orderDate" column = "ORDER_DATE" />
+               <property name = "notes" column = "NOTES" />
+			   
+			   	<property name = "fridageId" column = "FRIDAGE_ID" />
+               <property name = "seasonId" column = "SEASON_ID" />
+             	<property name = "sciencere" column = "SCIENCERE" />
+               <property name = "sellerLoanBagId" column = "SELLER_LOAN_BAG_ID" />
+			   
+		
+            
+            
+            
+            
+              <property name = "changed" column = "CHANGED" />
+               
+     <property name = "changeDate" column = "CHANGE_DATE" />
+               <property name = "timestamp" column = "TIMESTAMP" />
+               <property name = "changerId" column = "CHANGER_ID" />
+            
+         
+</class>  
+            
+            
+            
+
+            
+</hibernate-mapping>  

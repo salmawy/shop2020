@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?>  
+<!DOCTYPE hibernate-mapping PUBLIC  
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"  
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">  
+<hibernate-mapping>  
+<class name="App.core.beans.Installment" table="INTALLMENT">  
+      <id name = "id" type = "int" column = "ID">
+          <generator class="increment"></generator>  
+          </id>  
+        		<property name = "sellerBagLoan" column = "SELLER_BAG_LOAN_ID" />
+               <property name = "instalmentDate" column = "INSTALMENT_DATE" />
+               <property name = "amount" column = "AMOUNT" />
+             	<property name = "sciencere" column = "SCIENCERE" />
+               <property name = "sellerId" column = "SELLER_ID" />
+
+
+               
+                            <property name = "changed" column = "CHANGED" />
+               <property name = "changeDate" column = "CHANGE_DATE" />
+               <property name = "timestamp" column = "TIMESTAMP" />
+               <property name = "changerId" column = "CHANGER_ID" />
+            
+         
+</class>  
+            
+            
+            
+
+            
+</hibernate-mapping>  
