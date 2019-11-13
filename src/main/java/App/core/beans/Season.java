@@ -5,12 +5,7 @@ import java.util.Date;
 
 public class Season extends BaseBean {
 	int id =-1;
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
+
 	private Date startDate;
 	private Date enddate;
 	private int currentSeason;
@@ -32,5 +27,10 @@ public class Season extends BaseBean {
 	public void setCurrentSeason(int currentSeason) {
 		this.currentSeason = currentSeason;
 	}
-
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 }

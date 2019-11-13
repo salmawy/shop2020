@@ -25,6 +25,8 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.support.SQLErrorCodeSQLExceptionTranslator;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
+import App.core.beans.Fridage;
+import App.core.beans.Season;
 import App.core.dao.IBaseDao;
 import App.core.exception.DataBaseException;
 import App.core.exception.EmptyResultSetException;
@@ -811,6 +813,40 @@ public class BaseDaoImpl extends HibernateDaoSupport implements IBaseDao
 	
 
 	
+	
+	public Season getCurrentSeason() throws DataBaseException, EmptyResultSetException {
+		
+
+		
+		  Session session = null; 
+		  try { 
+			  session =this.getSessionFactory().openSession();
+		  
+		  String query =
+		  "from Season where currentSeason = 1";
+		  Query queryList = session.createQuery(query);
+		
+		  List<Object> result =		  queryList.list();
+		  
+		  if(result.size() == 0) {
+			  throw new  EmptyResultSetException("error.emptyRS"); }
+		  
+		  if(result.size() > 0) 
+		  {return (Season) result.get(0);}
+		 } 
+		  catch(DataAccessException e) { throw new
+		  DataBaseException("error.dataBase.query,AgentFinancialStatus,"+e.getMessage()  );
+		  }
+		  finally { session.close(); }
+		  
+		 
+		return null;
+		
+		
+	}
+
+
+
 
 }
 

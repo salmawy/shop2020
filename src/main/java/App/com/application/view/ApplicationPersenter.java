@@ -5,20 +5,22 @@
  */
 package App.com.application.view;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import com.jfoenix.controls.JFXButton;
 
 import App.com.Customer.discharge.view.InitCustomerDischargeView;
+import App.com.Customer.purchases.view.CustomerPurchasesPresenter;
+import App.com.Customer.purchases.view.CustomerPurchasesView;
+import App.com.Customer.purchases.view.beans.PurchasedInstsViewBean;
+import App.com.Customer.transactions.view.TransactionsView;
 import App.core.action.BaseAction;
+import javafx.animation.FadeTransition;
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.NodeOrientation;
 import javafx.scene.control.Accordion;
@@ -26,6 +28,7 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 
 /**
  *
@@ -75,73 +78,177 @@ public class ApplicationPersenter extends BaseAction implements Initializable {
 	  purchasesBTN.setText(this.getMessage("button.purchases"));
 	  transactionsBTN.setText(this.getMessage("button.transaction"));
 	  dischargingBTN.setText(this.getMessage("button.discharge"));
-	  
+	    appContainer.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+
 	  this.getAppStage().setResizable(true);
 	  
 	  
 	  
 	  
-		//InitCustomerDischargeView customerDischargeView=new InitCustomerDischargeView();
-		
-		
-		/*
-		 * VBox customerDischarge=(VBox) customerDischargeView.getView();
-		 * 
-		 * 
-		 * 
-		 * customerDischarge.setMaxWidth(appContainer.getMaxWidth());
-		 * customerDischarge.setMaxHeight(appContainer.getMaxHeight());
-		 * appContainer.getChildren().setAll(customerDischarge);
-		 */
 
 
 		 
 		 
   }  
-      
+     
+  
+  
+
+  
+  
 	@FXML 
 	
 	private void loadDischargePanel(ActionEvent event) {
+		
+		
+		Task task = new Task < Void > () {
+		 @Override public void run() {
+
+
+
+			  InitCustomerDischargeView customerDischargeView = new InitCustomerDischargeView();
+			  VBox customerDischarge = (VBox) customerDischargeView.getView();
+			  customerDischarge.setMaxWidth(appContainer.getMaxWidth());
+			  customerDischarge.setMaxHeight(appContainer.getMaxHeight());
+
+
+			  Platform.runLater(new Runnable() {
+
+			   @Override public void run() {
+				    FadeTransition ft = new FadeTransition(Duration.millis(1500));
+			        ft.setNode(customerDischarge);
+			        ft.setFromValue(0.1);
+			        ft.setToValue(1);
+			        ft.setCycleCount(1);
+			        ft.setAutoReverse(false);
+			        ft.play();
+			    appContainer.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+
+			   }
+			  });
+
+
+
+
+			 }
+
+
+			 @Override
+			 protected Void call() throws Exception {
+
+			  return null;
+			 }
+			};
+
+
+			Thread t = new Thread(task);
+			t.setDaemon(true);
+			t.start();}
+
 	
-				  
+	@FXML 
+	
+	private void loadTrasnactionsePanel(ActionEvent event) {
+	
 		
-		Platform.runLater(new Runnable() {
-			
-			@Override
-			public void run() {
-				/*
-				 * try { this.sleep(4000); } catch (InterruptedException e) { // TODO
-				 * Auto-generated catch block e.printStackTrace(); }
-				 */
-	        	InitCustomerDischargeView customerDischargeView=new InitCustomerDischargeView();
-			   	 VBox customerDischarge=(VBox) customerDischargeView.getView();
-				 customerDischarge.setMaxWidth(appContainer.getMaxWidth());
-					  customerDischarge.setMaxHeight(appContainer.getMaxHeight());
-					  appContainer.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
-					  appContainer.getChildren().setAll(customerDischarge);				        				
-			}
-		});
-				 
-				      
+		Task task = new Task < Void > () {
+		 @Override public void run() {
 
 
-		
-		
-		
-	}
- private VBox replaceSceneContent(String fxml) throws Exception {
-              VBox box=null;
-           try {
-               URL resource = ApplicationPersenter.class.getResource(fxml);
-             box = FXMLLoader.load(resource);
-         
 
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            Logger.getLogger(ApplicationPersenter.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return box;
-    }
+			  TransactionsView transactionsView = new TransactionsView();
+			  AnchorPane customersTransactions = (AnchorPane) transactionsView.getView();
+			  customersTransactions.setMaxWidth(appContainer.getMaxWidth());
+			  customersTransactions.setMaxHeight(appContainer.getMaxHeight());
+
+
+			  Platform.runLater(new Runnable() {
+
+			   @Override public void run() {
+				    FadeTransition ft = new FadeTransition(Duration.millis(1500));
+			        ft.setNode(customersTransactions);
+			        ft.setFromValue(0.1);
+			        ft.setToValue(1);
+			        ft.setCycleCount(1);
+			        ft.setAutoReverse(false);
+			        ft.play();
+			    appContainer.getChildren().setAll(customersTransactions);
+
+			   }
+			  });
+
+
+
+
+			 }
+
+
+			 @Override
+			 protected Void call() throws Exception {
+
+			  return null;
+			 }
+			};
+
+
+			Thread t = new Thread(task);
+			t.setDaemon(true);
+			t.start();}
+
+@FXML 
+	
+	private void loadPurchasedPanel(ActionEvent event) {
+	
+		
+		Task task = new Task < Void > () {
+		 @Override public void run() {
+
+
+
+			  CustomerPurchasesView purchasesView = new CustomerPurchasesView();
+			  AnchorPane purchases = (AnchorPane) purchasesView.getView();
+			  purchases.setMaxWidth(appContainer.getMaxWidth());
+			  purchases.setMaxHeight(appContainer.getMaxHeight());
+
+
+			  Platform.runLater(new Runnable() {
+
+			   @Override public void run() {
+				    FadeTransition ft = new FadeTransition(Duration.millis(1500));
+			        ft.setNode(purchases);
+			        ft.setFromValue(0.1);
+			        ft.setToValue(1);
+			        ft.setCycleCount(1);
+			        ft.setAutoReverse(false);
+			        ft.play();
+			    appContainer.getChildren().setAll(purchases);
+
+			   }
+			  });
+
+
+
+
+			 }
+
+
+			 @Override
+			 protected Void call() throws Exception {
+
+			  return null;
+			 }
+			};
+
+
+			Thread t = new Thread(task);
+			t.setDaemon(true);
+			t.start();}
+
+	
+	
+	
+	
+	
 
 
 }

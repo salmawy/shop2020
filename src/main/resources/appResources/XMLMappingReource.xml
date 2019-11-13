@@ -38,10 +38,11 @@
                 <value>App/core/beans/XMLMapping/sellerLoanBag.hbm.xml</value> 
                 <value>App/core/beans/XMLMapping/sellerOrder.hbm.xml</value> 
                 <value>App/core/beans/XMLMapping/sellerOrderWeight.hbm.xml</value> 
-<!--        		    <value>App/core/beans/XMLMapping/store.hbm.xml</value> 
- -->                <value>App/core/beans/XMLMapping/users.hbm.xml</value> 
-         
-        </list>  
+       		    <value>App/core/beans/XMLMapping/store.hbm.xml</value> 
+                <value>App/core/beans/XMLMapping/users.hbm.xml</value> 
+                <value>App/core/beans/XMLMapping/vehicleType.hbm.xml</value>
+                <value>App/core/beans/XMLMapping/purchasedCustomerInst.hbm.xml</value>
+                </list>  
         </property>  
         <property name="hibernateProperties">  
             <props>  

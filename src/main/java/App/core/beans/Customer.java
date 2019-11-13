@@ -9,7 +9,11 @@ public class Customer  extends BaseBean{
 	private String name;
 	private String address;
 	private String phone;
-	private int  changed =0;
+	private int typeId;
+	
+	
+	
+	
 	public int getId() {
 		return id;
 	}
@@ -35,10 +39,14 @@ public class Customer  extends BaseBean{
 		this.phone = phone;
 	}
 	
-	public void setChanged(int changed) {
-		this.changed = changed;
+
+	public int getTypeId() {
+		return typeId;
 	}
-	
+	public void setTypeId(int typeId) {
+		this.typeId = typeId;
+	}
+
 	
 	
 

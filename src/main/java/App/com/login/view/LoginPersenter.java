@@ -66,11 +66,10 @@ try {
         
         this.getAppStage().setTitle("FXML App Demo");
         this.getAppStage().setScene(scene);
-
      //   this.getAppStage().initStyle(StageStyle.UNIFIED);
 
     
-        this.getAppStage().setMaximized(true);
+      //  this.getAppStage().setMaximized(true);
       //  this.getAppStage().show();
 
 } catch (DataBaseException | EmptyResultSetException e) {

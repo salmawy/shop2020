@@ -29,7 +29,9 @@
     </bean> 
     
       <bean id="customerService" class="App.com.Customer.service.spring.CustomerService">  
-    <property name="customerDao" ref="customerDao"></property>  
+    <property name="customerDao" ref="customerDao"></property> 
+     <property name="baseRetrievalService" ref="baseService"></property>  
+     
     </bean> 
  
     <!--     End :-customer service Beans -->    

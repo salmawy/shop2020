@@ -35,6 +35,7 @@
               <property name = "seasonId" column = "SEASON_ID" />
                <property name = "unitePrice" column = "UNITE_PRICE" />
 			   <property name = "orderTag" column = "ORDER_TAG" />
+          		<property name = "vechileTypeId" column = "VECHILE_TYPE_ID" />
           
             
        <property name = "changeDate" column = "CHANGE_DATE" />
@@ -42,7 +43,14 @@
                <property name = "changerId" column = "CHANGER_ID" />
                
                 
- 
+ <many-to-one 
+		name="vehicleType" 
+		column="vechileTypeId"
+			class="App.core.beans.VehicleType" 
+			not-null="true" 
+			insert="false"
+			update="false" 
+			lazy="false" />
         
         
 		<many-to-one 

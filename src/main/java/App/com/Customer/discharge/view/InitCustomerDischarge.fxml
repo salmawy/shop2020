@@ -16,10 +16,9 @@
          <content>
             <AnchorPane prefHeight="700.0" prefWidth="700.0">
                <children>
-                  <VBox alignment="CENTER" prefHeight="474.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <VBox alignment="CENTER" prefHeight="474.0" prefWidth="700.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <FlowPane fx:id="headLoc" alignment="CENTER" columnHalignment="CENTER" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="1000.0" />
-                        <AnchorPane nodeOrientation="RIGHT_TO_LEFT" prefHeight="220.0" prefWidth="499.0">
+                        <AnchorPane nodeOrientation="RIGHT_TO_LEFT" prefHeight="400.0" prefWidth="499.0">
                            <children>
                               <GridPane fx:id="gridePanel" alignment="CENTER" layoutX="1.0" layoutY="13.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="175.0" prefWidth="487.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10;" stylesheets="@../../../application/view/custom.css" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="13.0">
                                  <columnConstraints>

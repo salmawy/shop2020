@@ -17,6 +17,7 @@ public interface CustomTableActions {
     public void save();
     public void add();
     public void cancel();
+    public void rowSelected();
 
 
 }

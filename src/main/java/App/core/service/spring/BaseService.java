@@ -22,6 +22,7 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import App.core.beans.BaseBean;
+import App.core.beans.Season;
 import App.core.dao.IBaseDao;
 import App.core.exception.DataBaseException;
 import App.core.exception.EmptyResultSetException;
@@ -437,7 +438,11 @@ public class BaseService  implements IBaseService, IBaseRetrievalService {
 		catch (Exception e) {}
 	}
 	
-	
+	@Override
+	public Season getCurrentSeason() throws DataBaseException, EmptyResultSetException {
+		return this.getBaseDao().getCurrentSeason();
+	}
+
 
 
 }

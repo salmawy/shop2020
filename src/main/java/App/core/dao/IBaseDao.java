@@ -7,6 +7,7 @@ import java.util.Map;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 
+import App.core.beans.Season;
 import App.core.exception.DataBaseException;
 import App.core.exception.EmptyResultSetException;
 import App.core.exception.InvalidReferenceException;
@@ -236,5 +237,8 @@ public interface IBaseDao
 
 	
 	public int getTruckFromTag(String tagId) throws DataBaseException;
+
 	
+	public Season getCurrentSeason() throws DataBaseException, EmptyResultSetException ;
+
 }

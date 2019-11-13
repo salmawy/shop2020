@@ -6,8 +6,9 @@
 package App.com.Customer.discharge.view;
 
 import java.net.URL;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -20,6 +21,7 @@ import java.util.ResourceBundle;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
+import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 
 import App.com.Customer.action.CustomerBaseAction;
@@ -30,6 +32,7 @@ import App.core.UIComponents.customTable.Column;
 import App.core.UIComponents.customTable.CustomTable;
 import App.core.beans.CustomerOrder;
 import App.core.beans.Product;
+import App.core.beans.Store;
 import App.core.exception.DataBaseException;
 import App.core.exception.EmptyResultSetException;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
@@ -37,12 +40,15 @@ import de.jensd.fx.glyphs.fontawesome.utils.FontAwesomeIconFactory;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.NodeOrientation;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.util.StringConverter;
+
 /**
  *
  * @author ahmed
@@ -64,18 +70,22 @@ public class InitCustomerDischargePresenter extends CustomerBaseAction  implemen
     private CustomTable<CustomerViewBean> gride;
     private JFXDatePicker datePicker;
     public InitCustomerDischargePresenter(){}
-    JFXTextField name;
-    JFXTextField phone;
-    JFXTextField address;
-    JFXTextField grossWeight;
-    JFXTextField count;
-    JFXTextField nolun;
-    JFXTextField gift;
-    JFXTextField code;
-    JFXTextField notes;
-    JFXComboBox<ComboBoxItem> productTyp;
-    JFXComboBox<ComboBoxItem> storeLocation;
-    JFXComboBox<ComboBoxItem> vehicleTypeBox;
+    private   JFXTextField name;
+    private   JFXTextField phone;
+    private   JFXTextField address;
+    private   JFXTextField grossWeight;
+    private   JFXTextField count;
+    private   JFXTextField nolun;
+    private   JFXTextField gift;
+    private   JFXTextField code;
+    private   JFXTextArea notes;
+    private   JFXButton saveBtn;
+    private  JFXComboBox<ComboBoxItem> productTyp;
+    private  JFXComboBox<ComboBoxItem> storeLocation;
+    private   JFXComboBox<ComboBoxItem> vehicleTypeBox;
+    private final  int tableWidth=400;
+    private final  int tableHeight=1100;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
     	
@@ -87,21 +97,11 @@ public class InitCustomerDischargePresenter extends CustomerBaseAction  implemen
     
     private void init()  {
     	
-    	datePicker=new JFXDatePicker();
-    	
-    	datePicker.getStyleClass().add("date-picker-popup");
-    	datePicker.setStyle("-fx-cursor: hand;");
-    	datePicker.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
-    	headLoc.getChildren().add(datePicker);
-		
-
-        
-        
-		
+   
 		  List<Column> columns=prepareTabelColumns(); 
 		  List<JFXButton> buttons=prepareButtons();
 		  List<CustomerViewBean>data=loadData(new Date());
-		  gride=new CustomTable<CustomerViewBean>(columns,buttons,null,data,null); 
+		  gride=new CustomTable<CustomerViewBean>(columns,buttons,null,data,null,CustomTable.headTableCard,CustomerViewBean.class); 
 		  AnchorPane  anchorPane=gride.getCutomTableComponent();
 		 
    
@@ -146,6 +146,7 @@ private void initInputGridPane() {
 	Label tageLabel=new Label(this.getMessage("label.code"));
 	
 	Label nolunLabel=new Label(this.getMessage("label.nolun"));
+	Label dateLabel=new Label(this.getMessage("label.date"));
 
 
 JFXComboBox<ComboBoxItem> cutomerBox=new JFXComboBox();
@@ -162,6 +163,36 @@ vehicleTypeBox.getStyleClass().add("comboBox");
 
 vehicleTypeBox.getItems().add(new ComboBoxItem(VechileTypeEnum.van,this.getMessage("label.vehicle.van")));
 vehicleTypeBox.getItems().add(new ComboBoxItem(VechileTypeEnum.car,this.getMessage("label.vehicle.car")));
+
+
+	datePicker=new JFXDatePicker();
+
+	datePicker.getEditor().setAlignment(Pos.CENTER);
+	datePicker.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+	datePicker.setConverter(new StringConverter<LocalDate>()
+	{
+	    private DateTimeFormatter dateTimeFormatter=DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+	    @Override
+	    public String toString(LocalDate localDate)
+	    {
+	        if(localDate==null)
+	            return "";
+	        return dateTimeFormatter.format(localDate);
+	    }
+
+	    @Override
+	    public LocalDate fromString(String dateString)
+	    {
+	        if(dateString==null || dateString.trim().isEmpty())
+	        {
+	            return null;
+	        }
+	        return LocalDate.parse(dateString,dateTimeFormatter);
+	    }
+	});    
+	
+
 
 	 name=new JFXTextField();
 	 name.getStyleClass().add("TextField");
@@ -191,14 +222,26 @@ vehicleTypeBox.getItems().add(new ComboBoxItem(VechileTypeEnum.car,this.getMessa
 	 code=new JFXTextField();
 	 code.getStyleClass().add("TextField");
 	 
-	 notes=new JFXTextField();
-	 notes.getStyleClass().add("TextField");
+	 notes=new JFXTextArea();
+	 notes.getStyleClass().add("textArea");
 	 
 	productTyp=new <ComboBoxItem> JFXComboBox();
 	productTyp.getStyleClass().add("comboBox");
 	
+	saveBtn	=new JFXButton(this.getMessage("button.save"));
+	Text layoutIcon = FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.TABLE);
+    layoutIcon.getStyleClass().addAll("button-icon", "layout-button-icon");    	    
+    saveBtn.setGraphic(layoutIcon);
+    saveBtn.setStyle("-fx-margin:100px");
+    saveBtn.getStyleClass().setAll("btn","btn-primary");  
+	
+	
+	
+	
 	storeLocation=new <ComboBoxItem> JFXComboBox();
 	productTyp.getStyleClass().add("comboBox");
+
+	storeLocation.getStyleClass().add("comboBox");
 try {
 	List products=this.getBaseService().findAllBeans(Product.class);
 	for (Object p : products) {
@@ -207,13 +250,14 @@ try {
 
 	}
 	
-			/*
-			 * List stores=this.getBaseService().findAllBeans(Store.class); for (Object it :
-			 * products) { Store store=(Store) it; storeLocation.getItems().add(new
-			 * ComboBoxItem(store.getStoreId(),String.valueOf(store.getStoreId())));
-			 * 
-			 * }
-			 */
+			
+			  List stores=this.getBaseService().findAllBeans(Store.class);
+			  for (Object it :stores) 
+			  { Store store=(Store) it; storeLocation.getItems().add(new
+			  ComboBoxItem(store.getId(),String.valueOf(store.getId())));
+			  
+			  }
+			 
 	
 	
 } catch (DataBaseException | EmptyResultSetException e) {
@@ -229,39 +273,49 @@ gridePanel.setAlignment(gridePanel.getAlignment().CENTER);
 
 	gridePanel.add(typeLabel, 0, 0);
 	gridePanel.add(cutomerBox, 1, 0);
-	gridePanel.add(nameLabel, 2, 0);
-	gridePanel.add(name, 3, 0);
+	
+	
+	gridePanel.add(dateLabel, 2, 0);
+	gridePanel.add(datePicker, 3, 0);
+	
+	
+	gridePanel.add(nameLabel, 0, 1);
+	gridePanel.add(name, 1, 1);
 
-	gridePanel.add(phoneLabel, 0, 1);
-	gridePanel.add(phone, 1, 1);
+	gridePanel.add(phoneLabel, 2, 1);
+	gridePanel.add(phone, 3, 1);
 
-	gridePanel.add(addressLabel, 2, 1);
-	gridePanel.add(address, 3, 1);
+	gridePanel.add(addressLabel, 0, 2);
+	gridePanel.add(address, 1, 2);
 
-	gridePanel.add(productIdLabel, 0, 2);
-	gridePanel.add(productTyp, 1, 2);
+	gridePanel.add(productIdLabel, 2, 2);
+	gridePanel.add(productTyp, 3, 2);
 
-	gridePanel.add(grossWeightLabel, 2, 2);
-	gridePanel.add(grossWeight, 3, 2);
+	gridePanel.add(grossWeightLabel, 0, 3);
+	gridePanel.add(grossWeight, 1, 3);
 
-	gridePanel.add(countLabel, 0, 3);
-	gridePanel.add(count, 1, 3);
+	gridePanel.add(countLabel, 2, 3);
+	gridePanel.add(count, 3, 3);
 
-	gridePanel.add(nolunLabel, 2, 3);
-	gridePanel.add(nolun, 3, 3);
+	gridePanel.add(nolunLabel, 0, 4);
+	gridePanel.add(nolun, 1, 4);
 
-	gridePanel.add(storeIdLabel, 0, 4);
-	gridePanel.add(storeLocation, 1, 4);
+	gridePanel.add(storeIdLabel, 2, 4);
+	gridePanel.add(storeLocation, 3, 4);
 
-	gridePanel.add(vehicelTypeLabel, 2, 4);
-	gridePanel.add(vehicleTypeBox, 3, 4);
+	gridePanel.add(vehicelTypeLabel, 0, 5);
+	gridePanel.add(vehicleTypeBox, 1, 5);
 
-	gridePanel.add(tageLabel, 0, 5);
-	gridePanel.add(code, 1, 5);
+	gridePanel.add(tageLabel, 2, 5);
+	gridePanel.add(code, 3, 5);
 
-	gridePanel.add(notesLabel, 2, 5);
-	gridePanel.add(notes, 3,5);
+	gridePanel.add(notesLabel, 0, 6);
+	gridePanel.add(notes, 1,6);
 
+	gridePanel.add(saveBtn, 3,6);
+	
+	
+	
 	gridePanel.setMinWidth(900);
 	gridePanel.setMinHeight(230);
 	gridePanel.getPrefHeight();

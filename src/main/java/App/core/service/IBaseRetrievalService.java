@@ -6,6 +6,7 @@ import java.util.Map;
 import org.hibernate.criterion.Order;
 import org.json.JSONArray;
 
+import App.core.beans.Season;
 import App.core.exception.DataBaseException;
 import App.core.exception.EmptyResultSetException;
 import App.core.exception.InvalidReferenceException;
@@ -21,6 +22,11 @@ import App.core.exception.UniquePropertyViolatedException;
 
 public interface IBaseRetrievalService 
 {
+	
+	
+	public Season getCurrentSeason() throws DataBaseException, EmptyResultSetException ;
+
+	
 	/**
 	 * 
 	 * @param nBean

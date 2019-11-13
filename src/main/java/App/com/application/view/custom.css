@@ -56,6 +56,18 @@
 }
 .date-picker-popup .spinner-label {
     -fx-font-size: 14.0;
+    
+}
+.textArea {
+     -fx-max-width:  250px;
+  -fx-max-height:  50px;
+     
+-fx-padding: 5px 5pz 5px 5px ;     
+	 -fx-background-color: #f5f5ef	;     
+}
+.date-picker {
+     -fx-max-width:  250px;
+	 -fx-background-color: #f5f5ef	;     
 }
 .nav-button:hover{
     -fx-background-color: #e6e6e6

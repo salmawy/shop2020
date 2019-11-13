@@ -9,27 +9,24 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 
-import org.kordamp.bootstrapfx.scene.layout.Panel;
-
 import com.jfoenix.controls.JFXButton;
 
-
-import App.com.Customer.discharge.view.CustomerViewBean;
 import javafx.beans.property.BooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.StackPane;
 import javafx.util.Callback;
 
 
@@ -43,44 +40,54 @@ import javafx.util.Callback;
 public class CustomTable<RowClass>  {
 
 	private FlowPane head;
-	private VBox tableContainer;
+	private AnchorPane tableContainer;
+	
+	
+	private AnchorPane tablePane;
+	private AnchorPane headTablePane;
+
 	private AnchorPane cutomTableComponent;
+	
+	
+	
+	
+	
+	
 	private TableView<RowClass> table;
 	private CheckBox selectAllCheckBox;
 	private Class myclass;
 	private final String actionsPanelId = "actionsPanel";
 	private final String confirmActionPanelId = "confirmActionPanel";
 	private final String tableContainerId = "tableContainer";
-
-	public CustomTable(List columns, List buttons, List keyColumns, List<RowClass> data, CustomTableActions actions) {
-		myclass=CustomerViewBean.class;
-	table = new <RowClass>TableView();
-	table.setMinWidth(1000);	
-	table.setPrefWidth(1000);	
-
+	public static final int headTableCard=1;
+	public static final int tableCard=2;
+	private int activeCard;
+	private CustomTableActions actions;
+	public CustomTable(List columns, List buttons, List keyColumns, List<RowClass> data, CustomTableActions actions,int cardType,Class<?> beanClass) {
+		this.activeCard=cardType;
+	    this.actions=actions;
+	  
+	    
 		    CustomeTableView tableView=new CustomeTableView();
 			this.cutomTableComponent=(AnchorPane) tableView.getView();
-			Panel myPanel=(Panel) cutomTableComponent.getChildren().get(0);
-			head= (FlowPane) myPanel.getTop();
+			
+			tablePane=(AnchorPane) cutomTableComponent.getChildren().get(0);
+			headTablePane=(AnchorPane) cutomTableComponent.getChildren().get(1);
+			
+			switchCards();
 			
 			
 			
-			ScrollPane 	scrollPane = (ScrollPane)myPanel.getCenter();
-			scrollPane.setMaxWidth(1100);
-			scrollPane.setMaxHeight(400);
-			
-			
-			
-			tableContainer=new VBox();
-			tableContainer.setPrefSize(700, 600);
-			
-			scrollPane.setContent(tableContainer);			
+			this.myclass=beanClass;
+		    table = new <RowClass>TableView();
 		
 
 			
 		setColumnsConfiguration(columns);
-		setButtonsConfiguration(buttons);
 		
+		setButtonsConfiguration(buttons);
+		  if(actions!=null)
+		    	setTableActionListner();
 		if(data!=null&&data.size()>0) {
 			
 			
@@ -95,7 +102,27 @@ public class CustomTable<RowClass>  {
 	}
 
 
+private void setTableActionListner(){
+	
+	
+	
+	table.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
+		@Override
+		public void handle(MouseEvent event) {
+
+			actions.rowSelected();
+		}
+		
+		
+	});
+	
+	
+	
+	
+	
+	
+}
 	private void setColumnsConfiguration(List columns) {
 
 	
@@ -167,6 +194,10 @@ public class CustomTable<RowClass>  {
 		
 	table.setNodeOrientation(table.getNodeOrientation().RIGHT_TO_LEFT) ;
 
+	AnchorPane.setTopAnchor(table,  0.0); 
+	AnchorPane.setLeftAnchor(table,  0.0); 
+	AnchorPane.setRightAnchor(table,  0.0); 
+	AnchorPane.setBottomAnchor(table,  0.0); 
 	
 		tableContainer.getChildren().removeAll();
 		tableContainer.getChildren().addAll(table);
@@ -175,7 +206,10 @@ public class CustomTable<RowClass>  {
 
 	private void setButtonsConfiguration(List buttons) {
 
-		this.head.getChildren().removeAll();
+		
+		if (buttons==null ||buttons.size()>0)
+
+		if (buttons!=null &&buttons.size()>0)
 		for (int i = 0; i < buttons.size(); i++) {
 			JFXButton btn=(JFXButton) buttons.get(i);
 			this.head.getChildren().add( btn );
@@ -214,7 +248,7 @@ public class CustomTable<RowClass>  {
 	/**
 	 * @param tableContainer the tableContainer to set
 	 */
-	public void setTableContainer(VBox tableContainer) {
+	public void setTableContainer(AnchorPane tableContainer) {
 		this.tableContainer = tableContainer;
 	}
 
@@ -331,6 +365,55 @@ public class CustomTable<RowClass>  {
 		
 		return returnObj;
 		
+		
+		
+		
+	}
+	
+	
+	private void switchCards() {
+		cutomTableComponent.getChildren().clear();
+
+		switch(activeCard) {
+		
+		case tableCard:
+			
+			
+			AnchorPane.setTopAnchor(tablePane,  0.0); 
+			AnchorPane.setLeftAnchor(tablePane,  0.0); 
+			AnchorPane.setRightAnchor(tablePane,  0.0); 
+			AnchorPane.setBottomAnchor(tablePane,  0.0); 
+			 
+			
+			this.tableContainer=tablePane;
+			cutomTableComponent.getChildren().add((Node)tablePane );
+			head=null;
+	         
+		
+			break;
+		case headTableCard:
+			
+			
+			AnchorPane.setTopAnchor(headTablePane,  0.0); 
+			AnchorPane.setLeftAnchor(headTablePane,  0.0); 
+			AnchorPane.setRightAnchor(headTablePane,  0.0); 
+			AnchorPane.setBottomAnchor(headTablePane,  0.0); 
+			 
+			
+			
+			this.tableContainer=(AnchorPane) headTablePane.getChildren().get(1);
+			head=(FlowPane) headTablePane.getChildren().get(0);
+
+			cutomTableComponent.getChildren().add((Node)headTablePane );
+
+	         
+			break;
+			default: 
+				break;
+			
+		
+		
+		}
 		
 		
 		

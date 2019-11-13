@@ -11,32 +11,35 @@ public class CustomerOrder extends BaseBean {
 private int customerId;
 private int productId;
 private int  storeId;
-private double nolun;
-private double grossweight;
-private double netWeight;
+private Double nolun;
+private Double grossweight;
+private Double netWeight;
 private  Date orderDate;
-private  double totalPrice;
-private double netPrice;
+private  Double totalPrice;
+private Double netPrice;
 private Date editeDate;
 private Date dueDate;
-private double  tips;
-private double commision;
+private Double  tips;
+private Double commision;
 private String notes;
 private int finished;
 private int seasonId;
 private String vechileType;
 private  int dued;
 private int units;
-private double unitePrice;
+private Double unitePrice;
 
-private double  ratio;
-private double buyPrice;
+private Double  ratio;
+private Double buyPrice;
 private int periodId;
 private int fridageId;
+private Integer vechileTypeId;
 private  Customer customer ;
 private  Product product ;
 private  Fridage fridage ;
 private String orderTag;
+private VehicleType vehicleType;
+
 
 
 public String getOrderTag() {
@@ -69,23 +72,23 @@ public int getStoreId() {
 public void setStoreId(int storeId) {
 	this.storeId = storeId;
 }
-public double getNolun() {
+public Double getNolun() {
 	return nolun;
 }
-public void setNolun(double nolun) {
+public void setNolun(Double nolun) {
 	this.nolun = nolun;
 }
-public double getGrossweight() {
+public Double getGrossweight() {
 	return grossweight;
 }
-public void setGrossweight(double grossweight) {
+public void setGrossweight(Double grossweight) {
 	this.grossweight = grossweight;
 }
 
-public double getNetWeight() {
+public Double getNetWeight() {
 	return netWeight;
 }
-public void setNetWeight(double netWeight) {
+public void setNetWeight(Double netWeight) {
 	this.netWeight = netWeight;
 }
 public Date getOrderDate() {
@@ -94,16 +97,16 @@ public Date getOrderDate() {
 public void setOrderDate(Date orderDate) {
 	this.orderDate = orderDate;
 }
-public double getTotalPrice() {
+public Double getTotalPrice() {
 	return totalPrice;
 }
-public void setTotalPrice(double totalPrice) {
+public void setTotalPrice(Double totalPrice) {
 	this.totalPrice = totalPrice;
 }
-public double getNetPrice() {
+public Double getNetPrice() {
 	return netPrice;
 }
-public void setNetPrice(double netPrice) {
+public void setNetPrice(Double netPrice) {
 	this.netPrice = netPrice;
 }
 public Date getEditeDate() {
@@ -119,16 +122,16 @@ public Date getDueDate() {
 public void setDueDate(Date dueDate) {
 	this.dueDate = dueDate;
 }
-public double getTips() {
+public Double getTips() {
 	return tips;
 }
-public void setTips(double tips) {
+public void setTips(Double tips) {
 	this.tips = tips;
 }
-public double getCommision() {
+public Double getCommision() {
 	return commision;
 }
-public void setCommision(double commision) {
+public void setCommision(Double commision) {
 	this.commision = commision;
 }
 public String getNotes() {
@@ -162,16 +165,16 @@ public int getUnits() {
 public void setUnits(int units) {
 	this.units = units;
 }
-public double getRatio() {
+public Double getRatio() {
 	return ratio;
 }
-public void setRatio(double ratio) {
+public void setRatio(Double ratio) {
 	this.ratio = ratio;
 }
-public double getBuyPrice() {
+public Double getBuyPrice() {
 	return buyPrice;
 }
-public void setBuyPrice(double buyPrice) {
+public void setBuyPrice(Double buyPrice) {
 	this.buyPrice = buyPrice;
 }
 public int getPeriodId() {
@@ -210,11 +213,23 @@ public int getSeasonId() {
 public void setSeasonId(int seasonId) {
 	this.seasonId = seasonId;
 }
-public double getUnitePrice() {
+public Double getUnitePrice() {
 	return unitePrice;
 }
-public void setUnitePrice(double unitePrice) {
+public void setUnitePrice(Double unitePrice) {
 	this.unitePrice = unitePrice;
+}
+public Integer getVechileTypeId() {
+	return vechileTypeId;
+}
+public void setVechileTypeId(Integer vechileTypeId) {
+	this.vechileTypeId = vechileTypeId;
+}
+public VehicleType getVehicleType() {
+	return vehicleType;
+}
+public void setVehicleType(VehicleType vehicleType) {
+	this.vehicleType = vehicleType;
 }
 
 

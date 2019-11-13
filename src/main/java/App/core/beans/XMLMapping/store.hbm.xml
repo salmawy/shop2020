@@ -4,8 +4,9 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">  
 <hibernate-mapping>  
 <class name="App.core.beans.Store" table="STORE">  
-
-               <property name = "storeId" column = "STORE_ID" />
+ <id name = "id"  column = "ID">
+          <generator class="increment"></generator>  
+          </id>  
                <property name = "fridageId" column = "FIRDAGE_ID" />
         
          

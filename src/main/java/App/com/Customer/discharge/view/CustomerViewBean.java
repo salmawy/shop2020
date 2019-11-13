@@ -38,13 +38,13 @@ public class CustomerViewBean {
         this.gift = gift;
         this.storeName = storeName;
         this.finished = finished;
-		this.chk = new SimpleBooleanProperty(true);
+		this.chk = new SimpleBooleanProperty(false);
 
     }
 
     public CustomerViewBean() {
      this.finished = 0;
-		this.chk = new SimpleBooleanProperty(true);
+		this.chk = new SimpleBooleanProperty(false);
 
 
     }

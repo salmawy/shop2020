@@ -6,9 +6,12 @@ import java.util.ResourceBundle;
 import org.springframework.beans.factory.BeanFactory;
 
 import App.App;
+import App.core.beans.Fridage;
+import App.core.beans.Season;
+import App.core.exception.DataBaseException;
+import App.core.exception.EmptyResultSetException;
 import App.core.service.IBaseRetrievalService;
 import App.core.service.IBaseService;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 public class BaseAction {
 	
@@ -17,6 +20,9 @@ public class BaseAction {
 	private IBaseRetrievalService  baseRetrievalService ;
 	private Stage AppStage;
 	private BeanFactory springBeanFactory;
+	private Season season;
+	private Fridage fridage;
+
 	public BaseAction() {
 	
 		
@@ -24,8 +30,37 @@ public class BaseAction {
 		baseRetrievalService=	(IBaseRetrievalService) App.springBeanFactory.getBean("baseService");
 		this.AppStage=App.AppStage;
 		this.springBeanFactory=App.springBeanFactory;
+		getCurrentSeaon();
+		getCurrentFridage();
+	
 		
 	}
+	
+	private void getCurrentSeaon() {
+		
+		try {
+			 season= this.getBaseRetrievalService().getCurrentSeason();
+		} catch (DataBaseException | EmptyResultSetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	
+	
+	
+	private void getCurrentFridage() {
+		
+		try {
+			 fridage= (Fridage) this.getBaseRetrievalService().getBean(Fridage.class, 1);
+		} catch (Exception e ) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
 	
 	
 	public void loadScene(String className) {
@@ -106,6 +141,22 @@ public class BaseAction {
 
 	public String getMessage (String key) {
 		return serviceBundle.getString(key);
+	}
+
+	public Season getSeason() {
+		return season;
+	}
+
+	public void setSeason(Season season) {
+		this.season = season;
+	}
+
+	public Fridage getFridage() {
+		return fridage;
+	}
+
+	public void setFridage(Fridage fridage) {
+		this.fridage = fridage;
 	}
 	
 	

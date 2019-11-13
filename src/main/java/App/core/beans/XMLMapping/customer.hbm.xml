@@ -10,6 +10,7 @@
                <property name = "name" column = "NAME" />
                <property name = "address" column = "ADDRESS" />
                <property name = "phone" column = "PHONE" />
+           <property name = "typeId" column = "TYPE_ID" />
               
               
               
