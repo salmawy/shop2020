@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8'?>  
+<!DOCTYPE hibernate-mapping PUBLIC  
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"  
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">  
+<hibernate-mapping>  
+<class name="App.core.beans.PurchasedCustomerInst" table="PURCHASED_CUSTOMRER_INSTS">  
+      <id name = "id" type = "int" column = "ID">
+          <generator class="increment"></generator>  
+          </id>  
+        	<property name = "customerId" column = "CUSTOMER_ID" />
+               <property name = "instalmentDate" column = "INST_DATE" />
+               <property name = "amount" column = "AMOUNT" />
+             	<property name = "notes" column = "NOTES" />
+				<property name = "seasonId" column = "SEASON_ID" />
+               
+              <property name = "changed" column = "CHANGED" />
+               <property name = "changeDate" column = "CHANGE_DATE" />
+               <property name = "timestamp" column = "TIMESTAMP" />
+               <property name = "changerId" column = "CHANGER_ID" />
+            
+         	<many-to-one 
+		name="customer" 
+		column="CUSTOMER_ID"
+			class="App.core.beans.Customer" 
+			not-null="true" 
+			insert="false"
+			update="false" 
+			lazy="false" />
+</class>  
+            
+            
+            
+
+            
+</hibernate-mapping>  
