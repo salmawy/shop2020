@@ -1,4 +1,4 @@
-package App.com.Customer.dao.hibernate;
+package App.com.selling.dao.hibernate;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,7 +18,7 @@ import App.core.beans.Season;
 import App.core.exception.DataBaseException;
 import App.core.exception.EmptyResultSetException;
 
-public class CustomerDao extends HibernateDaoSupport implements  ICustomerDao{
+public class SellingDao extends HibernateDaoSupport implements  ICustomerDao{
 
 	public List getSeasonCustomers(int seasonId,int fridageId,int typeId) throws EmptyResultSetException, DataBaseException {
 		

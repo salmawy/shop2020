@@ -1,4 +1,4 @@
-package App.com.Customer.service;
+package App.com.selling.spring;
 
 import java.util.Date;
 import java.util.List;
@@ -7,7 +7,7 @@ import App.core.beans.Season;
 import App.core.exception.DataBaseException;
 import App.core.exception.EmptyResultSetException;
 
-public interface ICustomerService {
+public interface ISellingService {
 	
 	public List getCustomerInvoices(int seasonId,int customerId,int fridageId) throws EmptyResultSetException, DataBaseException ;
 	public List getCustomerOrders(int seasonId,int customerId,int fridageId) throws EmptyResultSetException, DataBaseException ;

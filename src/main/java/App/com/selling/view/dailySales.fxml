@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane fx:id="root_Pan" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="App.com.selling.view.DailySalesPersenter">
+   <children>
+      <HBox fx:id="headerPane" alignment="CENTER_LEFT" fillHeight="false" prefHeight="100.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <StackPane fx:id="stackPane" prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
+         <children>
+            <AnchorPane fx:id="masterPane" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ff0000;" />
+            <AnchorPane fx:id="detailPane" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ff0000;" />
+         </children>
+      </StackPane>
+   </children>
+</AnchorPane>

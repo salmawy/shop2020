@@ -24,7 +24,6 @@ private Double commision;
 private String notes;
 private int finished;
 private int seasonId;
-private String vechileType;
 private  int dued;
 private int units;
 private Double unitePrice;
@@ -39,6 +38,9 @@ private  Product product ;
 private  Fridage fridage ;
 private String orderTag;
 private VehicleType vehicleType;
+
+
+
 
 
 
@@ -146,12 +148,7 @@ public int getFinished() {
 public void setFinished(int finished) {
 	this.finished = finished;
 }
-public String getVechileType() {
-	return vechileType;
-}
-public void setVechileType(String vechileType) {
-	this.vechileType = vechileType;
-}
+
 public int getDued() {
 	return dued;
 }

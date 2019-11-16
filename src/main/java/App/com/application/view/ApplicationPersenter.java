@@ -15,6 +15,7 @@ import App.com.Customer.purchases.view.CustomerPurchasesPresenter;
 import App.com.Customer.purchases.view.CustomerPurchasesView;
 import App.com.Customer.purchases.view.beans.PurchasedInstsViewBean;
 import App.com.Customer.transactions.view.TransactionsView;
+import App.com.selling.view.DailySalesView;
 import App.core.action.BaseAction;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
@@ -61,6 +62,15 @@ public class ApplicationPersenter extends BaseAction implements Initializable {
     private JFXButton transactionsBTN;
     
     
+    @FXML
+    private JFXButton sellerLoans_btn;
+   @FXML
+    private JFXButton dailySelling_btn;
+
+   @FXML
+    private JFXButton arcSellersLoan_btn;
+    
+    
     
     @Override
     public void initialize(URL location, ResourceBundle resources){ 
@@ -72,12 +82,20 @@ public class ApplicationPersenter extends BaseAction implements Initializable {
 
   private void intiateApp(){
 	
-	  
+	//  this.getAppStage().getStylesheets().add("appCssFile.css");
+
 	  sellerComp.setText(this.getMessage("title.selling"));
 	  customersComp.setText(this.getMessage("title.customers"));
 	  purchasesBTN.setText(this.getMessage("button.purchases"));
 	  transactionsBTN.setText(this.getMessage("button.transaction"));
 	  dischargingBTN.setText(this.getMessage("button.discharge"));
+	  
+	  
+	  sellerLoans_btn.setText(this.getMessage("button.sellersLoans"));
+	  dailySelling_btn.setText(this.getMessage("button.dailySelling"));
+	  arcSellersLoan_btn.setText(this.getMessage("button.sellersLoans"));
+	  
+	  
 	    appContainer.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
 
 	  this.getAppStage().setResizable(true);
@@ -245,6 +263,59 @@ public class ApplicationPersenter extends BaseAction implements Initializable {
 			t.start();}
 
 	
+	
+	
+	
+
+@FXML 
+	
+	private void loadDailySalesPanel(ActionEvent event) {
+	
+		
+		Task task = new Task < Void > () {
+		 @Override public void run() {
+
+
+
+			  DailySalesView salesView = new DailySalesView();
+			  AnchorPane salesPane = (AnchorPane) salesView.getView();
+			  salesPane.setMaxWidth(appContainer.getMaxWidth());
+			  salesPane.setMaxHeight(appContainer.getMaxHeight());
+
+
+			  Platform.runLater(new Runnable() {
+
+			   @Override public void run() {
+				    FadeTransition ft = new FadeTransition(Duration.millis(1500));
+			        ft.setNode(salesPane);
+			        ft.setFromValue(0.1);
+			        ft.setToValue(1);
+			        ft.setCycleCount(1);
+			        ft.setAutoReverse(false);
+			        ft.play();
+			    appContainer.getChildren().setAll(salesPane);
+
+			   }
+			  });
+
+
+
+
+			 }
+
+
+			 @Override
+			 protected Void call() throws Exception {
+
+			  return null;
+			 }
+			};
+
+
+			Thread t = new Thread(task);
+			t.setDaemon(true);
+			t.start();}
+
 	
 	
 	

@@ -25,7 +25,6 @@
                <property name = "commision" column = "COMMISION" />
                <property name = "notes" column = "NOTES" />
                <property name = "finished" column = "FINISHED" />
-              <property name = "vechileType" column = "VECHILE_TYPE" />
                <property name = "dued" column = "DUED" />
                <property name = "units" column = "UNITES" />
               <property name = "ratio" column = "RATIO" />
@@ -45,7 +44,7 @@
                 
  <many-to-one 
 		name="vehicleType" 
-		column="vechileTypeId"
+		column="VECHILE_TYPE_ID"
 			class="App.core.beans.VehicleType" 
 			not-null="true" 
 			insert="false"

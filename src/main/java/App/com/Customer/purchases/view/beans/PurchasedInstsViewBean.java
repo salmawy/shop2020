@@ -1,12 +1,15 @@
 package App.com.Customer.purchases.view.beans;
 
+import java.text.SimpleDateFormat;
+
 public class PurchasedInstsViewBean {
 	int id ;
 	String date ;
 	double amount;
 	String notes;
 	
-	
+	public static final SimpleDateFormat sdf=new SimpleDateFormat("YYYY-MM-DD"); 
+
 	
 	public int getId() {
 		return id;

@@ -1,24 +1,18 @@
 
 package App;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.net.URL;
 
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
+import com.sun.javafx.css.StyleManager;
+
 import App.com.login.view.LoginView;
-import App.core.action.BaseAction;
-import App.core.beans.Users;
-import App.core.exception.DataBaseException;
-import App.core.exception.EmptyResultSetException;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 public class App extends Application {
 	
@@ -46,6 +40,14 @@ public static Stage AppStage;
 public void start(Stage primaryStage) {
     
 	AppStage = primaryStage;
+
+	URL u=	 getClass().getClassLoader().getResource("appResources/custom.css");
+	 String css =u.toExternalForm();
+	
+	Application.setUserAgentStylesheet(null);
+    StyleManager.getInstance().addUserAgentStylesheet(css);
+    
+    
 	AppStage.setTitle("FXML Login Sample");
 	AppStage.setResizable(false);
 //	AppStage.initStyle(StageStyle.TRANSPARENT);
@@ -57,8 +59,14 @@ public void start(Stage primaryStage) {
         LoginView login = new LoginView();
         
         Scene scene = new Scene(login.getView(), 400, 250);
-        scene.getStylesheets().add("org/kordamp/bootstrapfx/bootstrapfx.css"); //(3)
 
+		 
+	
+		
+	
+
+     //   scene.getStylesheets().add(css); //(3)
+        
         AppStage.setScene(scene);
         AppStage.sizeToScene();
         AppStage.show();

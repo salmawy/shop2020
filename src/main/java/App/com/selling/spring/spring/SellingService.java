@@ -1,4 +1,4 @@
-package App.com.Customer.service.spring;
+package App.com.selling.spring.spring;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,7 +19,7 @@ import App.core.exception.InvalidReferenceException;
 import App.core.service.IBaseRetrievalService;
 import App.core.service.IBaseService;
 
-public class CustomerService implements ICustomerService {
+public class SellingService implements ICustomerService {
 	
 	ICustomerDao customerDao;
 	IBaseRetrievalService baseRetrievalService;

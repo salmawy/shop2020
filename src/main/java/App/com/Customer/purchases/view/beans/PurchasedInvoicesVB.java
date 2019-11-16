@@ -1,5 +1,7 @@
 package App.com.Customer.purchases.view.beans;
 
+import java.text.SimpleDateFormat;
+
 public class PurchasedInvoicesVB {
 
 	int id;
@@ -13,7 +15,8 @@ public class PurchasedInvoicesVB {
 	double tips;
 	double commision;
 	double buyPrice;
-	
+	public static final SimpleDateFormat sdf=new SimpleDateFormat("YYYY-MM-DD"); 
+
 	public int getId() {
 		return id;
 	}

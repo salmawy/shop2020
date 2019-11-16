@@ -63,7 +63,7 @@ public class CustomTable<RowClass>  {
 	public static final int tableCard=2;
 	private int activeCard;
 	private CustomTableActions actions;
-	public CustomTable(List columns, List buttons, List keyColumns, List<RowClass> data, CustomTableActions actions,int cardType,Class<?> beanClass) {
+	public CustomTable(List columns, List nodes, List keyColumns, List<RowClass> data, CustomTableActions actions,int cardType,Class<?> beanClass) {
 		this.activeCard=cardType;
 	    this.actions=actions;
 	  
@@ -75,17 +75,17 @@ public class CustomTable<RowClass>  {
 			headTablePane=(AnchorPane) cutomTableComponent.getChildren().get(1);
 			
 			switchCards();
-			
+		
 			
 			
 			this.myclass=beanClass;
 		    table = new <RowClass>TableView();
-		
-
+		    
+		  
 			
 		setColumnsConfiguration(columns);
 		
-		setButtonsConfiguration(buttons);
+		setButtonsConfiguration(nodes);
 		  if(actions!=null)
 		    	setTableActionListner();
 		if(data!=null&&data.size()>0) {
@@ -163,15 +163,11 @@ private void setTableActionListner(){
 				});
 				
 				
-				selectedCol.setPrefWidth(column.getSize());
-				selectedCol.setVisible(column.getShow());
 						 
-				 
-				selectedCol.prefWidthProperty().bind(table.widthProperty()
-				            .multiply(column.getSize() / 100.0)
-				            .subtract(((table.getInsets().getLeft() + table.getInsets().getRight()) / columns.size())));	
+				 System.out.println("==============================="+table.widthProperty());
+				selectedCol.prefWidthProperty().bind(table.widthProperty().multiply(column.getSize() / 100.0).subtract(((table.getInsets().getLeft() + table.getInsets().getRight()) / columns.size())));	
 			
-			
+		
 				table.getColumns().add(i, selectedCol);
 			}
 			
@@ -180,11 +176,12 @@ private void setTableActionListner(){
 			 col.setPrefWidth(column.getSize());
 			 col.setVisible(column.getShow());
 					 
-			 
-			 col.prefWidthProperty().bind(table.widthProperty()
-			            .multiply(column.getSize() / 100.0)
-			            .subtract(((table.getInsets().getLeft() + table.getInsets().getRight()) / columns.size())));
+			
+			 col.prefWidthProperty().bind(table.widthProperty().multiply(column.getSize() / 100.0).subtract(((table.getInsets().getLeft() + table.getInsets().getRight()) / columns.size())));
 		
+			 
+		
+			 
 			 col.setCellValueFactory(new PropertyValueFactory<RowClass, String>(column.getId()));
 			table.getColumns().add(i, col);
 			}
@@ -194,24 +191,31 @@ private void setTableActionListner(){
 		
 	table.setNodeOrientation(table.getNodeOrientation().RIGHT_TO_LEFT) ;
 
-	AnchorPane.setTopAnchor(table,  0.0); 
-	AnchorPane.setLeftAnchor(table,  0.0); 
-	AnchorPane.setRightAnchor(table,  0.0); 
-	AnchorPane.setBottomAnchor(table,  0.0); 
+		/*
+		 * AnchorPane.setTopAnchor(table, 0.0); AnchorPane.setLeftAnchor(table, 0.0);
+		 * AnchorPane.setRightAnchor(table, 0.0); AnchorPane.setBottomAnchor(table,
+		 * 0.0);
+		 */
+
+	  
+	  table.prefHeightProperty().bind( tableContainer.heightProperty());
+      table.prefWidthProperty().bind ( tableContainer.widthProperty());
+      
+ 
 	
-		tableContainer.getChildren().removeAll();
+		tableContainer.getChildren().clear();
 		tableContainer.getChildren().addAll(table);
 
 	}
 
-	private void setButtonsConfiguration(List buttons) {
+	private void setButtonsConfiguration(List nodes) {
 
 		
-		if (buttons==null ||buttons.size()>0)
+		if (nodes==null ||nodes.size()>0)
 
-		if (buttons!=null &&buttons.size()>0)
-		for (int i = 0; i < buttons.size(); i++) {
-			JFXButton btn=(JFXButton) buttons.get(i);
+		if (nodes!=null &&nodes.size()>0)
+		for (int i = 0; i < nodes.size(); i++) {
+			Node btn=(Node) nodes.get(i);
 			this.head.getChildren().add( btn );
 
 		}
@@ -312,7 +316,6 @@ private void setTableActionListner(){
 		}
 		return selectAllCheckBox;
 	}
-
 	
 
 	private Object invokeMethode(Object instance,String methodeName) {

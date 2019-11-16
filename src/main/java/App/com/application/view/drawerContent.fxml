@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.*?>
 <?import de.jensd.fx.glyphs.fontawesome.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="182.0" style="-fx-background-color: #700b82;" stylesheets="@custom.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="182.0" style="-fx-background-color: #700b82;"  xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <JFXComboBox prefHeight="25.0" prefWidth="220.0" />
       <JFXButton prefHeight="36.0" prefWidth="244.0" styleClass="nav-button" text="Button" textFill="#a1aec4">

@@ -3,7 +3,7 @@ package App.com.Customer.purchases.view.beans;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class PurchasedOrdesViewBean {
+public class PurchasedOrdersViewBean {
 	private int id ;
 	private String date;
 	private double grossWeight;

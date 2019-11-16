@@ -135,7 +135,7 @@ public class TransactionsPresenter extends CustomerBaseAction  implements Initia
 		@Override
 		public void initialize(URL arg0, ResourceBundle arg1) {
 			
-			
+		
         System.out.println(customerType_label.getText());
 			customerType_label.setText(this.getMessage("label.customer.Type"));
 			customerTypes_CB.getStyleClass().add("comboBox");
@@ -210,7 +210,12 @@ public class TransactionsPresenter extends CustomerBaseAction  implements Initia
 			
 			return customerViewBeans;
 		} 
-	    private List<Column> prepareCustomerTabelColumns(){
+	 
+		
+		
+		
+		
+		private List<Column> prepareCustomerTabelColumns(){
 	             
 	         List<Column> columns=new ArrayList<Column>();
 	   
