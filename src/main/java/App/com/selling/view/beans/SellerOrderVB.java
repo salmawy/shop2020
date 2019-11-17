@@ -1,5 +1,6 @@
 package App.com.selling.view.beans;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
 public class SellerOrderVB {
@@ -9,12 +10,24 @@ public class SellerOrderVB {
 	private String sellerName;
 	private String sellerType;
 	private double totalAmount;
-	private int paidAmount;
-	public SimpleBooleanProperty getChk() {
-		return chk;
+	private double paidAmount;
+	
+	public SellerOrderVB() {
+		this.chk = new SimpleBooleanProperty(false);
 	}
-	public void setChk(SimpleBooleanProperty chk) {
-		this.chk = chk;
+	
+	
+	public Boolean getChk() {
+		return chk.get();
+	}
+
+	public void setChk(boolean chk) {
+		this.chk.set(chk);
+	}
+    
+    
+	public BooleanProperty chkProperty() {
+		return this.chk;
 	}
 	public int getId() {
 		return id;
@@ -40,10 +53,10 @@ public class SellerOrderVB {
 	public void setTotalAmount(double totalAmount) {
 		this.totalAmount = totalAmount;
 	}
-	public int getPaidAmount() {
+	public double getPaidAmount() {
 		return paidAmount;
 	}
-	public void setPaidAmount(int paidAmount) {
+	public void setPaidAmount(double paidAmount) {
 		this.paidAmount = paidAmount;
 	}
 	

@@ -2,14 +2,16 @@ package App.com.selling.view.beans;
 
 public class SellerOrderDetailVB {
 	
-
+ private int customerOrderId;
+ private int productId;
+ private int sellerWeightId=0;
  private String productName;
  private int count;
  private double grossWeight;
  private double netWeight;
  private double unitePrice;
  private double amount;
- private double customerOrderName;
+ private String customerOrderName;
 public String getProductName() {
 	return productName;
 }
@@ -41,10 +43,10 @@ public double getAmount() {
 public void setAmount(double amount) {
 	this.amount = amount;
 }
-public double getCustomerOrderName() {
+public String getCustomerOrderName() {
 	return customerOrderName;
 }
-public void setCustomerOrderName(double customerOrderName) {
+public void setCustomerOrderName(String customerOrderName) {
 	this.customerOrderName = customerOrderName;
 }
 public double getUnitePrice() {
@@ -52,6 +54,24 @@ public double getUnitePrice() {
 }
 public void setUnitePrice(double unitePrice) {
 	this.unitePrice = unitePrice;
+}
+public int getCustomerOrderId() {
+	return customerOrderId;
+}
+public void setCustomerOrderId(int customerOrderId) {
+	this.customerOrderId = customerOrderId;
+}
+public int getProductId() {
+	return productId;
+}
+public void setProductId(int productId) {
+	this.productId = productId;
+}
+public int getSellerWeightId() {
+	return sellerWeightId;
+}
+public void setSellerWeightId(int sellerWeightId) {
+	this.sellerWeightId = sellerWeightId;
 }
  
  

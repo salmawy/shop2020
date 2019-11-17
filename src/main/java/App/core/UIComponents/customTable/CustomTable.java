@@ -406,7 +406,7 @@ private void setTableActionListner(){
 			
 			this.tableContainer=(AnchorPane) headTablePane.getChildren().get(1);
 			head=(FlowPane) headTablePane.getChildren().get(0);
-
+			head.setHgap(10);  
 			cutomTableComponent.getChildren().add((Node)headTablePane );
 
 	         

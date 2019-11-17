@@ -69,7 +69,6 @@ public class InitCustomerDischargePresenter extends CustomerBaseAction  implemen
     
     private CustomTable<CustomerViewBean> gride;
     private JFXDatePicker datePicker;
-    public InitCustomerDischargePresenter(){}
     private   JFXTextField name;
     private   JFXTextField phone;
     private   JFXTextField address;
@@ -83,8 +82,7 @@ public class InitCustomerDischargePresenter extends CustomerBaseAction  implemen
     private  JFXComboBox<ComboBoxItem> productTyp;
     private  JFXComboBox<ComboBoxItem> storeLocation;
     private   JFXComboBox<ComboBoxItem> vehicleTypeBox;
-    private final  int tableWidth=400;
-    private final  int tableHeight=1100;
+   
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

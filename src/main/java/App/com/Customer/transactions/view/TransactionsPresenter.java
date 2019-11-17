@@ -3,20 +3,13 @@ package App.com.Customer.transactions.view;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXComboBox;
 
 import App.com.Customer.action.CustomerBaseAction;
-import App.com.Customer.discharge.view.CustomerViewBean;
 import App.com.Customer.transactions.view.beans.CustomerNameViewBean;
-import App.com.Customer.transactions.view.beans.CustomerTotalViewBean;
 import App.com.Customer.transactions.view.beans.InvoiceViewbean;
 import App.core.Enum.CustomerTypeEnum;
 import App.core.UIComponents.comboBox.ComboBoxItem;
@@ -29,6 +22,8 @@ import App.core.beans.Fridage;
 import App.core.beans.Season;
 import App.core.exception.DataBaseException;
 import App.core.exception.EmptyResultSetException;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -144,6 +139,8 @@ public class TransactionsPresenter extends CustomerBaseAction  implements Initia
 			customerTypes_CB.getItems().add(new ComboBoxItem(CustomerTypeEnum.mahmed,this.getMessage("customer.type.mahmed")));
 			customerTypes_CB.getItems().add(new ComboBoxItem(CustomerTypeEnum.normal,this.getMessage("customer.type.normal")));
 			customerTypes_CB.getItems().add(new ComboBoxItem(CustomerTypeEnum.purchases,this.getMessage("customer.type.purchaes")));
+		
+			
 			customerTypes_CB.getSelectionModel().select(0);
 			
 			

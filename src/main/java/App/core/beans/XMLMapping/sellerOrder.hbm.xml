@@ -27,7 +27,14 @@
      <property name = "changeDate" column = "CHANGE_DATE" />
                <property name = "timestamp" column = "TIMESTAMP" />
                <property name = "changerId" column = "CHANGER_ID" />
-            
+            	<many-to-one 
+		name="seller" 
+		column="SELLER_ID"
+			class="App.core.beans.Seller" 
+			not-null="true" 
+			insert="false"
+			update="false" 
+			lazy="false" />
          
 </class>  
             

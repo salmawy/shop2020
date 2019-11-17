@@ -59,11 +59,15 @@ try {
 	List users= this.getBaseService().findAllBeans(Users.class, map,null);
 	System.out.print("U R logged in ");
 	
-	
+	URL u=	 getClass().getClassLoader().getResource("appResources/custom.css");
+	 String css =u.toExternalForm();
+	 
 	
     ApplicationView appView=new ApplicationView();
     Scene scene=new Scene(appView.getView());
-        
+    scene.getStylesheets().addAll(css);
+    
+    
         this.getAppStage().setTitle("FXML App Demo");
         this.getAppStage().setScene(scene);
      //   this.getAppStage().initStyle(StageStyle.UNIFIED);

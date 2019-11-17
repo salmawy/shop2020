@@ -41,13 +41,8 @@ public void start(Stage primaryStage) {
     
 	AppStage = primaryStage;
 
-	URL u=	 getClass().getClassLoader().getResource("appResources/custom.css");
-	 String css =u.toExternalForm();
-	
-	Application.setUserAgentStylesheet(null);
-    StyleManager.getInstance().addUserAgentStylesheet(css);
-    
-    
+
+
 	AppStage.setTitle("FXML Login Sample");
 	AppStage.setResizable(false);
 //	AppStage.initStyle(StageStyle.TRANSPARENT);

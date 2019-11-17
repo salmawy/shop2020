@@ -13,6 +13,7 @@ public class SellerOrder extends BaseBean {
 	private int seasonId;
 	private int sciencere;
 	private Integer sellerLoanBagId;
+	private Seller seller;
 	public int getId() {
 		return id;
 	}
@@ -66,6 +67,12 @@ public class SellerOrder extends BaseBean {
 	}
 	public void setSellerLoanBagId(Integer sellerLoanBagId) {
 		this.sellerLoanBagId = sellerLoanBagId;
+	}
+	public Seller getSeller() {
+		return seller;
+	}
+	public void setSeller(Seller seller) {
+		this.seller = seller;
 	}
 		
 	
