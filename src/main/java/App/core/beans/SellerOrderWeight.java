@@ -6,10 +6,27 @@ public class SellerOrderWeight extends BaseBean {
 	private Double netQuantity;
 	private Double unitePrice;
 	private Double amount;
-	private int sellerOrderID;
+	private int sellerOrderId;
 	private int  productId;
 	private int customerOrderId;
 	private int packageNumber;
+	private CustomerOrder customerOrder;
+	private SellerOrder sellerOrder;
+	private Product product;
+	
+	
+	public CustomerOrder getCustomerOrder() {
+		return customerOrder;
+	}
+	public void setCustomerOrder(CustomerOrder customerOrder) {
+		this.customerOrder = customerOrder;
+	}
+	public SellerOrder getSellerOrder() {
+		return sellerOrder;
+	}
+	public void setSellerOrder(SellerOrder sellerOrder) {
+		this.sellerOrder = sellerOrder;
+	}
 	public int getId() {
 		return id;
 	}
@@ -40,12 +57,7 @@ public class SellerOrderWeight extends BaseBean {
 	public void setAmount(Double amount) {
 		this.amount = amount;
 	}
-	public int getSellerOrderID() {
-		return sellerOrderID;
-	}
-	public void setSellerOrderID(int sellerOrderID) {
-		this.sellerOrderID = sellerOrderID;
-	}
+
 	public int getProductId() {
 		return productId;
 	}
@@ -63,6 +75,18 @@ public class SellerOrderWeight extends BaseBean {
 	}
 	public void setPackageNumber(int packageNumber) {
 		this.packageNumber = packageNumber;
+	}
+	public Product getProduct() {
+		return product;
+	}
+	public void setProduct(Product product) {
+		this.product = product;
+	}
+	public int getSellerOrderId() {
+		return sellerOrderId;
+	}
+	public void setSellerOrderId(int sellerOrderId) {
+		this.sellerOrderId = sellerOrderId;
 	}
 	
  

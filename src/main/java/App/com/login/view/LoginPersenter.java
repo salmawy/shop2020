@@ -17,6 +17,7 @@ import com.jfoenix.controls.JFXTextField;
 
 import App.com.application.view.ApplicationView;
 import App.core.action.BaseAction;
+import App.core.applicationContext.ApplicationContext;
 import App.core.beans.Users;
 import App.core.exception.DataBaseException;
 import App.core.exception.EmptyResultSetException;
@@ -24,7 +25,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.stage.StageStyle;
 
 /**
  *
@@ -58,7 +58,8 @@ public class LoginPersenter extends BaseAction  implements Initializable {
 try {
 	List users= this.getBaseService().findAllBeans(Users.class, map,null);
 	System.out.print("U R logged in ");
-	
+	ApplicationContext.currentUser=(Users) users.get(0);
+	this.setCurrentUser(ApplicationContext.currentUser);
 	URL u=	 getClass().getClassLoader().getResource("appResources/custom.css");
 	 String css =u.toExternalForm();
 	 
@@ -89,6 +90,15 @@ try {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+    	
+    	
+    	
+    	
+    	
+   
+
+    	
+    	
     	usernameTF.setPromptText(this.getMessage("login.username"));
     	passwordPass.setPromptText(this.getMessage("login.password"));
     	

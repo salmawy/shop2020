@@ -1,11 +1,14 @@
 package App.com.Customer.action;
 
+import java.util.Map;
+
 import App.com.Customer.service.ICustomerService;
 import App.core.action.BaseAction;
 
 public class CustomerBaseAction extends BaseAction {
 	
-	  
+	   public  static  Map<String, Object> request;
+	     public  static  Map<String, Object> response;
 	  
 	  private ICustomerService customerService;
 	  

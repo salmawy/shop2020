@@ -152,4 +152,16 @@ public interface IBaseRetrievalService
 	 * @throws EmptyResultSetException
 	 */
 	public List<Object> findAllBeans(Class<?>beanClass, List nId, String beanIdentifier,  Order order) throws DataBaseException,EmptyResultSetException;
+
+
+	public Object  aggregate(String tablename,String operation,String columnName,Map <String,Object>parameters) throws DataBaseException, EmptyResultSetException ;
+
+
+
+
+
+
+
+
+
 }

@@ -125,7 +125,7 @@ public class ApplicationPersenter extends BaseAction implements Initializable {
 
 
 			  InitCustomerDischargeView customerDischargeView = new InitCustomerDischargeView();
-			  VBox customerDischarge = (VBox) customerDischargeView.getView();
+			  AnchorPane customerDischarge = (AnchorPane) customerDischargeView.getView();
 			  customerDischarge.setMaxWidth(appContainer.getMaxWidth());
 			  customerDischarge.setMaxHeight(appContainer.getMaxHeight());
 
@@ -140,7 +140,7 @@ public class ApplicationPersenter extends BaseAction implements Initializable {
 			        ft.setCycleCount(1);
 			        ft.setAutoReverse(false);
 			        ft.play();
-			    appContainer.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+				    appContainer.getChildren().setAll(customerDischarge);
 
 			   }
 			  });

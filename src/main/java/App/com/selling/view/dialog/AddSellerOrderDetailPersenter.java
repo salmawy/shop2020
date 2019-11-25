@@ -45,7 +45,6 @@ public class AddSellerOrderDetailPersenter extends SellingAction implements Init
 	 @FXML
 	    private HBox buttonsPane;
 
-	    @FXML
 	    private GridPane gridPane;
 	    
 	   
@@ -154,7 +153,7 @@ public class AddSellerOrderDetailPersenter extends SellingAction implements Init
 		
 		amount=new JFXTextField();
 		amount.getStyleClass().add("TextField");
-
+		
 		 
 		 count=new JFXTextField();
 		 count.getStyleClass().add("TextField");
@@ -221,7 +220,6 @@ public class AddSellerOrderDetailPersenter extends SellingAction implements Init
             	
             }
         });
-
 		try {
 			List products=this.getBaseService().findAllBeans(Product.class);
 			for (Object p : products) {
@@ -243,8 +241,8 @@ public class AddSellerOrderDetailPersenter extends SellingAction implements Init
 			}
 			
 			
-    		store_cb.getSelectionModel().selectFirst();
-
+			store_cb.getSelectionModel().selectFirst();
+			
 			
 		}catch (Exception e) {
 				e.printStackTrace();		}
@@ -273,7 +271,8 @@ public class AddSellerOrderDetailPersenter extends SellingAction implements Init
         cancel_btn.setOnMouseClicked((new EventHandler<MouseEvent>() { 
 	    	   public void handle(MouseEvent event) { 
 	    		      System.out.println("add has been clicked"); 
-	    		      
+	    	            orderDataMap.put("save", false);
+
 	    		      Stage stage = (Stage) cancel_btn.getScene().getWindow();
 	    		      // do what you have to do
 	    		      stage.close();
@@ -289,7 +288,7 @@ public class AddSellerOrderDetailPersenter extends SellingAction implements Init
 	    gridPane.setAlignment(gridPane.getAlignment().CENTER);
 	   // fillInputForm(1);
 	   //productType.getSelectionModel().select(0);
-	    
+	    loadCustomerOrders();
 	}
 	
 	
@@ -471,6 +470,7 @@ public class AddSellerOrderDetailPersenter extends SellingAction implements Init
             orderDataMap.put("customerOrderId",String.valueOf(orderId));
             orderDataMap.put("amount", totalCost);
             orderDataMap.put("customerOrderName", customerOrderName);
+            orderDataMap.put("save", true);
 
             
             
@@ -602,7 +602,7 @@ private void packageNumberTracker() {
 	private void loadCustomerOrders() {
 		
 		customer_cb.getItems().clear();
-		if(productType.getChildrenUnmodifiable().size()>0&&store_cb.getChildrenUnmodifiable().size()>0) {
+		if(productType.getItems().size()>0&&store_cb.getItems().size()>0) {
 			
 			int productId=productType.getSelectionModel().getSelectedItem().getValue();
 		
@@ -636,9 +636,16 @@ private void packageNumberTracker() {
 
         switch (productId) {
             case 1:
-                int orderId = customer_cb.getSelectionModel().getSelectedItem().getValue();
+            	
+                int orderId = ((customer_cb.getSelectionModel().getSelectedItem())==null)?0:customer_cb.getSelectionModel().getSelectedItem().getValue();
+                   if (orderId==0) {
+                	snackBar.show(this.getMessage("msg.err.cutomerOrder"), 1000);
 
-                 if (weight.isEmpty()) {
+                    return false;
+
+                }
+
+                else  if (weight.isEmpty()) {
                 	snackBar.show(this.getMessage("msg.err.required.grossWeight"), 1000);
                     return false;
                 }
@@ -648,6 +655,8 @@ private void packageNumberTracker() {
                     return false;
 
                 }
+                 
+            
 
                 
                 else   if (confirmWeight(orderId, Double.parseDouble(weight), productId)) {
@@ -657,7 +666,13 @@ private void packageNumberTracker() {
                 } 
                  break;
             case 2:
-                 orderId = customer_cb.getSelectionModel().getSelectedItem().getValue();
+                 orderId = ((customer_cb.getSelectionModel().getSelectedItem())==null)?0:customer_cb.getSelectionModel().getSelectedItem().getValue();
+                if (orderId==0) {
+             	snackBar.show(this.getMessage("msg.err.cutomerOrder"), 1000);
+
+                 return false;
+
+             }
 
             	
                 if (packageNumber.isEmpty()) {
@@ -673,7 +688,7 @@ private void packageNumberTracker() {
                     return false;
 
                 }
-
+            
               
                 else   if (confirmWeight(orderId, Double.parseDouble(weight), productId)) {
                 	snackBar.show(this.getMessage("msg.err.notEnough.count"), 1000);

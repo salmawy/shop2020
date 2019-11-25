@@ -11,6 +11,7 @@
                <property name = "address" column = "ADDRESS" />
                <property name = "phone" column = "PHONE" />
                <property name = "type" column = "TYPE" />
+               <property name = "typeId" column = "TYPE_ID" />
              
              
              

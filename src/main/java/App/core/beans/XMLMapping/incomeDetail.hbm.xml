@@ -14,14 +14,24 @@
                <property name = "notes" column = "NOTES" />
                <property name = "sellerId" column = "SELLER_ID" />
 				<property name = "fridageId" column = "FRIDAGE_ID" />
+				<property name = "sellerOrderId" column = "SELLER_ORDER_ID" />
 
              <property name = "changed" column = "CHANGED" />
            <property name = "changeDate" column = "CHANGE_DATE" />
                <property name = "timestamp" column = "TIMESTAMP" />
                <property name = "changerId" column = "CHANGER_ID" />
-            
+       
+            	<many-to-one 
+		name="income" 
+		column="INCOME_ID"
+			class="App.core.beans.Income" 
+			not-null="true" 
+			insert="false"
+			update="false" 
+			lazy="false" />
          
 </class>  
+         
             
             
             

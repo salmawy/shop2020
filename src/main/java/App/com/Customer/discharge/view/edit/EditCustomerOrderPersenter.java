@@ -1,9 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package App.com.Customer.discharge.view;
+package App.com.Customer.discharge.view.edit;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,8 +8,6 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -32,11 +25,9 @@ import com.jfoenix.validation.RequiredFieldValidator;
 
 import App.com.Customer.action.CustomerBaseAction;
 import App.com.Customer.discharge.view.beans.CustomerViewBean;
-import App.com.Customer.discharge.view.edit.EditCustomerOrderView;
 import App.core.Enum.CustomerTypeEnum;
 import App.core.Enum.VechileTypeEnum;
 import App.core.UIComponents.comboBox.ComboBoxItem;
-import App.core.UIComponents.customTable.Column;
 import App.core.UIComponents.customTable.CustomTable;
 import App.core.applicationContext.ApplicationContext;
 import App.core.beans.Customer;
@@ -45,6 +36,7 @@ import App.core.beans.Product;
 import App.core.beans.Store;
 import App.core.exception.DataBaseException;
 import App.core.exception.EmptyResultSetException;
+import App.core.exception.InvalidReferenceException;
 import App.core.validator.Validator;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.utils.FontAwesomeIconFactory;
@@ -52,46 +44,32 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
 import javafx.geometry.NodeOrientation;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
-/**
- *
- * @author ahmed
- */
-public class InitCustomerDischargePresenter extends CustomerBaseAction  implements Initializable {
+public class EditCustomerOrderPersenter extends CustomerBaseAction implements Initializable {
     
 	Logger logger = Logger.getLogger(this.getClass().getName());	
 
-      @FXML
-    private Label datePicker_Label;
-
-    @FXML
-    private FlowPane headLoc;
-
-    @FXML
-    private AnchorPane gridLoc;
-    
+  
+   
+   
     @FXML
     private AnchorPane inputForm_loc;
     
     @FXML
     private JFXButton saveBtn;
+    
     private GridPane gridPane;
 
     private CustomTable<CustomerViewBean> gride;
@@ -112,6 +90,7 @@ public class InitCustomerDischargePresenter extends CustomerBaseAction  implemen
     private JFXComboBox<ComboBoxItem> cutomerBox;
     private Image errIcon;
     private  JFXDatePicker bookDatePicker;
+    private CustomerOrder oldOrder;
    
    
     @Override
@@ -121,7 +100,6 @@ public class InitCustomerDischargePresenter extends CustomerBaseAction  implemen
    	
     	
    	init();
-   	getBook();
   }
     
     
@@ -134,26 +112,64 @@ public class InitCustomerDischargePresenter extends CustomerBaseAction  implemen
 		gridPane.setCenterShape(true);
 	    gridPane.setAlignment(gridPane.getAlignment().BASELINE_RIGHT);
 		gridPane.setVgap(20);
-   
-		  List<Column> columns=prepareTabelColumns(); 
-		  List<JFXButton> buttons=prepareheaderNodes();
-		//  List<CustomerViewBean>data=loadData(new Date());
-		  gride=new CustomTable<CustomerViewBean>(columns,buttons,null,null,null,CustomTable.headTableCard,CustomerViewBean.class); 
-		  gride.getCutomTableComponent().setPrefHeight(400);
-   
-		  fitToAnchorePane(gride.getCutomTableComponent());
-		
-		  gridLoc.getChildren().setAll(gride.getCutomTableComponent());
-		  initInputGridPane();
-		  saveBtn.setOnAction(e -> {
-			  
-			  saveCustomerOrder();
-			  
-			  
-			  
+		initInputGridPane();
+       saveBtn.setOnAction(e -> {
+			   save();
+			
 		  });
+       
+       
+       
+       
+       
+       loadOrderData();
+       
     	
     }
+private void loadOrderData() {
+	
+	int orderId=(int) this.request.get("orderId");
+	
+	try {
+		oldOrder=(CustomerOrder) this.getBaseRetrievalService().getBean(CustomerOrder.class, orderId);
+		
+		cutomerBox.getSelectionModel().select(oldOrder.getCustomer().getTypeId()-1);
+		name.setText(oldOrder.getCustomer().getName());
+		phone.setText(oldOrder.getCustomer().getPhone());
+		address.setText(oldOrder.getCustomer().getAddress());
+		
+		grossWeight.setText(oldOrder.getGrossweight().toString());
+		nolun.setText(String.valueOf(oldOrder.getNolun()));
+		gift.setText(String.valueOf(oldOrder.getTips()));
+		count.setText(String.valueOf(oldOrder.getUnits()));
+		code.setText(oldOrder.getOrderTag());
+		vehicleTypeBox.getSelectionModel().select(oldOrder.getVechileTypeId()-1);
+		notes.setText(oldOrder.getNotes());
+		
+		Instant instant=Instant.ofEpochMilli(oldOrder.getOrderDate().getTime());
+	    LocalDate localate =LocalDate.ofInstant(instant, ZoneId.systemDefault());
+	    this.datePicker.setValue(localate);
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	} catch (DataBaseException | InvalidReferenceException e) {
+ 	   alert(AlertType.ERROR, this.getMessage("msg.err"),this.getMessage("msg.err"), this.getMessage("msg.err.cannot.load.data"));
+e.printStackTrace();
+	}
+	
+		
+	}
+
+
+
 private void initInputGridPane() {
 	
 
@@ -187,11 +203,10 @@ private void initInputGridPane() {
 
 cutomerBox=new JFXComboBox();
 cutomerBox.getStyleClass().add("comboBox");
-
-cutomerBox.getItems().add(new ComboBoxItem(CustomerTypeEnum.kareem,this.getMessage("customer.type.karrem")));
-cutomerBox.getItems().add(new ComboBoxItem(CustomerTypeEnum.mahmed,this.getMessage("customer.type.mahmed")));
 cutomerBox.getItems().add(new ComboBoxItem(CustomerTypeEnum.normal,this.getMessage("customer.type.normal")));
 cutomerBox.getItems().add(new ComboBoxItem(CustomerTypeEnum.purchases,this.getMessage("customer.type.purchaes")));
+cutomerBox.getItems().add(new ComboBoxItem(CustomerTypeEnum.kareem,this.getMessage("customer.type.karrem")));
+cutomerBox.getItems().add(new ComboBoxItem(CustomerTypeEnum.mahmed,this.getMessage("customer.type.mahmed")));
 cutomerBox.getSelectionModel().selectFirst();
 
  vehicleTypeBox=new JFXComboBox();
@@ -534,161 +549,8 @@ inputForm_loc.getChildren().clear();
 inputForm_loc.getChildren().setAll(gridPane);
 }
     
-    
-    
-    private List<Column> prepareTabelColumns(){
-    
-    
-         List<Column> columns=new ArrayList<Column>();
-        Column c=new Column(" ", "chk", "chk", 5, true);
-        columns.add(c);
-        Column c1=new Column("orderId", "orderId", "int", 0, false);
-         columns.add(c1);
-        Column c2=new Column(this.getMessage("customer.name"), "customerName", "string", 20, true);
-           columns.add(c2);
-        Column c3=new Column(this.getMessage("label.nolun"), "nowlun", "double", 15, true);
-           columns.add(c3);
-        Column c4=new Column(this.getMessage("lanel.quantity"), "quantity", "double", 15, true);
-           columns.add(c4);
-        Column c5=new Column(this.getMessage("label.count"), "count", "int", 10, true);
-           columns.add(c5);
-        Column c6=new Column(this.getMessage("label.gift"), "gift", "double", 10, true);
-           columns.add(c6);
-        Column c7=new Column(this.getMessage("label.store.name"), "storeName", "string", 15, true);
-           columns.add(c7);
-        Column c8=new Column(this.getMessage("finished"), "finished", "int", 10, true);
-        columns.add(c8);
-    
-    
-    return columns;
-    
-    
-    
-    
-    
-    
-    }
-    
-    
-    private List prepareheaderNodes(){
-    	
-    	
-    	JFXButton editBtn=new JFXButton(this.getMessage("button.edit"));
-    	Text layoutIcon = FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.EDIT);
-    	    layoutIcon.getStyleClass().addAll("button-icon", "layout-button-icon");    	    
-    	    editBtn.setGraphic(layoutIcon);
-    	    editBtn.getStyleClass().setAll("btn","btn-primary");  
-    	    
-    	    editBtn.setOnAction(e -> {
-  			  
-    	    	editCustomerOrder();
-  			  
-  			  
-  			  
-  		  });
-    	  //-----------------------------------------------------------------------------  
-    	     bookDatePicker=new JFXDatePicker();
-    	    bookDatePicker.setPadding(new Insets(0, 0, 0, 100));
 
-    	    bookDatePicker.getEditor().setAlignment(Pos.CENTER);
-    	    bookDatePicker.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
-    	    bookDatePicker.setConverter(new StringConverter<LocalDate>()
-    	   	{
-    	   	    private DateTimeFormatter dateTimeFormatter=DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
-    	   	    @Override
-    	   	    public String toString(LocalDate localDate)
-    	   	    {
-    	   	        if(localDate==null)
-    	   	            return "";
-    	   	        return dateTimeFormatter.format(localDate);
-    	   	    }
-
-    	   	    @Override
-    	   	    public LocalDate fromString(String dateString)
-    	   	    {
-    	   	        if(dateString==null || dateString.trim().isEmpty())
-    	   	        {
-    	   	            return null;
-    	   	        }
-    	   	        return LocalDate.parse(dateString,dateTimeFormatter);
-    	   	    }
-    	   	});    
-
-    	    bookDatePicker.setOnAction(e -> {
-    	   		
-    	    	 LocalDate localate =bookDatePicker.getValue();
-    	        Instant instant=Instant.from(localate.atStartOfDay(ZoneId.systemDefault()));
-    	    	
-    	    	Date date= Date.from(instant);
-    	   			loadData(date);
-    	   		});
-    			
-
-    	    //editBtn.getStyleClass().add("control-button");
-    	    List nodes =new ArrayList(Arrays.asList(editBtn,bookDatePicker))  ;
-
-    	return nodes;
-    	
-    }
-
-
-List <CustomerViewBean> loadData(Date date) {
-	
-	this.gride.getTable().getItems().clear();
-
-		 
-	List customerOrders=new ArrayList<>();
-	List customerViewBeans=new ArrayList<>();
-	try {
-			 customerOrders = this.getCustomerService().getCustomerOrders(date);
-				
-		
-
-		for (Object it : customerOrders) {
-			CustomerOrder order=(CustomerOrder) it;
-			CustomerViewBean viewBean=new CustomerViewBean();
-			viewBean.setOrderId(order.getId());
-			viewBean.setCount(order.getUnits());
-			viewBean.setCustomerName(order.getCustomer().getName());
-			viewBean.setFinished(order.getFinished());
-			viewBean.setGift(order.getTips());
-			viewBean.setQuantity(order.getGrossweight());
-			viewBean.setNowlun(order.getNolun());
-			viewBean.setProductName(order.getProduct().getName());
-			viewBean.setStoreName("1");
-			
-			customerViewBeans.add(viewBean);
-
-			
-		}
-		
-		this.gride.loadTableData(customerViewBeans);
-
-	} catch (EmptyResultSetException e1) {
-		// TODO Auto-generated catch block
-		alert(AlertType.WARNING, "", "", this.getMessage("msg.warning.noData"));
-	} catch (DataBaseException e1) {
-		// TODO Auto-generated catch block
-		alert(AlertType.ERROR, "", "", this.getMessage("msg.err.cannot.load.data"));
-	}
-	
-	
-	
-	return customerViewBeans;
-} 
-private void fitToAnchorePane(Node node) {
-	
-	
-	AnchorPane.setTopAnchor(node,  0.0); 
-	AnchorPane.setLeftAnchor(node,  0.0); 
-	AnchorPane.setRightAnchor(node,  0.0); 
-	AnchorPane.setBottomAnchor(node,  0.0); 
-	
-	
-	
-} 
-    private Image loadImage(String path) {
+private Image loadImage(String path) {
     	
     	Image icn=null;
     	
@@ -764,7 +626,7 @@ private void fitToAnchorePane(Node node) {
     	
     }
   
-    private void saveCustomerOrder() {
+    private void save() {
     	
         if (validateForm()) {
         	   try {
@@ -807,9 +669,16 @@ private void fitToAnchorePane(Node node) {
             order.setUnits(unites);
             order.setOrderTag(tagValue);
 
-				this.getCustomerService().saveCustomerOrder(order);
-				alert(AlertType.INFORMATION, "", "", this.getMessage("msg.done.save"));
-				inatiatePage() ;
+				this.getCustomerService().editCustomerOrder(order, oldOrder);
+				alert(AlertType.INFORMATION, "", "", this.getMessage("msg.done.edit"));
+				 
+				
+				
+				Stage stage = (Stage) saveBtn.getScene().getWindow();
+				   this.response=new HashMap<String, Object>();
+				   response.put("valid",true);
+				   
+				      stage.close(); 
 			} catch (DataBaseException e) {
 		    	   alert(AlertType.ERROR, this.getMessage("msg.err"),this.getMessage("msg.err"), this.getMessage("msg.err.general"));
 				e.printStackTrace();
@@ -831,14 +700,7 @@ private void fitToAnchorePane(Node node) {
     	
     }
     
-    private Date fromLocalDateToDate(LocalDate localDate) {
-    	
-    	
-        Instant instant=Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
-    	
-    	return Date.from(instant);
-    	
-    }
+    
     
     public void inatiatePage() {
         
@@ -847,76 +709,11 @@ private void fitToAnchorePane(Node node) {
         this.nolun.setText("");
         this.notes.setText("");
         this.grossWeight.setText("");
-        this.count.setText("");
-        this.gift.setText("");
-        code.setText("");
-        this.loadData(getValueOfDatePicker());
+         this.count.setText("");
+          this.gift.setText("");
 
     }
     
     
-    
-    private void getBook() {
-    	
-    	
 
-    	
-    	try {
-    		Date date= (Date) this.getBaseRetrievalService().aggregate("CustomerOrder", "max", "orderDate", null);
-    		
-    		loadData(date);
-    		
-    		
-    		Instant instant=Instant.now();
-    	    LocalDate localate =LocalDate.ofInstant(instant, ZoneId.systemDefault());
-    	    this.bookDatePicker.setValue(localate);
-    		
-    	
-    	} catch (DataBaseException | EmptyResultSetException e) {
-    		// TODO Auto-generated catch block
-    		e.printStackTrace();
-    	}
-        	
-    }
-    private void editCustomerOrder() {
-    	
-    	CustomerViewBean item=(CustomerViewBean) this.gride.getTable().getSelectionModel().getSelectedItem();
-    	
-    	this.request=new HashMap<String,Object>();
-    	request.put("orderId", item.getOrderId());
-    	
-    	
-    	EditCustomerOrderView form=new EditCustomerOrderView();
-    	URL u=	 getClass().getClassLoader().getResource("appResources/custom.css");
-
-    	Scene scene1= new Scene(form.getView(), 1000, 400);
-    	Stage popupwindow=new Stage();
-    	popupwindow.setMinHeight(400);
-    	popupwindow.setMinWidth(900);
-
-    	popupwindow.setResizable(true);
-        String css =u.toExternalForm();
-    	scene1.getStylesheets().addAll(css); 
-    	popupwindow.initModality(Modality.APPLICATION_MODAL);
-    	popupwindow.setTitle(this.getMessage("msg.info.edit.customerOrder"));
-    	      
-    	popupwindow.setScene(scene1);
-    	popupwindow.setOnHiding( ev -> {
-    		
-
-    		System.out.println("window closes");
-    		boolean valid=(boolean) this.response.get("valid");
-    		
-    		if(valid)
-    			loadData(fromLocalDateToDate(bookDatePicker.getValue()));
-        
-    		
-    		
-    	});
-    	
-    	popupwindow.showAndWait();
-
-    	
-    	
-    }
-}
+ }

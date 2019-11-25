@@ -15,6 +15,7 @@
                <property name = "customerId" column = "CUSTOMER_ID" />
              	<property name = "orderId" column = "ORDER_ID" />
                <property name = "fridageId" column = "FRIDAGE_ID" />
+			<property name = "typeId" column = "TYPE_ID" />
 			  
              <property name = "changed" column = "CHANGED" />
 			  
@@ -22,8 +23,17 @@
                <property name = "timestamp" column = "TIMESTAMP" />
                <property name = "changerId" column = "CHANGER_ID" />
             
+                     	<many-to-one 
+		name="outcome" 
+		column="OUTCOME_ID"
+			class="App.core.beans.Outcome" 
+			not-null="true" 
+			insert="false"
+			update="false" 
+			lazy="false" />
          
 </class>  
+  
             
             
             

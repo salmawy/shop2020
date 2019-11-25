@@ -59,7 +59,7 @@ public class CustomerDao extends HibernateDaoSupport implements  ICustomerDao{
 			  session =this.getSessionFactory().openSession();
 		  
 		  String query =
-		  "from CustomerOrder where orderDate = ?";
+		  "from CustomerOrder where to_char(orderDate,'DD/MM/YYYY') = to_char(?,'DD/MM/YYYY')";
 
 		  query += " order by orderDate  desc";
 			Map <String, Date>parameters =new HashMap<String, Date>();
@@ -328,5 +328,83 @@ public class CustomerDao extends HibernateDaoSupport implements  ICustomerDao{
 		 
 		return null;}
 	
+	
+	
+	 public List<String> getSuggestedCustomerName(String searchString,int customerTypeId) {
+
+	        logger.info("Getting customer list for autocomplete");
+
+	        List<String> list = null;
+
+			 Session session = null; 
+
+			  session =this.getSessionFactory().openSession();
+
+	        try {
+
+
+	            Query query = session.createQuery("select c.name from Customer c where c.name LIKE :search and typeId = :typeP");
+	             query.setParameter("typeP", customerTypeId);
+
+	            list = query.setParameter("search", "%"+searchString+"%").setMaxResults(10).list();
+
+
+	        } catch (Exception ex) {
+
+	            logger.error("Other exception {}", ex);
+
+	        } finally {
+
+	        	session.close();
+
+	        }       
+
+	        return list;
+
+	    } 
+	 
+	 
+	 
+	 public List getOutcome(Date date) throws EmptyResultSetException, DataBaseException {
+		 
+
+			
+		  Session session = null; 
+		  try { 
+			  session =this.getSessionFactory().openSession();
+			
+
+		  
+		  String query = "from Outcome "
+		  		+ "where  to_char(  outcomeDate ,'dd/MM/YYYY')  = "
+		  		+ " to_char( ? ,'dd/MM/YYYY') ";							
+
+		  query += " order by outcomeDate  desc";
+			
+		  
+		  Query queryList = session.createQuery(query);
+		  queryList.setDate(0, date);
+		//  queryList.setDate(1, upper.getTime());
+
+		  List<Object> result =	 queryList.list();
+		  
+		  if(result.size() == 0) {
+			  throw new  EmptyResultSetException("error.emptyRS"); }
+		  
+		  if(result.size() > 0) 
+		  {return result;}
+		 } 
+		  catch(DataAccessException e) { throw new
+		  DataBaseException("error.dataBase.query,AgentFinancialStatus,"+e.getMessage()  );
+		  }
+		  finally { session.close(); }
+		  
+		 
+		return null;
+		 
+		 
+		 
+	 } 
+
 
 }

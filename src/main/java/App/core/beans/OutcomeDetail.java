@@ -10,6 +10,12 @@ public class OutcomeDetail extends BaseBean {
 	private Integer customerId;
 	private Integer orderId;
 	private int fridageId;
+	private Outcome outcome;
+	private int typeId;
+	
+	
+	
+	
 	public int getId() {
 		return id;
 	}
@@ -63,6 +69,18 @@ public class OutcomeDetail extends BaseBean {
 	}
 	public void setFridageId(int fridageId) {
 		this.fridageId = fridageId;
+	}
+	public Outcome getOutcome() {
+		return outcome;
+	}
+	public void setOutcome(Outcome outcome) {
+		this.outcome = outcome;
+	}
+	public int getTypeId() {
+		return typeId;
+	}
+	public void setTypeId(int typeId) {
+		this.typeId = typeId;
 	}
 
 	

@@ -9,6 +9,14 @@ private int incomeId;
 private String notes;
 private Integer sellerId;
 private int fridageId;
+private int typeId;
+private Integer sellerOrderId;
+private Income income;
+
+
+
+
+
 public int getId() {
 	return id;
 }
@@ -56,6 +64,24 @@ public int getFridageId() {
 }
 public void setFridageId(int fridageId) {
 	this.fridageId = fridageId;
+}
+public int getTypeId() {
+	return typeId;
+}
+public void setTypeId(int typeId) {
+	this.typeId = typeId;
+}
+public Integer getSellerOrderId() {
+	return sellerOrderId;
+}
+public void setSellerOrderId(Integer sellerOrderId) {
+	this.sellerOrderId = sellerOrderId;
+}
+public Income getIncome() {
+	return income;
+}
+public void setIncome(Income income) {
+	this.income = income;
 }
 
 

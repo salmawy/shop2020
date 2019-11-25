@@ -15,4 +15,6 @@ public interface ICustomerDao {
 	public List getCustomerOrders(int customerId,int seasonId,int fridageId ,int finished) throws EmptyResultSetException, DataBaseException;
 	public double  getPurchasedCustomerTotalDue(int seasonId,int customerId) throws EmptyResultSetException, DataBaseException ;
 	public double getPurchasedCustomerTotalInst(int seasonId,int customerId) throws EmptyResultSetException, DataBaseException ;
+	 public List<String> getSuggestedCustomerName(String searchString,int customerTypeId) ;
+	 public List getOutcome(Date date) throws EmptyResultSetException, DataBaseException ;
 }

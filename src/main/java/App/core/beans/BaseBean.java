@@ -1,17 +1,26 @@
 package App.core.beans;
 
-import java.security.Timestamp;
+import java.sql.Timestamp;
 import java.util.Date;
+
+import App.core.applicationContext.ApplicationContext;
 
 public class BaseBean {
 	
 	private Integer changerId;
 	private Timestamp timestamp;
 	private Date changeDate;
-	private Integer changed;
+	private Integer changed=1;
 
 	
+	public BaseBean() {
+		//this.changed=1;
+	//	this.timestamp=new Timestamp(new Date().getTime());
+	//	this.changeDate=new Date();
+	//	this.changerId=ApplicationContext.currentUser.getId();
 	
+	
+	}
 	public Integer getChangerId() {
 		return changerId;
 	}

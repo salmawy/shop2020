@@ -1,6 +1,7 @@
  package App.core.beans;
 
 import java.util.Date;
+import java.util.Set;
 
 
 public class SellerOrder extends BaseBean {
@@ -14,6 +15,11 @@ public class SellerOrder extends BaseBean {
 	private int sciencere;
 	private Integer sellerLoanBagId;
 	private Seller seller;
+    private Set<SellerOrderWeight> orderWeights;
+
+	
+	
+	
 	public int getId() {
 		return id;
 	}
@@ -73,6 +79,12 @@ public class SellerOrder extends BaseBean {
 	}
 	public void setSeller(Seller seller) {
 		this.seller = seller;
+	}
+	public Set<SellerOrderWeight> getOrderWeights() {
+		return orderWeights;
+	}
+	public void setOrderWeights(Set<SellerOrderWeight> orderWeights) {
+		this.orderWeights = orderWeights;
 	}
 		
 	

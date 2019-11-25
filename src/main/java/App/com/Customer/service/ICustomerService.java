@@ -3,6 +3,7 @@ package App.com.Customer.service;
 import java.util.Date;
 import java.util.List;
 
+import App.core.beans.CustomerOrder;
 import App.core.beans.Season;
 import App.core.exception.DataBaseException;
 import App.core.exception.EmptyResultSetException;
@@ -17,6 +18,9 @@ public interface ICustomerService {
 	public Season getCurrentSeason() throws DataBaseException, EmptyResultSetException ;
 	public List getCustomersSummaryTransactions(int seasonId,int fridageId,int customerId) throws EmptyResultSetException, DataBaseException ;
 	public List  getPurchasedCustomerData(int seasonId,int fridageId) throws EmptyResultSetException, DataBaseException ;
-	
+	 public List<String> getSuggestedCustomerName(String searchString,int customerTypeId) ;
+	 public Double getSafeBalance(int seasonId) ;
+	 public void saveCustomerOrder(CustomerOrder customerOrder) throws DataBaseException ;
+	 public void editCustomerOrder(CustomerOrder newValue,CustomerOrder oldValue) throws DataBaseException ;
 
 }

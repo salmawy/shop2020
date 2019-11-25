@@ -7,7 +7,8 @@ public class Seller extends BaseBean {
 	private String address;
 	private String phone;
 	private String  type ;
-	
+	private int  typeId ;
+
 	
 	
 	
@@ -41,6 +42,12 @@ public class Seller extends BaseBean {
 	}
 	public void setType(String type) {
 		this.type = type;
+	}
+	public int getTypeId() {
+		return typeId;
+	}
+	public void setTypeId(int typeId) {
+		this.typeId = typeId;
 	}
 	
 	

@@ -5,8 +5,25 @@ import java.util.Date;
 
 public class Installment extends BaseBean {
 private int id =-1;
-private Integer sellerBagLoan;
 private Date instalmentDate;
+private double amount;
+private int sciencere;
+private int sellerLoanBagId;
+private String notes;
+private Integer sellerOrderId;
+
+
+public String getNotes() {
+	return notes;
+}
+
+public void setNotes(String notes) {
+	this.notes = notes;
+}
+
+public Installment() {
+	sciencere=0;
+}
 
 public int getId() {
 	return id;
@@ -14,12 +31,7 @@ public int getId() {
 public void setId(int id) {
 	this.id = id;
 }
-public Integer getSellerBagLoan() {
-	return sellerBagLoan;
-}
-public void setSellerBagLoan(Integer sellerBagLoan) {
-	this.sellerBagLoan = sellerBagLoan;
-}
+
 public Date getInstalmentDate() {
 	return instalmentDate;
 }
@@ -38,15 +50,25 @@ public int getSciencere() {
 public void setSciencere(int sciencere) {
 	this.sciencere = sciencere;
 }
-public int getSellerId() {
-	return sellerId;
+public int getSellerLoanBagId() {
+	return sellerLoanBagId;
 }
-public void setSellerId(int sellerId) {
-	this.sellerId = sellerId;
+public void setSellerLoanBagId(int sellerLoanBagId) {
+	this.sellerLoanBagId = sellerLoanBagId;
 }
-private Double amount;
-private int sciencere;
-private int sellerId;
+public void setAmount(double amount) {
+	this.amount = amount;
+}
+
+
+
+public Integer getSellerOrderId() {
+	return sellerOrderId;
+}
+
+public void setSellerOrderId(Integer sellerOrderId) {
+	this.sellerOrderId = sellerOrderId;
+}
 
 
 

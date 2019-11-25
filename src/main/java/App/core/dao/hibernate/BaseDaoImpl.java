@@ -846,7 +846,43 @@ public class BaseDaoImpl extends HibernateDaoSupport implements IBaseDao
 	}
 
 
+	
+	public Object  aggregate(String tablename,String operation,String columnName,Map <String,Object>parameters) throws DataBaseException, EmptyResultSetException {
+		
+		
+		
+		 Session session = null; 
+		  try { 
+			  session =this.getSessionFactory().openSession();
+		String query="select "+operation+"("+columnName+") from "+tablename+ " where 1=1";
+		
+	if(parameters!=null)
+	     for (Map.Entry entry :	parameters.entrySet())  {
 
+	    	 query+=" and "+String.valueOf( entry.getKey()) +String.valueOf(entry.getValue());
+	    }
+	     
+	        List result=  session.createQuery(query).list();
+	        
+	        if(result.size() == 0) {
+				  throw new  EmptyResultSetException("error.emptyRS"); }
+			 
+			  if(result.size() > 0) 
+			  { return (result.get(0)==null)?null:result.get(0) ;}
+	      
+	        
+		  }catch(DataAccessException e) {
+			  throw new
+			  DataBaseException("error.dataBase.query,AgentFinancialStatus,"+e.getMessage()  );
+			  }
+			  finally { session.close();
+			  }
+		return null;
+		  
+		  
+	}
+	
+	
 
 }
 

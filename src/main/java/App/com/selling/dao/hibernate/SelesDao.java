@@ -1,7 +1,7 @@
 package App.com.selling.dao.hibernate;
 
+import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,7 +26,7 @@ public class SelesDao extends HibernateDaoSupport implements  ISalesDao{
 			  session =this.getSessionFactory().openSession();
 		String query="select "+operation+"("+columnName+") from "+tablename+ " where 1=1";
 		
-	
+	if(parameters!=null)
 	     for (Map.Entry entry :	parameters.entrySet())  {
 
 	    	 query+=" and "+String.valueOf( entry.getKey()) +String.valueOf(entry.getValue());
@@ -38,7 +38,7 @@ public class SelesDao extends HibernateDaoSupport implements  ISalesDao{
 				  throw new  EmptyResultSetException("error.emptyRS"); }
 			 
 			  if(result.size() > 0) 
-			  { return (result.get(0)==null)?0.0:result.get(0) ;}
+			  { return (result.get(0)==null)?null:result.get(0) ;}
 	      
 	        
 		  }catch(DataAccessException e) {
@@ -88,25 +88,63 @@ public class SelesDao extends HibernateDaoSupport implements  ISalesDao{
 	 
 	 
 	 
-	 
-		
-		public List getSellersOrders(Date orderDate) throws EmptyResultSetException, DataBaseException {
+	 public List getIncome(Date date) throws EmptyResultSetException, DataBaseException {
+		 
+
+			
+		  Session session = null; 
+		  try { 
+			  session =this.getSessionFactory().openSession();
+			
+
+		  
+		  String query = "from Income "
+		  		+ "where  to_char(  incomeDate ,'dd/MM/YYYY')  = "
+		  		+ " to_char( ? ,'dd/MM/YYYY') ";							
+
+		  query += " order by incomeDate  desc";
+			
+		  
+		  Query queryList = session.createQuery(query);
+		  queryList.setDate(0, date);
+		//  queryList.setDate(1, upper.getTime());
+
+		  List<Object> result =	 queryList.list();
+		  
+		  if(result.size() == 0) {
+			  throw new  EmptyResultSetException("error.emptyRS"); }
+		  
+		  if(result.size() > 0) 
+		  {return result;}
+		 } 
+		  catch(DataAccessException e) { throw new
+		  DataBaseException("error.dataBase.query,AgentFinancialStatus,"+e.getMessage()  );
+		  }
+		  finally { session.close(); }
+		  
+		 
+		return null;
+		 
+		 
+		 
+	 } 
+
+public List getSellersOrders(Date orderDate) throws EmptyResultSetException, DataBaseException {
 			
 			  Session session = null; 
 			  try { 
 				  session =this.getSessionFactory().openSession();
-			  
+			 
 			  String query =
-			  "from SellerOrder where orderDate = ?";
-
+			  "from SellerOrder "
+				+ "where  to_char(  orderDate ,'dd/MM/YYYY')  = "
+		  		+ " to_char( ? ,'dd/MM/YYYY') ";
 			  query += " order by orderDate  desc";
-				Map <String, Date>parameters =new HashMap<String, Date>();
-				parameters.put("orderDate",orderDate);
-
+			
 			  
 			  Query queryList = session.createQuery(query);
 			  queryList.setDate(0, orderDate);
-			
+
 			  List<Object> result =	 queryList.list();
 			  
 			  if(result.size() == 0) {

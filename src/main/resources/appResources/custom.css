@@ -44,18 +44,29 @@
 	
 }
 
-.TextField{
+.label-h1{
+	-fx-padding: 5px;
+/* 	  -fx-background-color: #3399ff;   */
+	 margin: 5px 5px 5px 5px;
+	 -fx-max-width:  120px;
+	
+}
+
+.jfx-text-field{
 -fx-max-width:  250px;
 
-	 -fx-background-color: #f5f5ef	; 
- 
+-fx-prompt-text:white;
+-jfx-focus-color:#365fda;
+-jfx-unfocus-color:#3849b9;
+
 }
 .comboBox{
 /* 	 -fx-background-color: #ff0000;  
  */	 max-width: 300px;
 	-fx-max-width:  250px;
 	 
-	 
+-jfx-focus-color:#365fda;
+-jfx-unfocus-color:#3849b9;	 
 	
 }
 
@@ -74,7 +85,9 @@
   -fx-max-height:  50px;
      
 -fx-padding: 5px 5pz 5px 5px ;     
-	 -fx-background-color: #f5f5ef	;     
+	 -fx-background-color: #f5f5ef	;   
+	 -jfx-focus-color:#365fda;
+-jfx-unfocus-color:#3849b9;	  
 }
 .date-picker {
      -fx-max-width:  250px;

@@ -12,6 +12,10 @@ public class SellingAction extends BaseAction {
 	private ISalesService sellingService;
 	
      public  static  Map<String, Object> orderDataMap;
+     public  static  Map<String, Object> request;
+     public  static  Map<String, Object> response;
+     public static final int CashId=200;
+
 	public SellingAction() {
 		orderDataMap =new  HashMap();
 		

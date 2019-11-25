@@ -31,6 +31,7 @@
       <bean id="customerService" class="App.com.Customer.service.spring.CustomerService">  
     <property name="customerDao" ref="customerDao"></property> 
      <property name="baseRetrievalService" ref="baseService"></property>  
+  	<property name="baseService" ref="baseService"></property>  
      
     </bean> 
  

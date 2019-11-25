@@ -2,6 +2,7 @@ package App.core.service.spring;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -21,6 +22,7 @@ import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
+import App.core.applicationContext.ApplicationContext;
 import App.core.beans.BaseBean;
 import App.core.beans.Season;
 import App.core.dao.IBaseDao;
@@ -41,7 +43,7 @@ public class BaseService  implements IBaseService, IBaseRetrievalService {
 	private IBaseDao baseDao;
 
 	private final ResourceBundle serviceBundle =null; // = ResourceBundle.getBundle("com.sps.core.resources.ApplicationResources_services_ar");
-	private ResourceBundle settingsBundle =null;//= ResourceBundle.getBundle("com.sps.core.resources.ApplicationSettings_ar");
+	private ResourceBundle settingsBundle = ResourceBundle.getBundle("ApplicationSettings_ar");
 
 	public ResourceBundle getSettingsBundle() {
 		return settingsBundle;
@@ -53,7 +55,7 @@ public class BaseService  implements IBaseService, IBaseRetrievalService {
 
 	public PlatformTransactionManager getMyTransactionManager() {
 		try {
-			return null;//(HibernateTransactionManager) CacheEntriesDirectory.getEntry("transactionManager").getCacheEntry();
+			return ApplicationContext.transactionManager;//(HibernateTransactionManager) CacheEntriesDirectory.getEntry("transactionManager").getCacheEntry();
 		} catch (Exception e) {
 			return null;
 		}
@@ -254,7 +256,8 @@ public class BaseService  implements IBaseService, IBaseRetrievalService {
 			status = this.getMyTransactionManager().getTransaction(def);
 
 			setChangeInformation(newBean);
-//			System.out.println(((ShipVisitSummeryNationality)newBean).getShipVisitSummeryId());
+			((BaseBean)newBean).setTimestamp(new Timestamp(new Date().getTime()));
+			
 			this.getBaseDao().insertBean(newBean);
 			//	this.addEditBean(newBean);
 			this.getMyTransactionManager().commit(status);
@@ -430,9 +433,10 @@ public class BaseService  implements IBaseService, IBaseRetrievalService {
 	public void setChangeInformation(Object bean) {
 		try {
 			if(bean!=null){
-				String name = Thread.currentThread().getName();
-				((BaseBean)bean).setChangerId(Integer.parseInt(name));
+				((BaseBean)bean).setChangerId(ApplicationContext.currentUser.getId());
 				((BaseBean)bean).setChangeDate(new Date());	
+				
+
 			}
 		}
 		catch (Exception e) {}
@@ -442,7 +446,10 @@ public class BaseService  implements IBaseService, IBaseRetrievalService {
 	public Season getCurrentSeason() throws DataBaseException, EmptyResultSetException {
 		return this.getBaseDao().getCurrentSeason();
 	}
+	public Object  aggregate(String tablename,String operation,String columnName,Map <String,Object>parameters) throws DataBaseException, EmptyResultSetException {
+return this.baseDao.aggregate(tablename, operation, columnName, parameters);
 
+}
 
 
 }

@@ -6,10 +6,10 @@ import java.util.ResourceBundle;
 import org.springframework.beans.factory.BeanFactory;
 
 import App.App;
+import App.core.applicationContext.ApplicationContext;
 import App.core.beans.Fridage;
 import App.core.beans.Season;
-import App.core.exception.DataBaseException;
-import App.core.exception.EmptyResultSetException;
+import App.core.beans.Users;
 import App.core.service.IBaseRetrievalService;
 import App.core.service.IBaseService;
 import javafx.stage.Stage;
@@ -22,6 +22,7 @@ public class BaseAction {
 	private BeanFactory springBeanFactory;
 	private Season season;
 	private Fridage fridage;
+	private Users currentUser;
 
 	public BaseAction() {
 	
@@ -30,39 +31,26 @@ public class BaseAction {
 		baseRetrievalService=	(IBaseRetrievalService) App.springBeanFactory.getBean("baseService");
 		this.AppStage=App.AppStage;
 		this.springBeanFactory=App.springBeanFactory;
-		getCurrentSeaon();
-		getCurrentFridage();
-	
-		
-	}
-	
-	private void getCurrentSeaon() {
-		
-		try {
-			 season= this.getBaseRetrievalService().getCurrentSeason();
-		} catch (DataBaseException | EmptyResultSetException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+		this.season=ApplicationContext.season;
+		this.fridage=ApplicationContext.fridage;
+		this.currentUser=ApplicationContext.currentUser;
+
 	}
 	
 	
 	
-	
-	private void getCurrentFridage() {
-		
-		try {
-			 fridage= (Fridage) this.getBaseRetrievalService().getBean(Fridage.class, 1);
-		} catch (Exception e ) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+	public Users getCurrentUser() {
+		return currentUser;
 	}
-	
-	
-	
+
+
+
+	public void setCurrentUser(Users currentUser) {
+		this.currentUser = currentUser;
+	}
+
+
+
 	public void loadScene(String className) {
 		
 		try{Class<?> clazz = Class.forName(className);

@@ -3,11 +3,16 @@
 "-//Hibernate/Hibernate Mapping DTD 3.0//EN"  
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">  
 <hibernate-mapping>  
-<class name="App.core.beans.Safe" table="SAFE">  
+<class name="App.core.beans.Safe" table="MY_SAFE">  
       <id name = "id" type = "int" column = "ID">
           <generator class="increment"></generator>  
           </id>  
-      			<property name = "balance" column = "BALANCE" />
+      	 <property name = "balance" column = "BALANCE" />
+      	 <property name = "baseAmount" column = "BASE_AMOUNT" />
+       	<property name = "seasonId" column = "SEASON_ID" />
+      			
+      			
+      			
 
              <property name = "changed" column = "CHANGED" />
              <property name = "changeDate" column = "CHANGE_DATE" />

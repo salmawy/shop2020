@@ -24,9 +24,29 @@
             
               <property name = "changed" column = "CHANGED" />
                
-     <property name = "changeDate" column = "CHANGE_DATE" />
+               <property name = "changeDate" column = "CHANGE_DATE" />
                <property name = "timestamp" column = "TIMESTAMP" />
                <property name = "changerId" column = "CHANGER_ID" />
+               
+               
+               
+               
+                <set name="orderWeights"  
+                inverse="true" 
+                cascade="all" 
+                lazy="false" 
+                fetch="select">
+            <key>
+                <column name="SELLER_ORDER_ID" not-null="true" />
+            </key>
+            <one-to-many class="App.core.beans.SellerOrderWeight" />
+        </set>
+        
+        
+        
+   
+               
+               
             	<many-to-one 
 		name="seller" 
 		column="SELLER_ID"
