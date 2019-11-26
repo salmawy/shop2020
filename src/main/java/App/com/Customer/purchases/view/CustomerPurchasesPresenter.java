@@ -400,7 +400,7 @@ List <PurchasedInvoicesVB> loadPurchasedInvoices(int customerId ) {
 			CustomerOrder order=(CustomerOrder) it;
 			PurchasedInvoicesVB viewBean=new PurchasedInvoicesVB();
 			viewBean.setId(order.getId());
-			viewBean.setInvoiceDate(PurchasedInvoicesVB.sdf.format(order.getDueDate()));
+			viewBean.setInvoiceDate(PurchasedInvoicesVB.sdf.format(order.getOrderDate()));
 			viewBean.setBuyPrice(order.getBuyPrice());
 			viewBean.setGrossWeight(order.getGrossweight());
 			viewBean.setNetWeight(order.getNetWeight());

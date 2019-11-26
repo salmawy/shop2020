@@ -38,11 +38,11 @@
     <!--     End :-sales service Beans -->    
     
     
-      	<bean id="salesDao" class="App.com.selling.dao.hibernate.SelesDao">  
+      	<bean id="salesDao" class="App.com.sales.dao.hibernate.SelesDao">  
     <property name="sessionFactory" ref="mysessionFactory"></property>  
     </bean> 
     
-      <bean id="salesService" class="App.com.selling.spring.spring.SalesService">  
+      <bean id="salesService" class="App.com.sales.spring.spring.SalesService">  
     <property name="salesDao" ref="salesDao"></property> 
      <property name="baseRetrievalService" ref="baseService"></property> 
   <property name="baseService" ref="baseService"></property>  

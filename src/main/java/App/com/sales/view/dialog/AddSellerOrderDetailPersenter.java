@@ -1,4 +1,4 @@
-package App.com.selling.view.dialog;
+package App.com.sales.view.dialog;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXTextField;
 
-import App.com.selling.action.SellingAction;
+import App.com.sales.action.SalesAction;
 import App.core.Enum.ProductTypeEnum;
 import App.core.UIComponents.comboBox.ComboBoxItem;
 import App.core.beans.CustomerOrder;
@@ -40,7 +40,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class AddSellerOrderDetailPersenter extends SellingAction implements Initializable {
+public class AddSellerOrderDetailPersenter extends SalesAction implements Initializable {
 	
 	 @FXML
 	    private HBox buttonsPane;

@@ -1,4 +1,4 @@
-package App.com.selling.view.edit;
+package App.com.sales.view.edit;
 
 import java.net.URL;
 import java.text.ParseException;
@@ -26,9 +26,9 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
 
-import App.com.selling.action.SellingAction;
-import App.com.selling.view.beans.SellerOrderDetailVB;
-import App.com.selling.view.dialog.AddSellerOrderDetailView;
+import App.com.sales.action.SalesAction;
+import App.com.sales.view.beans.SellerOrderDetailVB;
+import App.com.sales.view.dialog.AddSellerOrderDetailView;
 import App.core.Enum.SellerTypeEnum;
 import App.core.UIComponents.comboBox.ComboBoxItem;
 import App.core.UIComponents.customTable.Column;
@@ -66,7 +66,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
-public class EditSellerOrderPersenter extends SellingAction implements Initializable {
+public class EditSellerOrderPersenter extends SalesAction implements Initializable {
 
     @FXML
     private AnchorPane orderDetail_loc;

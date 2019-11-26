@@ -1,4 +1,4 @@
-package App.com.selling.spring.spring;
+package App.com.sales.spring.spring;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,9 +15,9 @@ import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
-import App.com.selling.action.SellingAction;
-import App.com.selling.dao.ISalesDao;
-import App.com.selling.spring.ISalesService;
+import App.com.sales.action.SalesAction;
+import App.com.sales.dao.ISalesDao;
+import App.com.sales.spring.ISalesService;
 import App.core.Enum.IncomeTypesEnum;
 import App.core.Enum.SellerTypeEnum;
 import App.core.applicationContext.ApplicationContext;
@@ -332,7 +332,7 @@ public Seller  saveSeller(Seller seller) throws DataBaseException, InvalidRefere
 	
 	else if (seller.getTypeId()==SellerTypeEnum.cash) {
 		
-		seller=(Seller) this.getBaseService().getBean(Seller.class, SellingAction.CashId);
+		seller=(Seller) this.getBaseService().getBean(Seller.class, SalesAction.CashId);
 
 		
 		
@@ -617,16 +617,48 @@ public void recalculeSellerLoanBag(int seasonId,int sellerId) {
 
 
 
+    public double getSellerLoan(int sellerId, int seasonId) {
+    	Map<String,Object> map=new HashMap<String, Object>();
+    	map.put("sellerId", sellerId);
+    	map.put("seasonId", seasonId);
 
+    	try {
+			SellerLoanBag bag= (SellerLoanBag) this.getBaseService().getBean(SellerLoanBag.class, map);
+		return	bag.getCurrentLoan();
+			
+    	} catch (DataBaseException | InvalidReferenceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    	
+    	
+    	
+    	return 0.0;
+    }
+    public double   getSellerOrdersTotalPrice(int sellerId, int seasonId) {
+    	Map<String,Object> map=new HashMap<String, Object>();
+    	map.put("sellerId", sellerId);
+    	map.put("seasonId", seasonId);
 
-
-
-
-
-
-
-
-
+    	try {
+			return (double) this.getBaseRetrievalService().aggregate("SellerOrder", "sum", "totalCost", map);
+		} catch (DataBaseException | EmptyResultSetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    	
+    	
+    	
+		return 0.0;
+		
+    }
+    
+	 public List getSellersDebts( int seasonId,int active) throws EmptyResultSetException, DataBaseException {
+	 return this.salesDao.getSellersDebts(seasonId,active);
+			 
+	 }
 public ResourceBundle getSettingsBundle() {
 	return settingsBundle;
 }

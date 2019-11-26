@@ -214,6 +214,8 @@ vehicleTypeBox.getStyleClass().add("comboBox");
 
 vehicleTypeBox.getItems().add(new ComboBoxItem(VechileTypeEnum.van,this.getMessage("label.vehicle.van")));
 vehicleTypeBox.getItems().add(new ComboBoxItem(VechileTypeEnum.car,this.getMessage("label.vehicle.car")));
+vehicleTypeBox.getItems().add(new ComboBoxItem(VechileTypeEnum.HVAN,this.getMessage("label.vehicle.HVan")));
+
 vehicleTypeBox.getSelectionModel().selectFirst();
 
 //============================================================================================================

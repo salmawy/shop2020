@@ -1,6 +1,5 @@
-package App.com.selling.dao.hibernate;
+package App.com.sales.dao.hibernate;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +9,8 @@ import org.hibernate.Session;
 import org.springframework.dao.DataAccessException;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
-import App.com.selling.dao.ISalesDao;
+import App.com.sales.dao.ISalesDao;
+import App.core.beans.SellerLoanBag;
 import App.core.exception.DataBaseException;
 import App.core.exception.EmptyResultSetException;
 
@@ -129,7 +129,7 @@ public class SelesDao extends HibernateDaoSupport implements  ISalesDao{
 		 
 	 } 
 
-public List getSellersOrders(Date orderDate) throws EmptyResultSetException, DataBaseException {
+	 public List getSellersOrders(Date orderDate) throws EmptyResultSetException, DataBaseException {
 			
 			  Session session = null; 
 			  try { 
@@ -162,9 +162,75 @@ public List getSellersOrders(Date orderDate) throws EmptyResultSetException, Dat
 			return null;}
 		
 		
+	 public List getSellerDebt(int sellerId, int seasonId) throws EmptyResultSetException, DataBaseException {
+			
+		  Session session = null; 
+		  try { 
+			  session =this.getSessionFactory().openSession();
+		 
+		  String query =
+		  "from SellerLoanBag "
+			+ " where seasonId :seasonId"
+	  		+ " and sellerId= :sellerId";
+		  query += " order by sellerId  desc";
+		
+		  
+		  Query queryList = session.createQuery(query);
+		  queryList.setParameter("seasonId", seasonId);
+		  queryList.setParameter("sellerId", sellerId);
+
+		  List<Object> result =	 queryList.list();
+		  
+		  if(result.size() == 0) {
+			  throw new  EmptyResultSetException("error.emptyRS"); }
+		  
+		  if(result.size() > 0) 
+		  {return result;}
+		 } 
+		  catch(DataAccessException e) { throw new
+		  DataBaseException("error.dataBase.query,AgentFinancialStatus,"+e.getMessage()  );
+		  }
+		  finally { session.close(); }
+		  
+		 
+		return null;}
+	
+	 public List getSellersDebts( int seasonId,int active) throws EmptyResultSetException, DataBaseException {
+			
+		  Session session = null; 
+		  try { 
+			  session =this.getSessionFactory().openSession();
+		 
+		  String query =
+		  "from SellerLoanBag "
+			+ " where seasonId = :seasonId";
+		
+		  query+=(active==0)?"  and currentLoan=0 ":" and currentLoan>0  ";
+		  query += " order by sellerId  desc";
+		
+		  
+		  Query queryList = session.createQuery(query);
+		  queryList.setParameter("seasonId", seasonId);
+
+		  List<Object> result =	 queryList.list();
+		  
+		  if(result.size() == 0) {
+			  throw new  EmptyResultSetException("error.emptyRS"); }
+		  
+		  if(result.size() > 0) 
+		  {return result;}
+		 } 
+		  catch(DataAccessException e) { throw new
+		  DataBaseException("error.dataBase.query,AgentFinancialStatus,"+e.getMessage()  );
+		  }
+		  finally { session.close(); }
+		  
+		 
+		return null;}
+
 	 
 	 
-	 
+
 	 
 }
 	

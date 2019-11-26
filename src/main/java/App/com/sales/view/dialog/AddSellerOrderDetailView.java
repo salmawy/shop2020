@@ -1,4 +1,4 @@
-package App.com.selling.view.dialog;
+package App.com.sales.view.dialog;
 
 import com.airhacks.afterburner.views.FXMLView;
 

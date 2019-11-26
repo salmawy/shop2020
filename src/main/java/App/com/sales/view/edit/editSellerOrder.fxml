@@ -5,7 +5,7 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.layout.*?>
 
-<HBox nodeOrientation="RIGHT_TO_LEFT" prefHeight="332.0" prefWidth="470.0" spacing="5.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="App.com.selling.view.edit.EditSellerOrderPersenter">
+<HBox nodeOrientation="RIGHT_TO_LEFT" prefHeight="332.0" prefWidth="470.0" spacing="5.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="App.com.sales.view.edit.EditSellerOrderPersenter">
    <children>
       <VBox prefHeight="272.0" prefWidth="400.0" spacing="20.0">
          <children>

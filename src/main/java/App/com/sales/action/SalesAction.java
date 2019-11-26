@@ -1,35 +1,35 @@
-package App.com.selling.action;
+package App.com.sales.action;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import App.com.selling.spring.ISalesService;
+import App.com.sales.spring.ISalesService;
 import App.core.action.BaseAction;
 
-public class SellingAction extends BaseAction {
+public class SalesAction extends BaseAction {
 	
 	
-	private ISalesService sellingService;
+	private ISalesService salesService;
 	
      public  static  Map<String, Object> orderDataMap;
      public  static  Map<String, Object> request;
      public  static  Map<String, Object> response;
      public static final int CashId=200;
 
-	public SellingAction() {
+	public SalesAction() {
 		orderDataMap =new  HashMap();
 		
-		sellingService= (ISalesService) getSpringBeanFactory().getBean("salesService"); 
+		salesService= (ISalesService) getSpringBeanFactory().getBean("salesService"); 
 
 		
 		
 		
 	}
 	public ISalesService getSalesService() {
-		return sellingService;
+		return salesService;
 	}
-	public void setSellingService(ISalesService sellingService) {
-		this.sellingService = sellingService;
+	public void setSalesService(ISalesService salesService) {
+		this.salesService = salesService;
 	}
 	public Map<String, Object> getOrderDataMap() {
 		return orderDataMap;
@@ -37,9 +37,7 @@ public class SellingAction extends BaseAction {
 	public void setOrderDataMap(Map<String, Object> orderDataMap) {
 		this.orderDataMap = orderDataMap;
 	}
-	public ISalesService getSellingService() {
-		return sellingService;
-	}
+	
 
 	
 

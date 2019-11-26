@@ -1,4 +1,4 @@
-package App.com.selling.view.beans;
+package App.com.sales.view.beans;
 
 public class SellerOrderDetailVB {
 	

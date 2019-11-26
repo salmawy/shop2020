@@ -9,7 +9,7 @@ public class SellerLoanBag extends BaseBean {
 	private int sellerId;
 	private int seasonId;
 	private String notes;
-	
+	private Seller seller;
 	public SellerLoanBag() {
 		this.currentLoan=0.0;
 		this.priorLoan=0.0;
@@ -68,6 +68,16 @@ public class SellerLoanBag extends BaseBean {
 	}
 	public void setNotes(String notes) {
 		this.notes = notes;
+	}
+
+
+	public Seller getSeller() {
+		return seller;
+	}
+
+
+	public void setSeller(Seller seller) {
+		this.seller = seller;
 	}
 	
 	
