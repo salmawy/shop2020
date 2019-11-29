@@ -6,12 +6,17 @@ import java.util.ResourceBundle;
 import org.springframework.beans.factory.BeanFactory;
 
 import App.App;
+import App.com.application.view.ApplicationPersenter;
 import App.core.applicationContext.ApplicationContext;
 import App.core.beans.Fridage;
 import App.core.beans.Season;
 import App.core.beans.Users;
 import App.core.service.IBaseRetrievalService;
 import App.core.service.IBaseService;
+import javafx.collections.ObservableList;
+import javafx.scene.Node;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 public class BaseAction {
 	
@@ -23,6 +28,7 @@ public class BaseAction {
 	private Season season;
 	private Fridage fridage;
 	private Users currentUser;
+  public   static   StackPane cardLayout;
 
 	public BaseAction() {
 	
@@ -148,7 +154,37 @@ public class BaseAction {
 	}
 	
 	
-	
+	public void 	toggelLoadingView() {
+
+	    ObservableList<Node> childs = cardLayout.getChildren();
+	   // cardLayout.setBackground(Background.EMPTY);
+
+
+	    if (childs.size() > 1) {
+	        //
+	        Node topNode = childs.get(childs.size()-1);
+	        topNode.toBack();
+	    }
+
+		
+		
+	}
+
+
+
+
+
+
+	public StackPane getCardLayout() {
+		return cardLayout;
+	}
+
+
+
+	public void setCardLayout(StackPane cardLayout) {
+		this.cardLayout = cardLayout;
+	}
+
 	
 	
 	

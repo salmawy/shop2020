@@ -677,7 +677,10 @@ public class DailySalesPersenter extends SalesAction implements Initializable, C
 	   }
 
    }
-private void updateTotalAmountValue(double value,int mode) {
+
+   
+   
+   private void updateTotalAmountValue(double value,int mode) {
 	//mode 1 => addition else subtract
 	double  oldValue=(totalAmount.getText()!=null&&totalAmount.getText()!=""&&totalAmount.getText().length()>0)?Double.parseDouble(totalAmount.getText()):0.0;
 
@@ -1005,6 +1008,11 @@ private void editOrder() {
 	
 }
 
+@Override
+public void rowSelected(Object o) {
+	// TODO Auto-generated method stub
+	
+}
 
 
 

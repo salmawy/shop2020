@@ -4,6 +4,9 @@ public class Loaners extends BaseBean {
 private int id=-1;
 private String name;
 private int loanAccountId;
+
+
+
 public int getId() {
 	return id;
 }

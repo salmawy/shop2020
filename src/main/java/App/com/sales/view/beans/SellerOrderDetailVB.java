@@ -12,6 +12,10 @@ public class SellerOrderDetailVB {
  private double unitePrice;
  private double amount;
  private String customerOrderName;
+ 
+ 
+ 
+ 
 public String getProductName() {
 	return productName;
 }

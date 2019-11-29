@@ -24,13 +24,10 @@ import App.core.applicationContext.ApplicationContext;
 import App.core.beans.Customer;
 import App.core.beans.CustomerOrder;
 import App.core.beans.Income;
-import App.core.beans.IncomeDetail;
 import App.core.beans.Outcome;
 import App.core.beans.OutcomeDetail;
 import App.core.beans.Safe;
 import App.core.beans.Season;
-import App.core.beans.Seller;
-import App.core.beans.SellerOrder;
 import App.core.exception.DataBaseException;
 import App.core.exception.EmptyResultSetException;
 import App.core.exception.InvalidReferenceException;
@@ -188,7 +185,7 @@ public class CustomerService implements ICustomerService {
 		tips.setSpenderName(ApplicationContext.currentUser.getUsername());
 		tips.setCustomerId(customerOrder.getCustomer().getId());
 		tips.setTypeId(OutcomeTypeEnum.TIPS);
-		tips.setType(String .valueOf(OutcomeTypeEnum.TIPS));
+		tips.setTypeName(String .valueOf(OutcomeTypeEnum.TIPS));
 		tips.setOrderId(customerOrder.getId());
 		
 		
@@ -198,7 +195,7 @@ public class CustomerService implements ICustomerService {
 		nolun.setSpenderName(ApplicationContext.currentUser.getUsername());
 		nolun.setCustomerId(customerOrder.getCustomer().getId());
 		nolun.setTypeId(OutcomeTypeEnum.NOLOUN);
-		nolun.setType(String .valueOf(OutcomeTypeEnum.NOLOUN));
+		nolun.setTypeName(String .valueOf(OutcomeTypeEnum.NOLOUN));
 		nolun.setOrderId(customerOrder.getId());
 
 		Outcome outome=findOutcome(customerOrder.getOrderDate());
@@ -271,6 +268,9 @@ public class CustomerService implements ICustomerService {
 			return settingsBundle;
 		}
 
+		
+		
+		
 public void saveOutcomeDetail(OutcomeDetail outcomeDetail,Outcome outcome) throws DataBaseException {
 	
 	
@@ -287,7 +287,11 @@ public void saveOutcomeDetail(OutcomeDetail outcomeDetail,Outcome outcome) throw
 	
 	
 }
-	public  Outcome findOutcome(Date date) {
+
+
+
+
+public  Outcome findOutcome(Date date) {
 
 	
 	 
@@ -344,6 +348,9 @@ public void saveOutcomeDetail(OutcomeDetail outcomeDetail,Outcome outcome) throw
 		
 		
 	}
+
+	
+	
 	public Income updateincome(int id ,double amount) throws DataBaseException, InvalidReferenceException {
 	
 	

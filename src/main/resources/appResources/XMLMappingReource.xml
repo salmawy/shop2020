@@ -16,6 +16,9 @@
           
         <property name="mappingResources">  
         <list>  
+                        <value>App/core/beans/XMLMapping/incomeType.hbm.xml</value>
+                        <value>App/core/beans/XMLMapping/outcomeType.hbm.xml</value>
+        
                 <value>App/core/beans/XMLMapping/contractor.hbm.xml</value> 
                 <value>App/core/beans/XMLMapping/contractorAccount.hbm.xml</value> 
                 <value>App/core/beans/XMLMapping/contractorAccountDetail.hbm.xml</value> 

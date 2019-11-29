@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import com.jfoenix.controls.*?>
 <?import javafx.scene.control.*?>
@@ -14,17 +15,7 @@
                <content>
                   <VBox prefHeight="600.0" prefWidth="1000.0">
                      <children>
-                        <HBox alignment="CENTER" prefHeight="200.0" prefWidth="1000.0" spacing="10.0" style="-fx-background-color: #ffffff;">
-                           <children>
-                              <Label fx:id="initailDebt_label" text="Label" />
-                              <Label fx:id="intialDebtValue_label" text="Label" />
-                              <Label fx:id="collecteDebt_label" text="Label" />
-                              <Label fx:id="collectedDebtValue_label" text="Label" />
-                              <Label fx:id="currentDebt_label" text="Label" />
-                              <Label fx:id="currentebtValue_label" text="Label" />
-                           </children>
-                        </HBox>
-                        <SplitPane dividerPositions="0.2391304347826087" prefHeight="400.0" prefWidth="1000.0">
+                        <SplitPane dividerPositions="0.2391304347826087" prefHeight="593.0" prefWidth="1000.0">
                            <items>
                               <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
                                  <children>
@@ -36,23 +27,88 @@
                                     <Insets left="5.0" right="5.0" top="10.0" />
                                  </padding>
                               </VBox>
-                              <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                              <AnchorPane prefHeight="486.0" prefWidth="756.0">
                                  <children>
-                                    <SplitPane dividerPositions="0.7424242424242424" orientation="VERTICAL" prefHeight="398.0" prefWidth="296.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                      <items>
-                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                    <VBox nodeOrientation="RIGHT_TO_LEFT" prefHeight="398.0" prefWidth="756.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <HBox alignment="CENTER" minHeight="-Infinity" prefHeight="100.0" prefWidth="600.0" spacing="16.0">
                                              <children>
-                                                <SplitPane dividerPositions="0.4589473684210526" prefHeight="291.0" prefWidth="294.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                                  <items>
-                                                    <AnchorPane fx:id="sellerOders_loc" minHeight="0.0" minWidth="0.0" prefHeight="289.0" prefWidth="213.0" />
-                                                    <AnchorPane fx:id="sellerInstallments_loc" minHeight="0.0" minWidth="0.0" prefHeight="289.0" prefWidth="280.0" />
-                                                  </items>
-                                                </SplitPane>
+                                                <Pane prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0,1.5);">
+                                                   <children>
+                                                      <Pane prefHeight="80.0" prefWidth="50.0" style="-fx-background-color: #00A65A;" />
+                                                      <VBox layoutX="67.0" layoutY="29.0" />
+                                                      <Label id="totalAmount_label" fx:id="currentDebt_label" layoutX="67.0" layoutY="3.0" prefHeight="36.0" prefWidth="110.0" style="-fx-font-size: 12;" text="Bookmarks">
+                                                         <font>
+                                                            <Font size="9.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <Label id="totalAmount_value" fx:id="currentDebtValue_label" alignment="CENTER" layoutX="67.0" layoutY="40.0" prefHeight="30.0" prefWidth="80.0" style="-fx-font-size: 12;" text="410">
+                                                         <font>
+                                                            <Font size="9.0" />
+                                                         </font>
+                                                      </Label>
+                                                   </children>
+                                                </Pane>
+                                                <Pane prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0,1.5);">
+                                                   <children>
+                                                      <Pane prefHeight="80.0" prefWidth="50.0" style="-fx-background-color: #00C0EF;" />
+                                                      <VBox layoutX="56.0" layoutY="2.0" prefHeight="66.0" prefWidth="105.0">
+                                                         <children>
+                                                            <Label id="totalCar_label" fx:id="collecteDebt_label" prefHeight="36.0" prefWidth="109.0" style="-fx-font-size: 12;" text="MESSAGES">
+                                                               <font>
+                                                                  <Font size="9.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <Label id="totalCar_value" fx:id="collectedDebtValue_label" alignment="CENTER" prefHeight="30.0" prefWidth="88.0" style="-fx-font-size: 12;" text="1,414">
+                                                               <font>
+                                                                  <Font size="9.0" />
+                                                               </font>
+                                                            </Label>
+                                                         </children>
+                                                      </VBox>
+                                                   </children>
+                                                </Pane>
+                                                <Pane prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0,1.5);">
+                                                   <children>
+                                                      <Pane prefHeight="80.0" prefWidth="50.0" style="-fx-background-color: #DD4B39;" />
+                                                      <VBox layoutX="62.0" layoutY="6.0" prefHeight="63.0" prefWidth="107.0">
+                                                         <children>
+                                                            <Label id="totalVan_label" fx:id="initailDebt_label" prefHeight="36.0" prefWidth="104.0" style="-fx-font-size: 12;" text="Likes">
+                                                               <font>
+                                                                  <Font size="9.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <Label id="totalVan_value" fx:id="intialDebtValue_label" alignment="CENTER" prefHeight="27.0" prefWidth="104.0" style="-fx-font-size: 12;" text="93,688">
+                                                               <font>
+                                                                  <Font size="9.0" />
+                                                               </font>
+                                                            </Label>
+                                                         </children>
+                                                      </VBox>
+                                                   </children>
+                                                </Pane>
                                              </children>
-                                          </AnchorPane>
-                                        <AnchorPane fx:id="orderData_loc" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" />
-                                      </items>
-                                    </SplitPane>
+                                             <padding>
+                                                <Insets bottom="10.0" top="10.0" />
+                                             </padding>
+                                          </HBox>
+                                          <SplitPane dividerPositions="0.7424242424242424" orientation="VERTICAL" prefHeight="488.0" prefWidth="756.0">
+                                            <items>
+                                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                   <children>
+                                                      <SplitPane dividerPositions="0.4589473684210526" prefHeight="291.0" prefWidth="294.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                        <items>
+                                                          <AnchorPane fx:id="sellerInstallments_loc" minHeight="0.0" minWidth="0.0" prefHeight="289.0" prefWidth="280.0" />
+                                                          <AnchorPane fx:id="sellerOders_loc" minHeight="0.0" minWidth="0.0" prefHeight="289.0" prefWidth="213.0" />
+                                                        </items>
+                                                      </SplitPane>
+                                                   </children>
+                                                </AnchorPane>
+                                              <AnchorPane fx:id="orderData_loc" minHeight="0.0" minWidth="0.0" prefHeight="168.0" prefWidth="753.0" />
+                                            </items>
+                                          </SplitPane>
+                                       </children>
+                                    </VBox>
                                  </children>
                               </AnchorPane>
                            </items>

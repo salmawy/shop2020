@@ -7,7 +7,7 @@
       <id name = "id" type = "int" column = "ID">
           <generator class="increment"></generator>  
           </id>  
-       		<property name = "type" column = "TYPE" />
+       		<property name = "typeName" column = "TYPE" />
                <property name = "amount" column = "AMOUNT" />
                <property name = "resipeintName" column = "RECIPEINT_NAME" />
              	<property name = "incomeId" column = "INCOME_ID" />
@@ -15,6 +15,7 @@
                <property name = "sellerId" column = "SELLER_ID" />
 				<property name = "fridageId" column = "FRIDAGE_ID" />
 				<property name = "sellerOrderId" column = "SELLER_ORDER_ID" />
+				<property name = "typeId" column = "TYPE_ID" />
 
              <property name = "changed" column = "CHANGED" />
            <property name = "changeDate" column = "CHANGE_DATE" />
@@ -29,6 +30,16 @@
 			insert="false"
 			update="false" 
 			lazy="false" />
+         
+             	<many-to-one 
+		name="type" 
+		column="TYPE_ID"
+			class="App.core.beans.IncomeType" 
+			not-null="true" 
+			insert="false"
+			update="false" 
+			lazy="false" />
+         
          
 </class>  
          

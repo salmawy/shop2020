@@ -1,12 +1,13 @@
 package App.com.sales.debt.view.beans;
 
-import java.util.Date;
+import java.text.SimpleDateFormat;
 
 public class SellerInstalmelmentVB {
-	
+	public static final SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd"); 
+
  private int id ;
  private double amount;
- private Date instDate;
+ private String instDate;
  private String notes;
 public int getId() {
 	return id;
@@ -20,10 +21,10 @@ public double getAmount() {
 public void setAmount(double amount) {
 	this.amount = amount;
 }
-public Date getInstDate() {
+public String getInstDate() {
 	return instDate;
 }
-public void setInstDate(Date instDate) {
+public void setInstDate(String instDate) {
 	this.instDate = instDate;
 }
 public String getNotes() {

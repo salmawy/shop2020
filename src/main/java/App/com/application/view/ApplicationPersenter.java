@@ -14,6 +14,7 @@ import com.jfoenix.controls.JFXSpinner;
 import App.com.Customer.discharge.view.InitCustomerDischargeView;
 import App.com.Customer.purchases.view.CustomerPurchasesView;
 import App.com.Customer.transactions.view.TransactionsView;
+import App.com.expanses.view.expanses.ExpansesView;
 import App.com.sales.debt.view.DebtsView;
 import App.com.sales.view.DailySalesView;
 import App.core.action.BaseAction;
@@ -70,7 +71,7 @@ public class ApplicationPersenter extends BaseAction implements Initializable {
     private Accordion App_Components;
 
     @FXML
-    private StackPane mystackPane;
+    private   StackPane mystackPane;
 
     @FXML
     private JFXButton dailySelling_btn;
@@ -87,10 +88,15 @@ public class ApplicationPersenter extends BaseAction implements Initializable {
     @FXML
     private AnchorPane appContainer;
     @FXML
+   HBox spinnerPane;
+  
+    @FXML
+    private TitledPane expansesComp;
+	  
+   @FXML
+   private JFXButton Expanses_btn;
 
-    HBox spinnerPane;
-
-    @Override
+  @Override
     public void initialize(URL location, ResourceBundle resources){ 
        
 
@@ -104,6 +110,11 @@ public class ApplicationPersenter extends BaseAction implements Initializable {
 
 	  sellerComp.setText(this.getMessage("title.selling"));
 	  customersComp.setText(this.getMessage("title.customers"));
+	  expansesComp.setText(this.getMessage("label.expanses"));
+	  
+
+	  
+	  
 	  purchasesBTN.setText(this.getMessage("button.purchases"));
 	  transactionsBTN.setText(this.getMessage("button.transaction"));
 	  dischargingBTN.setText(this.getMessage("button.discharge"));
@@ -117,7 +128,7 @@ public class ApplicationPersenter extends BaseAction implements Initializable {
 	    appContainer.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
 
 	  this.getAppStage().setResizable(true);
-	  
+	  setCardLayout(this.mystackPane); 
 	  
 	  
 	  
@@ -407,9 +418,54 @@ private void fitToAnchorePane(Node node) {
 			t.setDaemon(true);
 			t.start();}
 
+	@FXML 
 	
+	private void loadExpanses(ActionEvent event) {
+		
+		 changeTop();
+		Task task = new Task < Void > () {
+		 @Override public void run() {
+
+			
 
 
+			  ExpansesView expansesView = new ExpansesView();
+			  AnchorPane expansesPane= (AnchorPane) expansesView.getView();
+			 
+			  
+			  Platform.runLater(new Runnable() {
+
+			   @Override public void run() {
+					  changeTop();
+
+						  FadeTransition ft = new FadeTransition(Duration.millis(1500));
+						  ft.setNode(expansesPane); ft.setFromValue(0.1); ft.setToValue(1);
+						  ft.setCycleCount(1); ft.setAutoReverse(false); ft.play();
+						 
+						
+					  fitToAnchorePane(expansesPane);
+					  appContainer.getChildren().setAll(expansesPane);
+
+			   }
+			  });
+
+
+
+
+			 }
+
+
+			 @Override
+			 protected Void call() throws Exception {
+
+			  return null;
+			 }
+			};
+
+
+			Thread t = new Thread(task);
+			t.setDaemon(true);
+			t.start();}
 
 
 
@@ -428,4 +484,7 @@ private void changeTop() {
         topNode.toBack();
     }
 }
+
+
+
 }

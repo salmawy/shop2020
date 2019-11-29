@@ -19,5 +19,6 @@ public interface ISalesService {
 	public void saveSellerOrder(Seller seller, SellerOrder sellerOrder,double paidAmount) throws Exception ;
 	public void editSellerOrder(Seller seller, SellerOrder sellerOrder,double paidAmount,SellerOrder oldOrder) throws Exception ;
 	 public List getSellersDebts( int seasonId,int active) throws EmptyResultSetException, DataBaseException;
-
+	 public double getSeasonStartTotalSellersLoan(int seasonId) ;
+	 public double getSeasoncCurrentotalSellersLoan(int seasonId) ;
 }

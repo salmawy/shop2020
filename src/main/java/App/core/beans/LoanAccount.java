@@ -8,6 +8,9 @@ private String type;
 private Double dueAmount;
 private int finished;
 private Double totalAmount;
+private Loaners loaner;
+
+
 public int getId() {
 	return id;
 }
@@ -43,6 +46,12 @@ public Double getTotalAmount() {
 }
 public void setTotalAmount(Double totalAmount) {
 	this.totalAmount = totalAmount;
+}
+public Loaners getLoaner() {
+	return loaner;
+}
+public void setLoaner(Loaners loaner) {
+	this.loaner = loaner;
 }
 
 

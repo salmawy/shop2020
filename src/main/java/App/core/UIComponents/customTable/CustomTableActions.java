@@ -18,6 +18,7 @@ public interface CustomTableActions {
     public void add();
     public void cancel();
     public void rowSelected();
+    public void rowSelected(Object o);
 
 
 }

@@ -17,7 +17,8 @@ public class SellerOrder extends BaseBean {
 	private Seller seller;
     private Set<SellerOrderWeight> orderWeights;
 
-	
+	private Fridage fridage;
+
 	
 	
 	public int getId() {
@@ -85,6 +86,12 @@ public class SellerOrder extends BaseBean {
 	}
 	public void setOrderWeights(Set<SellerOrderWeight> orderWeights) {
 		this.orderWeights = orderWeights;
+	}
+	public Fridage getFridage() {
+		return fridage;
+	}
+	public void setFridage(Fridage fridage) {
+		this.fridage = fridage;
 	}
 		
 	

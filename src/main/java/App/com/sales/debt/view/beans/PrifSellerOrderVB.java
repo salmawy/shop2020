@@ -1,23 +1,39 @@
 package App.com.sales.debt.view.beans;
 
-import java.util.Date;
+import java.text.SimpleDateFormat;
 
 public class PrifSellerOrderVB {
 
 	private int id;
-	private Date orderDate;
+	private String orderDate;
 	private String  fridageName;
 	private double totalOrderost;
+	
+	
+	
+	
+	
+	public static final SimpleDateFormat sdf=new SimpleDateFormat("YYYY-MM-dd"); 
+
+	
+	
+	
+	
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
 	}
-	public Date getOrderDate() {
+	
+	
+	
+	
+	
+	public String getOrderDate() {
 		return orderDate;
 	}
-	public void setOrderDate(Date orderDate) {
+	public void setOrderDate(String orderDate) {
 		this.orderDate = orderDate;
 	}
 	public String getFridageName() {

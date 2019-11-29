@@ -60,6 +60,16 @@
 -jfx-unfocus-color:#3849b9;
 
 }
+
+.jfx-text-area{
+-fx-max-width:  250px;
+
+-fx-prompt-text:white;
+-jfx-focus-color:#365fda;
+-jfx-unfocus-color:#3849b9;
+
+}
+
 .comboBox{
 /* 	 -fx-background-color: #ff0000;  
  */	 max-width: 300px;
@@ -69,7 +79,15 @@
 -jfx-unfocus-color:#3849b9;	 
 	
 }
-
+.jfx-combo-box{
+/* 	 -fx-background-color: #ff0000;  
+ */	 max-width: 300px;
+	-fx-max-width:  250px;
+	 
+-jfx-focus-color:#365fda;
+-jfx-unfocus-color:#3849b9;	 
+	
+}
 
 
 .date-picker-popup .calendar-grid {

@@ -507,6 +507,20 @@ List <InvoiceViewbean> loadInvoices(int customerId ) {
 	
 	
 	return invoicsViewBeans;
+}
+
+
+
+
+
+
+
+
+
+@Override
+public void rowSelected(Object o) {
+	// TODO Auto-generated method stub
+	
 } 
     
     

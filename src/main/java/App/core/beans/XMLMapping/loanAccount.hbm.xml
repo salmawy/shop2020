@@ -18,8 +18,16 @@
              <property name = "changeDate" column = "CHANGE_DATE" />
                <property name = "timestamp" column = "TIMESTAMP" />
                <property name = "changerId" column = "CHANGER_ID" />
+            loaner
             
-         
+         	<many-to-one 
+		name="loaner" 
+		column="LOANER_ID"
+			class="App.core.beans.Loaners" 
+			not-null="true" 
+			insert="false"
+			update="false" 
+			lazy="false" />
 </class>  
             
             

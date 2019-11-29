@@ -528,6 +528,15 @@ public void rowSelected() {
 
 
 
+@Override
+public void rowSelected(Object o) {
+	// TODO Auto-generated method stub
+	
+}
+
+
+
+
 
 
 

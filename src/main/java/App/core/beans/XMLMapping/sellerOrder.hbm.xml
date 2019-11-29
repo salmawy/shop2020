@@ -44,7 +44,14 @@
         
         
         
-   
+         	<many-to-one 
+		name="fridage" 
+		column="FRIDAGE_ID"
+			class="App.core.beans.Fridage" 
+			not-null="true" 
+			insert="false"
+			update="false" 
+			lazy="false" />
                
                
             	<many-to-one 

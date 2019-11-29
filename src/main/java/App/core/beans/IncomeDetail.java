@@ -2,7 +2,7 @@
 
 public class IncomeDetail extends BaseBean {
 private int id=-1;
-private String type;
+private String typeName;
 private Double amount;
 private String resipeintName;
 private int incomeId;
@@ -12,6 +12,8 @@ private int fridageId;
 private int typeId;
 private Integer sellerOrderId;
 private Income income;
+
+private IncomeType type;
 
 
 
@@ -23,12 +25,8 @@ public int getId() {
 public void setId(int id) {
 	this.id = id;
 }
-public String getType() {
-	return type;
-}
-public void setType(String type) {
-	this.type = type;
-}
+
+
 public Double getAmount() {
 	return amount;
 }
@@ -82,6 +80,18 @@ public Income getIncome() {
 }
 public void setIncome(Income income) {
 	this.income = income;
+}
+public void setType(IncomeType type) {
+	this.type = type;
+}
+public String getTypeName() {
+	return typeName;
+}
+public void setTypeName(String typeName) {
+	this.typeName = typeName;
+}
+public IncomeType getType() {
+	return type;
 }
 
 

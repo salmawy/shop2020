@@ -147,7 +147,7 @@ public void saveSellerOrder(Seller seller, SellerOrder sellerOrder,double paidAm
 			incomeDetail.setResipeintName(ApplicationContext.currentUser.getUsername());
 			incomeDetail.setSellerId(seller.getId());
 			incomeDetail.setTypeId(IncomeTypesEnum.CASH);
-			incomeDetail.setType(String .valueOf(IncomeTypesEnum.CASH));
+			incomeDetail.setTypeName(String .valueOf(IncomeTypesEnum.CASH));
 
 			incomeDetail.setSellerOrderId(sellerOrder.getId());
 
@@ -290,6 +290,10 @@ private void closeTransaction(TransactionStatus status) {
 		e.printStackTrace();
 	}
 }
+
+
+
+
 public int saveAndUpdateSellerLoanBag(Seller seller,int seasonId,double orderCost,double paidAmount) throws DataBaseException {
 	double currentloan=0;
 	SellerLoanBag bag=findSellerLoanBag(seller.getId(), seasonId);
@@ -460,7 +464,7 @@ public void saveSellerInstalment(int sellerId,int sellerOrderId,int sellerLoanBa
 		incomeDetail.setNotes(notes);
 		incomeDetail.setSellerId(sellerId);
 		incomeDetail.setTypeId(IncomeTypesEnum.INTST_PAY);
-		incomeDetail.setType(String.valueOf(IncomeTypesEnum.INTST_PAY));
+		incomeDetail.setTypeName(String.valueOf(IncomeTypesEnum.INTST_PAY));
 
 		if(sellerOrderId!=0)
 		{
@@ -662,4 +666,57 @@ public void recalculeSellerLoanBag(int seasonId,int sellerId) {
 public ResourceBundle getSettingsBundle() {
 	return settingsBundle;
 }
+
+
+
+public double getSeasonStartTotalSellersLoan(int seasonId) {
+	
+	Map<String,Object> map=new HashMap<String, Object>();
+	map.put("seasonId=", seasonId);
+	
+	try {
+		double value= (double) this.aggregate("SellerLoanBag", "sum", "priorLoan", map);
+		return value;
+	} catch (DataBaseException | EmptyResultSetException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	
+	
+	return 0.0;
+	
+	
+	
+}
+
+
+
+
+
+public double getSeasoncCurrentotalSellersLoan(int seasonId) {
+	
+	Map<String,Object> map=new HashMap<String, Object>();
+	map.put("seasonId=", seasonId);
+	
+	try {
+		double value= (double) this.aggregate("SellerLoanBag", "sum", "currentLoan", map);
+		return value;
+	} catch (DataBaseException | EmptyResultSetException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	
+	
+	return 0.0;
+	
+	
+	
+}
+
+
+
+
+
+
+
 }
