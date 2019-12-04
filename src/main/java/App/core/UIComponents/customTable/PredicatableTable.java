@@ -196,13 +196,11 @@ private void setTableActionListner(){
 	public void loadTableData(List data) {
 		if (data!=null)
 		{  
-			if(root==null)
-			{
 		        ObservableList<RowClass> tableData = FXCollections.observableArrayList();
 		        tableData.setAll(data);
 		         root = new RecursiveTreeItem<>(tableData, RecursiveTreeObject::getChildren);
 		         table.setRoot(root);
-			}
+			
 			 //  root.getChildren().addAll(data);
 		
 		

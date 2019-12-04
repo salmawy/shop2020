@@ -7,18 +7,29 @@ public class IncLoan extends BaseBean {
 private int id=-1;
 private Date loanDate;
 private Double amount;
-
-
-
-
 private int loanAccountId;
+private LoanAccount loanAccount;
+private String notes;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 public Double getAmount() {
 	return amount;
 }
 public void setAmount(Double amount) {
 	this.amount = amount;
 }
-private String notes;
 public int getId() {
 	return id;
 }
@@ -44,6 +55,12 @@ public String getNotes() {
 }
 public void setNotes(String notes) {
 	this.notes = notes;
+}
+public LoanAccount getLoanAccount() {
+	return loanAccount;
+}
+public void setLoanAccount(LoanAccount loanAccount) {
+	this.loanAccount = loanAccount;
 }
 
 

@@ -893,7 +893,7 @@ private List<Column> prepareIncomeTableColumns(){
 	            if (typeId == OutcomeTypeEnum.OUT_PAY_LOAN) {
 	                this.getExpansesServices().loanPayTansaction(outcomeName_TF.getText(), new Date(), amount, typeId, notes, ApplicationContext.fridage.getId());
 	            } else {
-	            	this.getExpansesServices().outcomeTransaction(new Date(), amount, notes, typeId, -1, -1, ApplicationContext.fridage.getId());
+	            	this.getExpansesServices().outcomeTransaction(new Date(), amount, notes, typeId, -1, -1, ApplicationContext.fridage.getId(),ApplicationContext.season.getId());
 	            }
 			alert(AlertType.INFORMATION, "", "", this.getMessage("msg.done.save"));
 	   

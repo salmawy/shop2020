@@ -366,69 +366,6 @@ private void customerTypeSelected(ActionEvent event) {
 }
 
 
-
-
-
-
-
-
-
-@Override
-public void update() {
-	// TODO Auto-generated method stub
-	
-}
-
-
-
-
-
-
-
-
-
-@Override
-public void save() {
-	// TODO Auto-generated method stub
-	
-}
-
-
-
-
-
-
-
-
-
-@Override
-public void add() {
-	// TODO Auto-generated method stub
-	
-}
-
-
-
-
-
-
-
-
-
-@Override
-public void cancel() {
-	// TODO Auto-generated method stub
-	
-}
-
-
-
-
-
-
-
-
-
 @Override
 public void rowSelected() {
 	
@@ -511,32 +448,12 @@ List <InvoiceViewbean> loadInvoices(int customerId ) {
 
 
 
-
-
-
-
-
-
 @Override
 public void rowSelected(Object o) {
 	// TODO Auto-generated method stub
 	
 } 
     
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

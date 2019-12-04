@@ -14,5 +14,6 @@ public interface IExpansesDao {
 	 public List getOutcomeMonthes(int seasonId) throws EmptyResultSetException, DataBaseException ;
 	 public List getOutcomeDays(String month) throws EmptyResultSetException, DataBaseException ;
 	 public List getIncomeDays(String month) throws EmptyResultSetException, DataBaseException ;
-
+	 public List getLoanerDebts(int loanerId, String type) throws EmptyResultSetException, DataBaseException ;
+	 public List getLoanerInstalments(int loanerId, String type) throws EmptyResultSetException, DataBaseException ;
 }

@@ -15,11 +15,11 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import App.com.expanses.dao.IExpansesDao;
 import App.com.expanses.services.IExpansesServices;
-import App.com.sales.action.SalesAction;
 import App.core.Enum.IncomeTypesEnum;
+import App.core.Enum.LoanTypeEnum;
 import App.core.Enum.OutcomeTypeEnum;
-import App.core.Enum.SellerTypeEnum;
 import App.core.applicationContext.ApplicationContext;
+import App.core.beans.IncLoan;
 import App.core.beans.Income;
 import App.core.beans.IncomeDetail;
 import App.core.beans.LoanAccount;
@@ -28,7 +28,6 @@ import App.core.beans.Loaners;
 import App.core.beans.Outcome;
 import App.core.beans.OutcomeDetail;
 import App.core.beans.Safe;
-import App.core.beans.Seller;
 import App.core.exception.DataBaseException;
 import App.core.exception.EmptyResultSetException;
 import App.core.exception.InvalidReferenceException;
@@ -212,7 +211,6 @@ public void loanPayTansaction(String name,Date date,double amount,int type,Strin
 		
 	
 }	
-
 
 
 public void saveIncomeDetail(IncomeDetail incomeDetail,Date date) throws DataBaseException {
@@ -403,7 +401,7 @@ public LoanAccount  findLoanerAccount(int loanerId  ) throws DataBaseException {
 	
 }
 
-public void outcomeTransaction(Date date,double amount, String notes, int typeId, int customerId, int orderId, int fridageId) throws DataBaseException 
+public void outcomeTransaction(Date date,double amount, String notes, int typeId, int customerId, int orderId, int fridageId,int seasonId) throws DataBaseException 
 	{
 	TransactionStatus status = null;
 
@@ -414,18 +412,20 @@ public void outcomeTransaction(Date date,double amount, String notes, int typeId
 
 	try {
 	
-		IncomeDetail incomeDetail=new IncomeDetail();
-		incomeDetail.setAmount(amount);
-		incomeDetail.setFridageId(fridageId);
-		incomeDetail.setResipeintName(ApplicationContext.currentUser.getUsername());
-		incomeDetail.setSellerId(customerId);
-		incomeDetail.setTypeId(typeId);
-		incomeDetail.setTypeName(String .valueOf(typeId));
-
-		incomeDetail.setSellerOrderId(-1);
-
-		saveIncomeDetail(incomeDetail,date);
 		
+		OutcomeDetail outcomeDetail=new OutcomeDetail();
+		outcomeDetail.setAmount(amount);
+		outcomeDetail.setFridageId(fridageId);
+		outcomeDetail.setSpenderName(ApplicationContext.currentUser.getUsername());
+		outcomeDetail.setCustomerId(customerId);
+		outcomeDetail.setTypeId(typeId);
+		outcomeDetail.setTypeName(String .valueOf(typeId));
+
+		outcomeDetail.setOrderId(orderId);
+		Outcome outcome=findOutcome(date);
+		saveOutcomeDetail(outcomeDetail,outcome);
+		recalculateSafeBalance(seasonId);
+
 		
 		this.getMyTransactionManager().commit(status);
 		logger.log(Level.INFO,this.getClass().getName()+"=>tranasction completed succfully");
@@ -453,7 +453,7 @@ public void outcomeTransaction(Date date,double amount, String notes, int typeId
 public LoanAccount getLoanerAccount(String name) {
 
 	Map<String,Object> map=new HashMap<String, Object>();
-	map.put("loaner.name", name);
+	map.put("name", name);
 	LoanAccount account=null;;
 	try {
 		account =(LoanAccount) this.getBaseService().findAllBeansWithDepthMapping(Loaners.class, map).get(0);
@@ -467,6 +467,173 @@ public LoanAccount getLoanerAccount(String name) {
 	
 	return account;
 }
+
+@Override
+public LoanAccount getLoanerAccount(int loanerId) {
+
+	Map<String,Object> map=new HashMap<String, Object>();
+	map.put("id", loanerId);
+	LoanAccount account=null;;
+	try {
+		account =(LoanAccount) this.getBaseService().findAllBeansWithDepthMapping(Loaners.class, map).get(0);
+		
+	
+	} catch (DataBaseException | EmptyResultSetException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	
+	
+	return account;
+}
+
+
+public void incomeTransaction(Date date,double amount, String notes, int typeId, int sellerId, int orderId, int fridageId,int seasonId) throws DataBaseException 
+	{
+	TransactionStatus status = null;
+
+	DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+	def.setPropagationBehavior(TransactionDefinition.PROPAGATION_NESTED);
+	def.setTimeout(Integer.parseInt(this.getSettingsBundle().getString("transactionTimeOut.base.highTimeOut")));
+	status = this.getMyTransactionManager().getTransaction(def);
+
+	try {
+	
+		IncomeDetail incomeDetail=new IncomeDetail();
+		incomeDetail.setAmount(amount);
+		incomeDetail.setFridageId(fridageId);
+		incomeDetail.setResipeintName(ApplicationContext.currentUser.getUsername());
+		incomeDetail.setSellerId(sellerId);
+		incomeDetail.setTypeId(typeId);
+		incomeDetail.setTypeName(String .valueOf(typeId));
+
+		incomeDetail.setSellerOrderId(orderId);
+
+		saveIncomeDetail(incomeDetail,date);
+		recalculateSafeBalance(seasonId);
+		
+		this.getMyTransactionManager().commit(status);
+		logger.log(Level.INFO,this.getClass().getName()+"=>tranasction completed succfully");
+		
+		
+	}catch (DataBaseException e) {
+		this.getMyTransactionManager().rollback(status);
+		logger.log(Level.SEVERE,e.getMessage());
+		throw new DataBaseException(e.getMessage());
+
+	}finally {
+		closeTransaction(status);
+
+	}
+		
+		
+	
+
+		
+	
+	
+	}
+
+
+public void recalculateSafeBalance(int seasonId) {
+	Map<String,Object> map=new HashMap<String, Object>();
+	map.put("incomeDetail.income.seasonId=", seasonId);
+	
+	Map<String,Object> map2=new HashMap<String, Object>();
+	map2.put("outcomeDetail.outcome.seasonId=", seasonId);
+	
+	Double totalIncome=0.0;
+	Double totaloutcome=0.0;
+
+	try {
+		totalIncome=(Double) this.getBaseRetrievalService().aggregate("IncomeDetail incomeDetail", "sum", "amount", map);
+		totalIncome=(totalIncome==null)?0.0:totalIncome;
+		totaloutcome=(Double) this.getBaseRetrievalService().aggregate("OutcomeDetail outcomeDetail", "sum", "amount", map2);
+		totaloutcome=(totaloutcome==null)?0.0:totaloutcome;
+		
+		
+		map2=new HashMap<String, Object>();
+		map2.put("seasonId", seasonId);
+		
+		Safe safe=(Safe)this.getBaseService().findAllBeans(Safe.class,map2,null).get(0);
+		double temp=totalIncome-totaloutcome;
+		safe.setBalance(safe.getBaseAmount()+temp);
+		this.getBaseService().addEditBean(safe);
+		
+		
+		
+
+	} catch (DataBaseException | EmptyResultSetException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	} 
+	
+	
+	
+}
+
+
+
+public Loaners  saveLoaner(Loaners Loaner) throws DataBaseException {
+	
+	
+
+	
+	
+	try {
+		Map <String,Object>m=new HashMap<String,Object>();
+		m.put("name", Loaner.getName());
+		Loaner=(Loaners) this.getBaseService().findAllBeans(Loaners.class, m, null).get(0);
+		
+		
+		return Loaner;
+	} catch (DataBaseException | EmptyResultSetException e) {
+		this.getBaseService().addBean(Loaner);
+
+		
+	 
+	}
+	
+	
+
+	
+	return Loaner;
+	
+}
+
+public LoanAccount  saveLoanerAccount(LoanAccount account) throws DataBaseException {
+	
+	
+
+	
+	
+	try {
+		Map <String,Object>m=new HashMap<String,Object>();
+		m.put("loanerId", account.getLoanerId());
+		m.put("type", account.getType());
+		m.put("finished", 0);
+
+		
+		account=(LoanAccount) this.getBaseService().findAllBeans(LoanAccount.class, m, null).get(0);
+		
+		
+		return account;
+	} catch (DataBaseException | EmptyResultSetException e) {
+		
+		
+		this.getBaseService().addBean(account);
+
+		
+	 
+	}
+	
+	
+
+	
+	return account;
+	
+}
+
 
 
 public Double getSafeBalance(int seasonId) {
@@ -487,6 +654,84 @@ public Double getSafeBalance(int seasonId) {
 		
 		
 }
+
+public List getLoanerDebts(int loanerId, String type) throws EmptyResultSetException, DataBaseException {
+	
+	return this.getExpansesDao().getLoanerDebts(loanerId, type);
+}
+
+@Override
+public List getLoanerInstalments(int loanerId, String type) throws EmptyResultSetException, DataBaseException {
+	return this.getExpansesDao().getLoanerInstalments(loanerId, type);
+}
+
+@Override
+public void loanIncTansaction(String name, Date date, double amount, String type, String notes, int fridageId,
+		int seasonId) throws DataBaseException {
+
+	TransactionStatus status = null;
+
+	DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+	def.setPropagationBehavior(TransactionDefinition.PROPAGATION_NESTED);
+	def.setTimeout(Integer.parseInt(this.getSettingsBundle().getString("transactionTimeOut.base.highTimeOut")));
+	status = this.getMyTransactionManager().getTransaction(def);
+
+	try {	
+		//======================================================================
+		Loaners loaner=new Loaners();
+		loaner.setName(name);
+		saveLoaner(loaner);		
+		//======================================================================
+		LoanAccount account=new LoanAccount();
+		account.setType(type);
+		account.setLoanerId(loaner.getId());
+		saveLoanerAccount(account);
+		//======================================================================
+		IncLoan loan=new IncLoan();
+		loan.setAmount(amount);
+		loan.setLoanAccountId(account.getId());
+		loan.setLoanDate(date);
+		loan.setNotes(notes);
+		this.getBaseService().addBean(loan);
+		//======================================================================
+
+		if(type.equals(LoanTypeEnum.IN_LOAN)) {
+			incomeTransaction(date, amount, notes, IncomeTypesEnum.IN_LOAN, loaner.getId(), -1, fridageId, seasonId);
+			
+			
+		}
+		
+		//======================================================================
+
+		else if(type.equals(LoanTypeEnum.OUT_LOAN)) {
+				outcomeTransaction(date, amount, notes, OutcomeTypeEnum.OUT_LOAN, loaner.getId(), -1, fridageId, seasonId);;
+
+			}
+
+	
+		//======================================================================
+
+		this.getMyTransactionManager().commit(status);
+		logger.log(Level.INFO,this.getClass().getName()+"=>tranasction completed succfully");
+		
+		
+	}catch (DataBaseException e) {
+		this.getMyTransactionManager().rollback(status);
+		logger.log(Level.SEVERE,e.getMessage());
+		throw new DataBaseException(e.getMessage());
+
+	}finally {
+		closeTransaction(status);
+
+	}
+		
+		
+	
+	
+}
+
+	
+
 
 
 

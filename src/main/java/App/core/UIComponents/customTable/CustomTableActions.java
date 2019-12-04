@@ -12,11 +12,7 @@ package App.core.UIComponents.customTable;
 public interface CustomTableActions {
     
     
-    
-    public void update();
-    public void save();
-    public void add();
-    public void cancel();
+   
     public void rowSelected();
     public void rowSelected(Object o);
 

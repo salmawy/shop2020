@@ -361,6 +361,9 @@ public  Outcome findOutcome(Date date) {
 	
 	
 }
+	
+	
+	
 public Double getSafeBalance(int seasonId) {
 	
 	Double balance=0.0;

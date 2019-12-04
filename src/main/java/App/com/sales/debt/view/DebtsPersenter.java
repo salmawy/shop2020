@@ -16,7 +16,7 @@ import com.jfoenix.controls.JFXTreeTableView;
 import App.com.sales.action.SalesAction;
 import App.com.sales.debt.view.beans.PrifSellerOrderVB;
 import App.com.sales.debt.view.beans.SellerDebtVB;
-import App.com.sales.debt.view.beans.SellerInstalmelmentVB;
+import App.com.sales.debt.view.beans.InstalmelmentVB;
 import App.com.sales.view.beans.SellerOrderDetailVB;
 import App.com.sales.view.beans.SellerOrderVB;
 import App.core.Enum.SellerTypeEnum;
@@ -83,7 +83,7 @@ public class DebtsPersenter extends SalesAction implements CustomTableActions,In
 	    
 	    CustomTable<SellerOrderDetailVB> orderDataCustomTable;
 	    CustomTable<PrifSellerOrderVB> sellerOrdersCustomTable;
-	    CustomTable<SellerInstalmelmentVB> sellerInstallmentsCustomTable;
+	    CustomTable<InstalmelmentVB> sellerInstallmentsCustomTable;
 	    PredicatableTable<SellerDebtVB> sellersPredicatableTable;
 
 	    
@@ -115,7 +115,7 @@ public class DebtsPersenter extends SalesAction implements CustomTableActions,In
 		
 		sellerOrdersCustomTable=new CustomTable<PrifSellerOrderVB>(prifOrderColumn, null, null, null, this, CustomTable.tableCard, SellerOrderVB.class);
 		sellersPredicatableTable=new PredicatableTable<SellerDebtVB>(orderDebtColumn, null, null, new sellrsTableActionListner(), CustomTable.tableCard, SellerOrderVB.class);
-		sellerInstallmentsCustomTable=new CustomTable<SellerInstalmelmentVB>(sellerInstallmentColumn, null, null, null, null, CustomTable.tableCard, SellerOrderVB.class);
+		sellerInstallmentsCustomTable=new CustomTable<InstalmelmentVB>(sellerInstallmentColumn, null, null, null, null, CustomTable.tableCard, SellerOrderVB.class);
 		orderDataCustomTable=new CustomTable<SellerOrderDetailVB>(orderDataColumn, null, null, null, null, CustomTable.tableCard, SellerOrderVB.class);
 //=========================================================================================================================================
 		fitToAnchorePane(sellerOrdersCustomTable.getCutomTableComponent());
@@ -263,10 +263,10 @@ public class DebtsPersenter extends SalesAction implements CustomTableActions,In
 		   List data=new ArrayList();
 			for (Iterator iterator = installments.iterator(); iterator.hasNext();) {
 				Installment installment = (Installment) iterator.next();
-				SellerInstalmelmentVB row=new SellerInstalmelmentVB();
+				InstalmelmentVB row=new InstalmelmentVB();
 				row.setId(installment.getId());
 				row.setAmount(installment.getAmount());
-				row.setInstDate(SellerInstalmelmentVB.sdf.format(installment.getInstalmentDate()));
+				row.setInstDate(InstalmelmentVB.sdf.format(installment.getInstalmentDate()));
 				row.setNotes(installment.getNotes());
 				
 			
@@ -498,31 +498,7 @@ this.orderDataCustomTable.loadTableData(data);
    
    }
 
-	@Override
-	public void update() {
-
-		// TODO Auto-generated method stub\'\
-		
-	}
-
-	@Override
-	public void save() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void add() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void cancel() {
-		// TODO Auto-generated method stub
-		
-	}
-
+	
 	@Override
 	public void rowSelected() {
 
@@ -544,49 +520,17 @@ this.orderDataCustomTable.loadTableData(data);
 	class sellrsTableActionListner implements CustomTableActions 
 	{
 		JFXTreeTableView<SellerDebtVB> mytable;
-		@Override
-		public void update() {
-			// TODO Auto-generated method stub
-			
-		}
+		
 
-		@Override
-		public void save() {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void add() {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void cancel() {
-			// TODO Auto-generated method stub
-			
-		}
 
 		@Override
 		public void rowSelected() {
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		}
 
 		@SuppressWarnings("unchecked")
 		@Override
 		public void rowSelected(Object table) {
 			
-			toggelLoadingView();
 			
 			sellerOrdersCustomTable.getTable().getItems().clear();
 			sellerInstallmentsCustomTable.getTable().getItems().clear();
@@ -600,7 +544,6 @@ this.orderDataCustomTable.loadTableData(data);
 			loadSellersInstallments(seller.getId());
 
 			
-			toggelLoadingView();
 
 			
 			

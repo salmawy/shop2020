@@ -10,7 +10,12 @@ private int finished;
 private Double totalAmount;
 private Loaners loaner;
 
-
+public LoanAccount() {
+	dueAmount=0.0;
+	finished=0;
+	totalAmount=0.0;
+	
+}
 public int getId() {
 	return id;
 }

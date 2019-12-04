@@ -9,6 +9,7 @@ private int loanAccountId;
 private Double paidAmunt;
 private Date payingDate;
 private String notes;
+private LoanAccount loanAccount;
 
 
 
@@ -42,6 +43,12 @@ public String getNotes() {
 }
 public void setNotes(String notes) {
 	this.notes = notes;
+}
+public LoanAccount getLoanAccount() {
+	return loanAccount;
+}
+public void setLoanAccount(LoanAccount loanAccount) {
+	this.loanAccount = loanAccount;
 }
 
 

@@ -1,6 +1,7 @@
 eclipse.preferences.version=1
 encoding//src/main/java/App/com/Customer/discharge/view/InitCustomerDischargePresenter.java=UTF-8
 encoding//src/main/java/App/com/expanses/view/expanses/ExpansesPersenter.java=UTF-8
+encoding//src/main/java/App/com/expanses/view/payLoan/PayLoanPersenter.java=UTF-8
 encoding//src/main/java/App/com/sales/view/DailySalesPersenter.java=UTF-8
 encoding//src/main/java/App/com/sales/view/beans/SellerOrderDetailVB.java=UTF-8
 encoding//src/main/java/App/com/sales/view/dialog/AddSellerOrderDetailPersenter.java=UTF-8
