@@ -23,6 +23,17 @@
                <property name = "timestamp" column = "TIMESTAMP" />
                <property name = "changerId" column = "CHANGER_ID" />
             
+                  
+    <many-to-one 
+		name="contractorAccount" 
+		column="CONTRACTOR_ACCOUNT_ID"
+			class="App.core.beans.ContractorAccount" 
+			not-null="true" 
+			insert="false"
+			update="false" 
+			lazy="false" />
+         
+         
          
 </class>  
             

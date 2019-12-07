@@ -481,6 +481,11 @@ public class AddSellerOrderDetailPersenter extends SalesAction implements Initia
 	
 	
 }
+    
+    
+    
+    
+    
 private void weightValueTracker() {
 	
 
@@ -513,6 +518,13 @@ private void weightValueTracker() {
 	
 	
 }
+
+
+
+
+
+
+
 private void costValueTracker() {
 	
 	  int index = productType.getSelectionModel().getSelectedItem().getValue();

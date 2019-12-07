@@ -14,6 +14,11 @@ public class ContractorAccountDetail extends BaseBean {
 	private String spenderName ;
 	private int paid;
 	private int seasonId;
+	private ContractorAccount contractorAccount;
+	
+	
+	
+	
 	public int getId() {
 		return id;
 	}
@@ -61,6 +66,12 @@ public class ContractorAccountDetail extends BaseBean {
 	}
 	public void setSeasonId(int seasonId) {
 		this.seasonId = seasonId;
+	}
+	public ContractorAccount getContractorAccount() {
+		return contractorAccount;
+	}
+	public void setContractorAccount(ContractorAccount contractorAccount) {
+		this.contractorAccount = contractorAccount;
 	}
 
 	

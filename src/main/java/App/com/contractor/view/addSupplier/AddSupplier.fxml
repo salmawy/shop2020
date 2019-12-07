@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.effect.*?>
 <?import com.jfoenix.controls.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
@@ -21,11 +20,11 @@
                   </Label>
                </children>
             </Pane>
-            <VBox layoutX="4.0" layoutY="51.0" prefHeight="327.0" prefWidth="300.0" spacing="6.0">
+            <VBox layoutX="4.0" layoutY="51.0" prefHeight="355.0" prefWidth="340.0">
                <children>
                   <HBox fx:id="paid_toogleBtn" alignment="CENTER" nodeOrientation="RIGHT_TO_LEFT" prefHeight="30.0" prefWidth="300.0">
                      <children>
-                        <JFXToggleButton contentDisplay="RIGHT" prefHeight="30.0" prefWidth="143.0" textAlignment="RIGHT" textOverrun="WORD_ELLIPSIS" />
+                        <JFXToggleButton fx:id="paid_TBtn" contentDisplay="RIGHT" prefHeight="38.0" prefWidth="143.0" />
                      </children>
                   </HBox>
                   <HBox prefHeight="30.0" prefWidth="300.0">
@@ -47,7 +46,7 @@
                   </HBox>
                   <HBox prefHeight="60.0" prefWidth="300.0">
                      <children>
-                        <JFXTextArea fx:id="note_TA" prefHeight="60.0" prefWidth="267.0" promptText="notes" />
+                        <JFXTextArea fx:id="note_TA" prefHeight="60.0" prefWidth="322.0" promptText="notes" />
                      </children>
                   </HBox>
                   <HBox prefHeight="46.0" prefWidth="300.0" />

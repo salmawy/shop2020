@@ -9,9 +9,9 @@ public class Contractor  extends BaseBean{
 	private String name;
 	private String address;
 	private String phone;
-	private String type;
-	
-	private int  changed =0;
+	private String typeName;
+	private int ownerId;
+	private int typeId;
 	
 	
 	public int getId() {
@@ -39,11 +39,24 @@ public class Contractor  extends BaseBean{
 		this.phone = phone;
 	}
 
-	public String getType() {
-		return type;
+
+	public String getTypeName() {
+		return typeName;
 	}
-	public void setType(String type) {
-		this.type = type;
+	public void setTypeName(String typeName) {
+		this.typeName = typeName;
+	}
+	public int getOwnerId() {
+		return ownerId;
+	}
+	public void setOwnerId(int ownerId) {
+		this.ownerId = ownerId;
+	}
+	public int getTypeId() {
+		return typeId;
+	}
+	public void setTypeId(int typeId) {
+		this.typeId = typeId;
 	}
 	
 	

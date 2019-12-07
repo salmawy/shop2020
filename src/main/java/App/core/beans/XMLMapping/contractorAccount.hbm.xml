@@ -16,6 +16,16 @@
                <property name = "timestamp" column = "TIMESTAMP" />
                <property name = "changerId" column = "CHANGER_ID" />
             
+            
+              <many-to-one 
+		name="contractor" 
+		column="CONTRACTOR_ID"
+			class="App.core.beans.Contractor" 
+			not-null="true" 
+			insert="false"
+			update="false" 
+			lazy="false" />
+         
          
 </class>  
             

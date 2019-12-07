@@ -10,13 +10,32 @@
                <property name = "name" column = "NAME" />
                <property name = "address" column = "ADDRESS" />
                <property name = "phone" column = "PHONE" />
-              <property name = "changed" column = "CHANGED" />
-              <property name = "type" column = "TYPE" />
-               
+               <property name = "changed" column = "CHANGED" />
+               <property name = "typeName" column = "TYPE" />
+               <property name = "typeId" column = "TYPE_ID" />
+                <property name = "ownerId" column = "OWNER_ID" />
+                
                 <property name = "changeDate" column = "CHANGE_DATE" />
                <property name = "timestamp" column = "TIMESTAMP" />
                <property name = "changerId" column = "CHANGER_ID" />
             
+         
+         
+         
+<!--     <many-to-one  -->
+<!-- 		name="fridage"  -->
+<!-- 		column="FRIDAGE_ID" -->
+<!-- 			class="App.core.beans.Fridage"  -->
+<!-- 			not-null="true"  -->
+<!-- 			insert="false" -->
+<!-- 			update="false"  -->
+<!-- 			lazy="false" /> -->
+         
+         
+         
+         
+         
+         
          
 </class>  
             

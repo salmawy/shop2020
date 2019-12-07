@@ -66,6 +66,24 @@
    </bean> 
     
     <!--     ====================================== End Expanses Service =================================================================--> 
+ 
+ 
+    <!--     ====================================== Start contractor Service ===============================================================-->    
+    
+      
+      	<bean id="contractorDao" class="App.com.contractor.dao.hibernate.ContractorDao">  
+    <property name="sessionFactory" ref="mysessionFactory"></property>  
+    </bean> 
+    
+      <bean id="contractorService" class="App.com.contractor.services.spring.ContractorService">  
+    <property name="contractorDao" ref="contractorDao"></property> 
+     <property name="baseRetrievalService" ref="baseService"></property> 
+  <property name="baseService" ref="baseService"></property>
+      <property name="expansesService" ref="expansesService"></property> 
+    
+   </bean> 
+    
+    <!--     ====================================== End contractor Service =================================================================--> 
     
     
     </beans>  
