@@ -7,7 +7,7 @@ package App.core.UIComponents.customTable;
 
 /**
  *
- * @author ahmed
+ * @author salmawy
  */
 public interface CustomTableActions {
     
@@ -15,6 +15,6 @@ public interface CustomTableActions {
    
     public void rowSelected();
     public void rowSelected(Object o);
-
+  
 
 }

@@ -1,22 +1,36 @@
 package App.com.billing.services.spring;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 
+import App.com.Customer.service.ICustomerService;
+import App.com.billing.dao.IBillingDao;
+import App.com.billing.services.IBillingService;
 import App.com.expanses.services.IExpansesServices;
 import App.core.applicationContext.ApplicationContext;
+import App.core.beans.CustomerOrder;
+import App.core.exception.DataBaseException;
+import App.core.exception.EmptyResultSetException;
 import App.core.service.IBaseRetrievalService;
 import App.core.service.IBaseService;
 
-public class BillingService {
-
-
-	IBaseRetrievalService baseRetrievalService;
-	IExpansesServices expansesService ;
-	IBaseService baseService;
+public class BillingService implements IBillingService {
+ 
+	    private ICustomerService customerService;
+	    private IExpansesServices expansesService;
+	    private IBaseService baseService;
+	    private IBaseRetrievalService baseRetrievalService;
+	    private IBillingDao billingDao;
+	    
+	    
+	    
+	    
 	Logger logger = Logger.getLogger(this.getClass().getName());	
 
 	
@@ -66,7 +80,47 @@ public class BillingService {
 		e.printStackTrace();
 	}
 }
+	public void setCustomerService(ICustomerService customerService) {
+		this.customerService = customerService;
+	}
+	public IBillingDao getBillingDao() {
+		return billingDao;
+	}
+	public void setBillingDao(IBillingDao billingDao) {
+		this.billingDao = billingDao;
+	}
+@Override
+	public List getSuggestedOrders(int finished, int dued, int seasonId,int typeId,int fridageId) throws DataBaseException, EmptyResultSetException{
+		
+		Map<String,Object> map=new HashMap<String, Object>();
+		if(typeId!=0)
+		map.put("customer.typeId",typeId );
+		map.put("seasonId", seasonId);
+		map.put("finished",finished );
 
+		map.put("fridageId",fridageId );
+		map.put("dued", dued);
+		
+	return	this.getBaseService().findAllBeansWithDepthMapping(CustomerOrder.class, map);
+		
 	
+		
+	}
 
+
+@Override
+public List getSuggestedCustomersOrders(int finished, int dued, int seasonId, int fridageId, int typeId) throws EmptyResultSetException, DataBaseException {
+	
+	
+	return getBillingDao().getSuggestedCustomersOrders(finished, dued, seasonId, fridageId, typeId);
+	
+}
+
+
+
+@Override
+public List getCustomersOrderWeights(int orderId) throws EmptyResultSetException, DataBaseException {
+
+	return this.getBillingDao().getCustomersOrderWeights(orderId);
+	}
 }

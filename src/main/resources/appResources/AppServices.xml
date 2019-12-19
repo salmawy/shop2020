@@ -85,5 +85,23 @@
     
     <!--     ====================================== End contractor Service =================================================================--> 
     
+    <!--     ====================================== Start Billing Service =================================================================--> 
+ 
+ 
+ 	<bean id="billingDao" class="App.com.billing.dao.hibernate.BillingDao">  
+    <property name="sessionFactory" ref="mysessionFactory"></property>  
+    </bean> 
     
+      <bean id="billingService" class="App.com.billing.services.spring.BillingService">  
+            <property name="billingDao" ref="billingDao"></property> 
+            <property name="baseRetrievalService" ref="baseService"></property>  
+         	<property name="baseService" ref="baseService"></property>  
+        	<property name="customerService" ref="customerService"></property>  
+    	    <property name="expansesService" ref="expansesService"></property> 
+  	
+  	
+     
+    </bean> 
+ 
+    <!--     ====================================== End Billing Service =================================================================--> 
     </beans>  

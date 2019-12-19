@@ -5,13 +5,14 @@ public class InvoiceViewbean {
 	int id;
 	String invoiceDate;
 	String productName;
-	double grossWeight;
-	double netWeight;
-	double nolun;
-	double totalAmount;
-	double tips;
-	double commision;
-	double netAmount;
+	private double grossWeight;
+	private	double netWeight;
+	private	double nolun;
+	private	double totalAmount;
+	private	double tips;
+	private	double commision;
+	private	double netAmount;
+	private	 String orderTag;
 	
 	public int getId() {
 		return id;
@@ -72,6 +73,12 @@ public class InvoiceViewbean {
 	}
 	public void setNetAmount(double netAmount) {
 		this.netAmount = netAmount;
+	}
+	public String getOrderTag() {
+		return orderTag;
+	}
+	public void setOrderTag(String orderTag) {
+		this.orderTag = orderTag;
 	}
 	
 	
