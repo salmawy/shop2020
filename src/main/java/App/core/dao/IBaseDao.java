@@ -1,5 +1,7 @@
 package App.core.dao;
 
+import java.io.InputStream;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.List;
 import java.util.Map;
@@ -241,4 +243,6 @@ public interface IBaseDao
 	
 	public Season getCurrentSeason() throws DataBaseException, EmptyResultSetException ;
 	public Object  aggregate(String tablename,String operation,String columnName,Map <String,Object>parameters) throws DataBaseException, EmptyResultSetException ;
+
+	public Connection getConnection() throws DataBaseException;
 }

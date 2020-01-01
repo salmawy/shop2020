@@ -1,5 +1,7 @@
 package App.core.dao.hibernate;
 
+import java.io.InputStream;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -7,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
@@ -21,11 +24,11 @@ import org.hibernate.criterion.Example;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.exception.DataException;
+import org.hibernate.impl.SessionImpl;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.support.SQLErrorCodeSQLExceptionTranslator;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
-import App.core.beans.Fridage;
 import App.core.beans.Season;
 import App.core.dao.IBaseDao;
 import App.core.exception.DataBaseException;
@@ -33,6 +36,12 @@ import App.core.exception.EmptyResultSetException;
 import App.core.exception.InvalidReferenceException;
 import App.core.exception.PrimaryKeyViolatedException;
 import App.core.exception.UniquePropertyViolatedException;
+import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  * 
@@ -883,6 +892,33 @@ public class BaseDaoImpl extends HibernateDaoSupport implements IBaseDao
 	}
 	
 	
+@Override
+public Connection getConnection( ) throws DataBaseException {
+
+
+
+
+
+ Connection  connection ;
+
+ Session session = null; 
+  try {  SessionImpl sessionImpl = (SessionImpl) session;
+     connection = sessionImpl.connection();}catch(DataAccessException e) {
+	  throw new
+	  DataBaseException("error.dataBase.query,reportError,"+e.getMessage()  );
+	  }
+	  finally { session.close();
+	  }
+ 
+  
+  
+
+  
+return connection;
+
 
 }
+}
+
+
 

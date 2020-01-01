@@ -129,6 +129,12 @@ public class ApplicationPersenter extends BaseAction implements Initializable {
     private JFXButton Expanses_btn;
 
     @FXML
+    private JFXButton payInvoice_btn;
+ 
+    @FXML
+    private JFXButton payedInvoice_btn;
+    
+    @FXML
     private TitledPane customersComp;
 
     @FXML
@@ -173,7 +179,8 @@ public class ApplicationPersenter extends BaseAction implements Initializable {
 	  suppliers_btn.setText(this.getMessage("button.suppliers"));
 	  varaities_btn.setText(this.getMessage("button.varaties"));
 	 
-	  
+	  generateInvoice_btn.setText(this.getMessage("button.invoice.generate"));
+
 	  
 	  appContainer.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
 
@@ -322,8 +329,9 @@ private void fitToAnchorePane(Node node) {
 	  panelPathes.put("notes_btn", "App.com.contractor.view.notes.NotesView");
 	  panelPathes.put("varaities_btn", "App.com.contractor.view.varaities.VaraityView");
 	  panelPathes.put("suppliers_btn", "App.com.contractor.view.suppliers.SupplierView");
+	  panelPathes.put("generateInvoice_btn", "App.com.billing.view.generateInvoice.InitGenerateInvoiceView");
 	  panelPathes.put("labour_btn", "App.com.contractor.view.labours.LabourView");
-	
+ 
 	  
 	  
 	

@@ -234,9 +234,7 @@ vehicleTypeBox.getSelectionModel().selectFirst();
 	
 	
 	
-    Instant instant=Instant.now();
-    LocalDate localate =LocalDate.ofInstant(instant, ZoneId.systemDefault());
-    this.datePicker.setValue(localate);
+      this.datePicker.setValue(getBaseService().convertToLocalDateViaMilisecond(new Date()));
 
 	//=============================name ===============================================================================
 
@@ -869,9 +867,7 @@ private void fitToAnchorePane(Node node) {
     		loadData(date);
     		
     		
-    		Instant instant=Instant.now();
-    	    LocalDate localate =LocalDate.ofInstant(instant, ZoneId.systemDefault());
-    	    this.bookDatePicker.setValue(localate);
+      	    this.bookDatePicker.setValue(getBaseService().convertToLocalDateViaMilisecond(new Date()));
     		
     	
     	} catch (DataBaseException | EmptyResultSetException e) {

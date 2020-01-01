@@ -63,10 +63,14 @@ public List getCustomersOrderWeights(int orderId) throws EmptyResultSetException
   try { 
 	  session =this.getSessionFactory().openSession();
   
-	    String query="select sum(netQuantity),"
+	    String query="select "
 	    		+ " sum(amount),"
-	    		+ "	unitePrice from  SellerOrderWeight"
-	    		+ " where  customerOrderId="+orderId ;
+	    		+ "	unitePrice,"
+	    		+ " sum(netQuantity) "
+	    		+ " from  SellerOrderWeight"
+	    		+ " where  customerOrderId="+orderId 
+	    		+ " group by unitePrice " ;
+
 				  
 				 
   Query queryList = session.createQuery(query);

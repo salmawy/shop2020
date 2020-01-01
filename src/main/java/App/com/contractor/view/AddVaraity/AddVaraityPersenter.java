@@ -18,7 +18,6 @@ import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
-import com.jfoenix.controls.JFXToggleButton;
 
 import App.com.contractor.action.ContractorAction;
 import App.core.Enum.ContractorTypeEnum;

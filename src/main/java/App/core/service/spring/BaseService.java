@@ -1,12 +1,18 @@
 package App.core.service.spring;
 
+import java.io.InputStream;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -33,6 +39,13 @@ import App.core.exception.PrimaryKeyViolatedException;
 import App.core.exception.UniquePropertyViolatedException;
 import App.core.service.IBaseRetrievalService;
 import App.core.service.IBaseService;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
 
 
 
@@ -450,6 +463,48 @@ public class BaseService  implements IBaseService, IBaseRetrievalService {
 return this.baseDao.aggregate(tablename, operation, columnName, parameters);
 
 }
+	
+	@Override
+	public void printReport(Map param,InputStream report) throws DataBaseException, JRException {
 
+		 
+			  
 
+	  			JasperReport jr = JasperCompileManager.compileReport(report);
+	 			
+		
+ 	  	       Connection  connection =this.baseDao.getConnection();
+ 	  	       
+ 	  	       
+				param.put(JRParameter.REPORT_LOCALE, new Locale("ar", "AE", "Arabic"));
+				
+				JasperPrint jp = JasperFillManager.fillReport(jr, param, connection);
+ 				JasperViewer.viewReport(jp, false, new Locale("ar", "AE", "Arabic"));
+			 	
+	}
+
+	@Override
+	public LocalDate convertToLocalDateViaMilisecond(Date dateToConvert) {
+	    return Instant.ofEpochMilli(dateToConvert.getTime())
+	      .atZone(ZoneId.systemDefault())
+	      .toLocalDate();
+	}
+	
+	
+	
+	
+	
+	@Override
+	public Date convertToDateViaInstant(LocalDate dateToConvert) {
+	    return java.util.Date.from(dateToConvert.atStartOfDay()
+	      .atZone(ZoneId.systemDefault())
+	      .toInstant());
+	}
+	
+	
+	
+	
+	
+	
+	
 }

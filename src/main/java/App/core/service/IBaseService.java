@@ -1,7 +1,10 @@
 
 package App.core.service;
 
+import java.io.InputStream;
 import java.sql.ResultSet;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +18,7 @@ import App.core.exception.EmptyResultSetException;
 import App.core.exception.InvalidReferenceException;
 import App.core.exception.PrimaryKeyViolatedException;
 import App.core.exception.UniquePropertyViolatedException;
+import net.sf.jasperreports.engine.JRException;
 
 
 
@@ -339,6 +343,12 @@ public interface IBaseService
 	 */
 	public List findAllBeansWithParams(Class<?> beanClass, Map params,Order order, int fromRecord, int maxResult)
 	throws DataBaseException, EmptyResultSetException;
+
+	public void printReport(Map param, InputStream report) throws DataBaseException, JRException;
+
+	Date convertToDateViaInstant(LocalDate dateToConvert);
+
+	LocalDate convertToLocalDateViaMilisecond(Date dateToConvert);
 
 
 	

@@ -4,15 +4,19 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 
+import App.com.Customer.discharge.view.beans.CustomerViewBean;
+import App.com.Customer.discharge.view.edit.EditCustomerOrderView;
 import App.com.Customer.transactions.view.beans.CustomerNameViewBean;
 import App.com.Customer.transactions.view.beans.InvoiceViewbean;
 import App.com.billing.action.BillingAction;
+import App.com.billing.view.invoice.InvoiceView;
 import App.core.Enum.CustomerTypeEnum;
 import App.core.UIComponents.comboBox.ComboBoxItem;
 import App.core.UIComponents.customTable.Column;
@@ -33,11 +37,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.NodeOrientation;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 public class InitGenerateInvoicePersenter extends BillingAction implements Initializable, CustomTableActions {
 
@@ -85,18 +92,30 @@ public class InitGenerateInvoicePersenter extends BillingAction implements Initi
 		customerType_combo.getItems().add(new ComboBoxItem(CustomerTypeEnum.normal,this.getMessage("customer.type.normal")));
 		customerType_combo.getItems().add(new ComboBoxItem(CustomerTypeEnum.purchases,this.getMessage("customer.type.purchaes")));
 		customerType_combo.getSelectionModel().select(0);
+		
+		customerType_combo.setOnAction(e -> {
+		       loadsuggestedCustomers(customerType_combo.getSelectionModel().getSelectedItem().getValue());
+   	
+		        
+		         
+	           	
+           });
 //=============================================================================================================================================
 		  List<Column>customersColumns=prepareCustomerTabelColumns(); 
 		  List<Column>invoiceColumns=prepareInvoiceTabelColumns(); 
 		  List invoiceTableControl=prepareInvoiceControles();
 		  invoiceCustomeTable=new CustomTable<InvoiceViewbean>(invoiceColumns,invoiceTableControl,null,null,null,CustomTable.headTableCard,InvoiceViewbean.class); 
 		  customersCustomeTable=new CustomTable<CustomerNameViewBean>(customersColumns,null,null,null,this,CustomTable.tableCard,CustomerNameViewBean.class); 
-			AnchorPane customersTable=customersCustomeTable.getCutomTableComponent();
-			AnchorPane invoiceTable=invoiceCustomeTable.getCutomTableComponent();
-			fitToAnchorePane(customersTable);
-			fitToAnchorePane(invoiceTable);
-			customersTable.getChildren().addAll(customersTable);
-			invoicesTable_loc.getChildren().addAll(invoiceTable);
+		
+		  AnchorPane customersTable=customersCustomeTable.getCutomTableComponent();
+		AnchorPane invoiceTable=invoiceCustomeTable.getCutomTableComponent();
+		customersTable.setPrefSize(100, 500);
+
+		fitToAnchorePane(customersTable);
+		fitToAnchorePane(invoiceTable);
+		
+		customersTable_loc.getChildren().addAll(customersTable);
+		invoicesTable_loc.getChildren().addAll(invoiceTable);
 //=============================================================================================================================================
  			suggestedInvoices_btn.setText(getMessage("button.invoice.suggestedInvoices"));
  		     Text  layoutIcon = FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.ARROW_RIGHT);
@@ -106,7 +125,7 @@ public class InitGenerateInvoicePersenter extends BillingAction implements Initi
 		            		
 		       suggestedInvoices_btn.setOnAction(e -> {
 		       	
-		        
+		    	   loadSuggestedInvoices();
 		         
 		           	
 		           });
@@ -120,11 +139,8 @@ public class InitGenerateInvoicePersenter extends BillingAction implements Initi
 	   @SuppressWarnings("unchecked")
 	private void loadsuggestedCustomers(int typeId) {
 
-			List customerViewBeans=new ArrayList<>();	
-		Season season=this.getSeason();
-		Fridage fridage=this.getFridage();
-		
-		List result=null;
+	 List customerViewBeans=new ArrayList<>();	
+	 List result=null;
 		try {
 			result = this.getBillingService().getSuggestedCustomersOrders(0, 0, ApplicationContext.season.getId(), ApplicationContext.fridage.getId(), typeId);
 		
@@ -183,7 +199,7 @@ public class InitGenerateInvoicePersenter extends BillingAction implements Initi
 		List invoicsViewBeans=new ArrayList();
 		try {
 				
-			invoices = this.getBillingService().getSuggestedOrders(0, 0, ApplicationContext.season.getId(), 0, ApplicationContext.fridage.getId());
+			invoices = this.getBillingService().getSuggestedOrders(0,0, 0, ApplicationContext.season.getId(), 0, ApplicationContext.fridage.getId());
 					
 			
 
@@ -191,22 +207,22 @@ public class InitGenerateInvoicePersenter extends BillingAction implements Initi
 				CustomerOrder order=(CustomerOrder) it;
 				InvoiceViewbean viewBean=new InvoiceViewbean();
 				viewBean.setId(order.getId());
-				viewBean.setInvoiceDate(sdf.format(order.getDueDate()));
+			//	viewBean.setInvoiceDate(sdf.format(order.getDueDate()));
 				viewBean.setProductName(order.getProduct().getName());
 				viewBean.setGrossWeight(order.getGrossweight());
 				viewBean.setNetWeight(order.getNetWeight());
 				viewBean.setNolun(order.getNolun());
-				viewBean.setTotalAmount(order.getTotalPrice());
+			//	viewBean.setTotalAmount(order.getTotalPrice());
 				viewBean.setTips(order.getNolun());
-				viewBean.setCommision(order.getCommision());
-				viewBean.setNetAmount(order.getNetPrice());
+			//	viewBean.setCommision(order.getCommision());
+			//	viewBean.setNetAmount(order.getNetPrice());
 				viewBean.setOrderTag(order.getOrderTag());
 				invoicsViewBeans.add(viewBean);
 
 				
 			}
 			
-			
+			invoiceCustomeTable.loadTableData(invoicsViewBeans);
 			
 		} catch ( EmptyResultSetException e) {
 			// TODO Auto-generated catch block
@@ -226,6 +242,57 @@ public class InitGenerateInvoicePersenter extends BillingAction implements Initi
 }
 
 
+	private void loadSuggestedInvoices(int customerId) {
+		
+
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-mm-dd");
+
+		List invoices=new ArrayList<>();
+		List invoicsViewBeans=new ArrayList();
+		try {
+				
+			invoices = this.getBillingService().getSuggestedOrders(customerId,0, 0, ApplicationContext.season.getId(), 0, ApplicationContext.fridage.getId());
+					
+			
+
+			for (Object it : invoices) {
+				CustomerOrder order=(CustomerOrder) it;
+				InvoiceViewbean viewBean=new InvoiceViewbean();
+				viewBean.setId(order.getId());
+			//	viewBean.setInvoiceDate(sdf.format(order.getDueDate()));
+				viewBean.setProductName(order.getProduct().getName());
+				viewBean.setGrossWeight(order.getGrossweight());
+				viewBean.setNetWeight(order.getNetWeight());
+				viewBean.setNolun(order.getNolun());
+			//	viewBean.setTotalAmount(order.getTotalPrice());
+				viewBean.setTips(order.getNolun());
+			//	viewBean.setCommision(order.getCommision());
+			//	viewBean.setNetAmount(order.getNetPrice());
+				viewBean.setOrderTag(order.getOrderTag());
+				invoicsViewBeans.add(viewBean);
+
+				
+			}
+			
+			invoiceCustomeTable.loadTableData(invoicsViewBeans);
+			
+		} catch ( EmptyResultSetException e) {
+			// TODO Auto-generated catch block
+		alert(AlertType.WARNING, "", "", this.getMessage("msg.warning.noData"));
+			
+			invoiceCustomeTable.getTable().getItems().clear()	;	}
+		catch (DataBaseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			  alert(AlertType.ERROR, this.getMessage("msg.err"),this.getMessage("msg.err"), this.getMessage("msg.err.general"));
+			  invoiceCustomeTable.getTable().getItems().clear();
+	
+		}
+		
+		
+		
+}
+
 
 	private List prepareInvoiceControles(){
 	    	
@@ -238,7 +305,9 @@ public class InitGenerateInvoicePersenter extends BillingAction implements Initi
 	    	    addBtn.setOnMouseClicked((new EventHandler<MouseEvent>() { 
 	 	    	   public void handle(MouseEvent event) { 
 	 	    		      System.out.println("add has been clicked"); 
-	 	    		    // addOrderDetail(); 
+	 	    		      initGenerateInvoice();
+	 	    		      
+	 	    		      
 	 	    		   } 
 	 	    		}));
 	    	    
@@ -250,6 +319,53 @@ public class InitGenerateInvoicePersenter extends BillingAction implements Initi
 	    	return buttons;
 	    	
 	    }
+
+
+	protected void initGenerateInvoice() {
+
+    	
+		InvoiceViewbean item=(InvoiceViewbean) this.invoiceCustomeTable.getTable().getSelectionModel().getSelectedItem();
+    	
+    	this.request=new HashMap<String,Object>();
+    	request.put("invoiceId", item.getId());
+    	request.put("typeId", customerType_combo.getSelectionModel().getSelectedItem().getValue());
+
+    	
+    	InvoiceView form=new InvoiceView();
+    	URL u=	 getClass().getClassLoader().getResource("appResources/custom.css");
+
+    	Scene scene1= new Scene(form.getView(), 850, 600);
+    	Stage popupwindow=new Stage();
+    	popupwindow.setMinHeight(400);
+    	popupwindow.setMinWidth(900);
+
+    	popupwindow.setResizable(true);
+        String css =u.toExternalForm();
+    	scene1.getStylesheets().addAll(css); 
+    	popupwindow.initModality(Modality.APPLICATION_MODAL);
+    	popupwindow.setTitle(this.getMessage("button.invoice.generate"));
+    	      
+    	popupwindow.setScene(scene1);
+    	popupwindow.setOnHiding( ev -> {
+    		
+
+    		System.out.println("window closes");
+    		//boolean valid=(boolean) this.response.get("valid");
+    		
+    		//if(valid)
+    			//loadData(fromLocalDateToDate(bookDatePicker.getValue()));
+        
+    		
+    		
+    	});
+    	
+    	popupwindow.showAndWait();
+
+    	
+    	
+    		
+	}
+
 
 
 	private List<Column> prepareCustomerTabelColumns(){
@@ -274,29 +390,10 @@ public class InitGenerateInvoicePersenter extends BillingAction implements Initi
 
 
     
-	
-  
-	
-	
-	
-	
-@FXML 
-private void customerTypeSelected(ActionEvent event) {
-	ComboBoxItem item= customerType_combo.getSelectionModel().getSelectedItem();
-	
-	int typeId= item.getValue();
-	loadsuggestedCustomers(typeId);
-	
-	
-	
-	
-	
-}
-
 
 
 	
-private void fitToAnchorePane(Node node) {
+	private void fitToAnchorePane(Node node) {
 	
 	
 	AnchorPane.setTopAnchor(node,  0.0); 
@@ -312,10 +409,10 @@ private void fitToAnchorePane(Node node) {
 
          List<Column> columns=new ArrayList<Column>();
    
-         Column  c=new Column("id", "id", "int", 10, true);
+         Column  c=new Column(this.getMessage("invoice.No"), "id", "int", 20, true);
          columns.add(c);
         
-         c=new Column(this.getMessage("label.invoice.tag"), "orderTag", "double", 75, true);
+         c=new Column(this.getMessage("label.invoice.tag"), "orderTag", "double", 65, true);
          columns.add(c);
          
          c=new Column(this.getMessage("label.grossWeight"), "grossWeight", "double", 15, true);
@@ -336,8 +433,9 @@ private void fitToAnchorePane(Node node) {
 
 	@Override
 	public void rowSelected() {
-		// TODO Auto-generated method stub
+		CustomerNameViewBean item=(CustomerNameViewBean) customersCustomeTable.getTable().getSelectionModel().getSelectedItem();
 		
+		loadSuggestedInvoices(item.getId());
 	}
 
 

@@ -90,11 +90,13 @@ public class BillingService implements IBillingService {
 		this.billingDao = billingDao;
 	}
 @Override
-	public List getSuggestedOrders(int finished, int dued, int seasonId,int typeId,int fridageId) throws DataBaseException, EmptyResultSetException{
+	public List getSuggestedOrders(int customerId,int finished, int dued, int seasonId,int typeId,int fridageId) throws DataBaseException, EmptyResultSetException{
 		
 		Map<String,Object> map=new HashMap<String, Object>();
 		if(typeId!=0)
 		map.put("customer.typeId",typeId );
+		if(typeId!=0)
+			map.put("customer.id",customerId );
 		map.put("seasonId", seasonId);
 		map.put("finished",finished );
 

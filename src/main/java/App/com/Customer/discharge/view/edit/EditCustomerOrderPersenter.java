@@ -146,9 +146,8 @@ private void loadOrderData() {
 		vehicleTypeBox.getSelectionModel().select(oldOrder.getVechileTypeId()-1);
 		notes.setText(oldOrder.getNotes());
 		
-		Instant instant=Instant.ofEpochMilli(oldOrder.getOrderDate().getTime());
-	    LocalDate localate =LocalDate.ofInstant(instant, ZoneId.systemDefault());
-	    this.datePicker.setValue(localate);
+		
+	    this.datePicker.setValue(getBaseService().convertToLocalDateViaMilisecond(oldOrder.getOrderDate()));
 	
 	
 	
@@ -249,9 +248,7 @@ vehicleTypeBox.getSelectionModel().selectFirst();
 	
 	
 	
-    Instant instant=Instant.now();
-    LocalDate localate =LocalDate.ofInstant(instant, ZoneId.systemDefault());
-    this.datePicker.setValue(localate);
+      this.datePicker.setValue(getBaseService().convertToLocalDateViaMilisecond(new Date()));
 
 	//=============================name ===============================================================================
 

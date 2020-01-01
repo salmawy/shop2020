@@ -1,5 +1,9 @@
 eclipse.preferences.version=1
 encoding//src/main/java/App/com/Customer/discharge/view/InitCustomerDischargePresenter.java=UTF-8
+encoding//src/main/java/App/com/billing/report/Blank_A4.jrxml=UTF-8
+encoding//src/main/java/App/com/billing/report/customerOrderPro2.jrxml=UTF-8
+encoding//src/main/java/App/com/billing/report/orderDetPro2_supReport.jrxml=UTF-8
+encoding//src/main/java/App/com/billing/view/invoice/InvoicePersenter.java=UTF-8
 encoding//src/main/java/App/com/expanses/view/expanses/ExpansesPersenter.java=UTF-8
 encoding//src/main/java/App/com/expanses/view/payLoan/PayLoanPersenter.java=UTF-8
 encoding//src/main/java/App/com/sales/view/DailySalesPersenter.java=UTF-8

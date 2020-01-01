@@ -1,38 +1,64 @@
 package App.com.billing.view.invoice;
 
+import java.io.InputStream;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.springframework.core.io.ResourceLoader;
+
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 
-import App.com.application.view.ApplicationPersenter;
 import App.com.billing.action.BillingAction;
+import App.com.billing.view.beans.InvoiceWeight;
 import App.core.Enum.CustomerTypeEnum;
 import App.core.Enum.ProductTypeEnum;
+import App.core.UIComponents.customTable.Column;
+import App.core.UIComponents.customTable.CustomTable;
 import App.core.applicationContext.ApplicationContext;
 import App.core.beans.CustomerOrder;
 import App.core.exception.DataBaseException;
 import App.core.exception.EmptyResultSetException;
 import App.core.exception.InvalidReferenceException;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.utils.FontAwesomeIconFactory;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.NodeOrientation;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
 
 public class InvoicePersenter extends BillingAction implements Initializable {
 	
 	Logger logger = Logger.getLogger(this.getClass().getName());	
 
+	@FXML
+    private AnchorPane root_pane;
 	
 	@FXML
     private Label gift_label;
@@ -133,6 +159,10 @@ public class InvoicePersenter extends BillingAction implements Initializable {
 
 
 	private int invoiceId;
+
+    private JFXSnackbar snackBar;
+
+	private CustomTable<InvoiceWeight> invoiceWeights;
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
  
@@ -145,14 +175,15 @@ public class InvoicePersenter extends BillingAction implements Initializable {
 
  private  void init() {
  
-	 
+		snackBar=new JFXSnackbar(root_pane);
+
 	
 //======================================================labels names=========================================================================
 	  
  
 		invoiceId_label.setText(this.getMessage("invoice.No"));
 		invoiceDate_label.setText(this.getMessage("invoice.date"));
-		productName_label.setText(this.getMessage(""));
+		productName_label.setText(this.getMessage("label.product"));
 		nolun_label.setText(this.getMessage("label.nolun"));
 		grossWeight_label.setText(this.getMessage("label.grossWeight"));
 		netWeight_label.setText(this.getMessage("label.netWeight"));
@@ -166,12 +197,61 @@ public class InvoicePersenter extends BillingAction implements Initializable {
 	
 
 //===============================================================================================================================
+		
+		
+		List invoiceWeightsColumns=prepareInvoiceWeightsColumns();
+		List invoiceWeightsData=loadInvoiceWeights(invoiceId);
+		invoiceWeights=new CustomTable<InvoiceWeight>(invoiceWeightsColumns, null, null, invoiceWeightsData, null, CustomTable.tableCard, InvoiceWeight.class);
+		fitToAnchorePane(invoiceWeights.getCutomTableComponent());
+		invoiceWeights.getCutomTableComponent().setPrefSize(100, 150);
+		weightTable_loc.getChildren().addAll(invoiceWeights.getCutomTableComponent());
+
+
+		
+//===============================================================================================================================
+	
+		
+		
+		
+		
+		
+		
+		
 		render();
 
 		  	 
  }
  
- private void render() {
+ private List prepareInvoiceWeightsColumns() {
+
+     
+
+     List<Column> columns=new ArrayList<Column>();
+
+    
+  
+     Column  c=new Column(this.getMessage("label.money.amount"), "amount", "double", 40, true);
+     columns.add(c);
+      
+     c=new Column(this.getMessage("label.invoice.unitePrice"), "unitePrice", "double", 30, true);
+     columns.add(c);
+   
+       c=new Column(this.getMessage("label.weight"), "weight", "double", 30, true);
+     columns.add(c);
+    
+ 
+           
+     
+return columns;
+
+
+
+
+
+
+ }
+
+private void render() {
 	 {                                                   
 
 		 
@@ -179,10 +259,37 @@ public class InvoicePersenter extends BillingAction implements Initializable {
 		 
 		 
 		 SimpleDateFormat sdf=new SimpleDateFormat("YYYY-MM-dd"); 
-
-		
-
- 	      
+		 weights_label.setText(getMessage("invoice.weightsSummary"));
+		 weights_label.setMinWidth(200);
+	
+//========================================================================================
+		 
+		 generate_btn.setText(getMessage("button.generate"));
+		Text layoutIcon = FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.EDGE);
+	    layoutIcon.getStyleClass().addAll("button-icon", "layout-button-icon");    	    
+	    generate_btn.setGraphic(layoutIcon);
+	    generate_btn.getStyleClass().setAll("btn","btn-info","btn-sm");                     //(2)
+	    generate_btn.setOnMouseClicked((new EventHandler<MouseEvent>() { 
+	    	   public void handle(MouseEvent event) { 
+	    		      System.out.println("generate_btn has been clicked"); 
+	    		      
+	    		      int action =(int) request.get("action");
+	    		      switch (action) {
+					case 1:
+						generate();
+						break;
+					case 2:
+						payInvoice();
+						break;
+					default:
+						break;
+					}
+	    		      
+	    		    //  initGenerateInvoice();
+	    		      
+	    		      
+	    		   } 
+	    		}));
 			try{
 				
 				invoice=	(CustomerOrder) this.getBaseService().getBean(CustomerOrder.class, invoiceId);
@@ -193,6 +300,7 @@ public class InvoicePersenter extends BillingAction implements Initializable {
 							 this.getMessage("msg.err.general"));
 				e.printStackTrace();
 			}
+ //========================================================================================
 			 
 	       // List orerWeights  = this.getBillingService().getCustomersOrderWeights(invoice.getId());
 
@@ -247,8 +355,7 @@ public class InvoicePersenter extends BillingAction implements Initializable {
  
  
  
- loadCustomerWeights(  invoice.getId());
- }
+  }
  
  
  
@@ -256,20 +363,93 @@ public class InvoicePersenter extends BillingAction implements Initializable {
  
  
  
- private void loadCustomerWeights(int id) {
+		 protected void generate() {
+			 
+			 
+		     
+		// TODO add your handling code here:
+		if (validateForm()) {
+		double netWeight = Double.parseDouble(netWeight_TF.getText());
+		double totalPrice = Double.parseDouble(totalAmount_TF.getText());
+		double netPrice = Double.parseDouble(netAmount_TF.getText());
+		double tips = Double.parseDouble(gift_TF.getText());
+		double commision = Double.parseDouble(commision_TF.getText());
+		int order_id = Integer.parseInt(invoiceId_TF.getText());
+		double ratio = Double.parseDouble(lost_TF.getText());
+		String notes = notes_TA.getText();
+		
+		invoice.setNetWeight(netWeight);
+		invoice.setNetPrice(netPrice);
+		invoice.setTips(tips);
+		invoice.setCommision(commision);
+		invoice.setRatio(ratio);
+		invoice.setNotes(notes);
+		//invoice.setFinished(1);
+		invoice.setEditeDate(new Date());
+		invoice.setTotalPrice(totalPrice);
+		try {
+			this.getBaseService().editBean(invoice);
+		} catch (DataBaseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		
+		
+		
+		if (invoice.getProductId() == 1) {
+			
+
+			
+			try {
+	 		
+	 		InputStream  report	= ResourceLoader.class.getResourceAsStream("reports/customerOrderPro2.jrxml");
+	 		Map<String, Object> param = new HashMap<String, Object>();
+			
+			param.put("orderID", new Integer(order_id));
+			param.put("SUBREPORT_DIR", ResourceLoader.class.getResource("reports").toString() + "/");
+ 	 		
+		 	getBaseService().printReport(param, report);
+	 		
+			} catch (DataBaseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (JRException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
+		} else if (invoice.getProductId()  == 2) { }
+		
+ 		}
+		
+			 
+			 
+			
+}
+
+protected void payInvoice() {
 	// TODO Auto-generated method stub
+	
+}
+
+private List loadInvoiceWeights(int id) {
+	 
+	 
+	 
+		List data=new ArrayList();
      try {
 		List orerWeights  = this.getBillingService().getCustomersOrderWeights(id);
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		for (Iterator iterator = orerWeights.iterator(); iterator.hasNext();) {
+			Object[] row = (Object[]) iterator.next();
+			InvoiceWeight weight=new InvoiceWeight((double)row[0],(double)row[1],(double)row[2]);
+			data.add(weight);
+			
+			
+		}
+	
 	} catch (EmptyResultSetException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
@@ -277,7 +457,7 @@ public class InvoicePersenter extends BillingAction implements Initializable {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
-
+return data;
 }
 
 private double getCustomerOrderNetWeight(int orderId) {
@@ -306,7 +486,18 @@ private double getCustomerOrderNetWeight(int orderId) {
  }
  
  
- 
+
+private void fitToAnchorePane(Node node) {
+	
+	
+	AnchorPane.setTopAnchor(node,  0.0); 
+	AnchorPane.setLeftAnchor(node,  0.0); 
+	AnchorPane.setRightAnchor(node,  0.0); 
+	AnchorPane.setBottomAnchor(node,  0.0); 
+	
+	
+	
+} 
  private double getCustomerOrderTotalPrice(int orderId) {
 	 
    Map<String,Object> map=new HashMap<String, Object>();
@@ -337,4 +528,20 @@ private double getCustomerOrderNetWeight(int orderId) {
 	    a.show(); 
 	 
 	}
+	
+	
+    boolean validateForm() {
+	   
+        if (gift_TF.getText().isEmpty()) {
+        	snackBar.show(this.getMessage("msg.err.required.gift"), 1000);
+
+             return false;
+        } 
+        
+        
+        
+             return true;
+        
+    }
+    
 }
