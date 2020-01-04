@@ -1,5 +1,8 @@
 package App.com.billing.view.invoice;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -8,13 +11,13 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.springframework.core.io.ResourceLoader;
+import org.controlsfx.glyphfont.FontAwesome;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSnackbar;
@@ -32,8 +35,6 @@ import App.core.beans.CustomerOrder;
 import App.core.exception.DataBaseException;
 import App.core.exception.EmptyResultSetException;
 import App.core.exception.InvalidReferenceException;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
-import de.jensd.fx.glyphs.fontawesome.utils.FontAwesomeIconFactory;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -44,14 +45,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.text.Text;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRParameter;
-import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.view.JasperViewer;
 
 public class InvoicePersenter extends BillingAction implements Initializable {
 	
@@ -99,6 +93,10 @@ public class InvoicePersenter extends BillingAction implements Initializable {
     @FXML
     private JFXButton generate_btn;
 
+    @FXML
+
+    private JFXButton   printInvoice_btn;
+    
     @FXML
     private AnchorPane weightTable_loc;
 
@@ -264,11 +262,36 @@ private void render() {
 	
 //========================================================================================
 		 
+		 printInvoice_btn.setText(getMessage("button.print"));
+		 printInvoice_btn.setGraphic(new FontAwesome().create(FontAwesome.Glyph.SAVE));
+		 printInvoice_btn.getStyleClass().setAll("btn","btn-info","btn-sm");                     //(2)
+		 printInvoice_btn.setOnMouseClicked((new EventHandler<MouseEvent>() { 
+		    	   public void handle(MouseEvent event) { 
+		    		      System.out.println("generate_btn has been clicked"); 
+		    		      
+		    		      int action =(int) request.get("action");
+		    		      switch (action) {
+						case 1:
+							generate();
+							break;
+						case 2:
+							payInvoice();
+							break;
+						default:
+							break;
+						}
+		    		      
+		    		    //  initGenerateInvoice();
+		    		      
+		    		      
+		    		   } 
+		    		}));
+		 
+		 
+		 
 		 generate_btn.setText(getMessage("button.generate"));
-		Text layoutIcon = FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.EDGE);
-	    layoutIcon.getStyleClass().addAll("button-icon", "layout-button-icon");    	    
-	    generate_btn.setGraphic(layoutIcon);
-	    generate_btn.getStyleClass().setAll("btn","btn-info","btn-sm");                     //(2)
+ 		generate_btn.setGraphic(new FontAwesome().create(FontAwesome.Glyph.SAVE));
+ 	    generate_btn.getStyleClass().setAll("btn","btn-info","btn-sm");                     //(2)
 	    generate_btn.setOnMouseClicked((new EventHandler<MouseEvent>() { 
 	    	   public void handle(MouseEvent event) { 
 	    		      System.out.println("generate_btn has been clicked"); 
@@ -290,7 +313,10 @@ private void render() {
 	    		      
 	    		   } 
 	    		}));
-			try{
+			
+	    
+	    
+	    try{
 				
 				invoice=	(CustomerOrder) this.getBaseService().getBean(CustomerOrder.class, invoiceId);
 			 
@@ -387,12 +413,10 @@ private void render() {
 		//invoice.setFinished(1);
 		invoice.setEditeDate(new Date());
 		invoice.setTotalPrice(totalPrice);
-		try {
-			this.getBaseService().editBean(invoice);
-		} catch (DataBaseException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+			/*
+			 * try { this.getBaseService().editBean(invoice); } catch (DataBaseException e1)
+			 * { // TODO Auto-generated catch block e1.printStackTrace(); }
+			 */
 		
 		
 		
@@ -400,15 +424,27 @@ private void render() {
 		if (invoice.getProductId() == 1) {
 			
 
-			
+ 			try {
+				 Resource r=new ClassPathResource("reports/billing/invoice.jrxml"); 
+
+	 		InputStream report = null;
 			try {
-	 		
-	 		InputStream  report	= ResourceLoader.class.getResourceAsStream("reports/customerOrderPro2.jrxml");
+				report = new FileInputStream ( r.getFile().getPath());
+			} catch (FileNotFoundException e) {
+				
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	 		Map<String, Object> param = new HashMap<String, Object>();
-			
+
 			param.put("orderID", new Integer(order_id));
-			param.put("SUBREPORT_DIR", ResourceLoader.class.getResource("reports").toString() + "/");
- 	 		
+			
+ 		    param.put("SUBREPORT_DIR", new ClassPathResource("reports/billing").getPath() + "/");
+ 			param.put("order_id",invoice.getId());
+
 		 	getBaseService().printReport(param, report);
 	 		
 			} catch (DataBaseException e) {

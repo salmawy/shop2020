@@ -12,6 +12,8 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
+import org.controlsfx.glyphfont.FontAwesome;
+
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
@@ -22,7 +24,6 @@ import App.com.expanses.view.beans.IncomeVB;
 import App.com.expanses.view.beans.OutcomeVB;
 import App.core.Enum.IncomeTypesEnum;
 import App.core.Enum.OutcomeTypeEnum;
-import App.core.Enum.SellerTypeEnum;
 import App.core.UIComponents.comboBox.ComboBoxItem;
 import App.core.UIComponents.customTable.Column;
 import App.core.UIComponents.customTable.CustomTable;
@@ -40,8 +41,6 @@ import App.core.beans.Seller;
 import App.core.exception.DataBaseException;
 import App.core.exception.EmptyResultSetException;
 import App.core.exception.InvalidReferenceException;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
-import de.jensd.fx.glyphs.fontawesome.utils.FontAwesomeIconFactory;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -50,11 +49,10 @@ import javafx.geometry.NodeOrientation;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.text.Text;
 
 public class ExpansesPersenter extends ExpansesAction implements Initializable {
 
@@ -205,15 +203,11 @@ public class ExpansesPersenter extends ExpansesAction implements Initializable {
  //==============================================================================================================
 
 	  income_btn.setText(this.getMessage("button.save"));
-		Text layoutIcon = FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.SAVE);
-	    layoutIcon.getStyleClass().addAll("button-icon", "layout-button-icon");    	    
-	    income_btn.setGraphic(layoutIcon);
+  	    income_btn.setGraphic(new FontAwesome().create(FontAwesome.Glyph.SAVE));
 	    income_btn.getStyleClass().setAll("btn","btn-primary");  
 	    
 	    outcome_btn.setText(this.getMessage("button.save"));
-		 layoutIcon = FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.SAVE);
-	    layoutIcon.getStyleClass().addAll("button-icon", "layout-button-icon");    	    
-	    outcome_btn.setGraphic(layoutIcon);
+  	    outcome_btn.setGraphic(new FontAwesome().create(FontAwesome.Glyph.SAVE));
 	    outcome_btn.getStyleClass().setAll("btn","btn-primary");  
 	  
   }

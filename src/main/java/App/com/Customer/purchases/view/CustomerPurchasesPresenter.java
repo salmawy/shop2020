@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import org.controlsfx.glyphfont.FontAwesome;
+
 import com.jfoenix.controls.JFXButton;
 
 import App.com.Customer.action.CustomerBaseAction;
@@ -25,14 +27,11 @@ import App.core.beans.PurchasedCustomerInst;
 import App.core.beans.Season;
 import App.core.exception.DataBaseException;
 import App.core.exception.EmptyResultSetException;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
-import de.jensd.fx.glyphs.fontawesome.utils.FontAwesomeIconFactory;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.text.Text;
 
 public class CustomerPurchasesPresenter extends CustomerBaseAction implements Initializable,CustomTableActions {
 
@@ -75,9 +74,7 @@ public class CustomerPurchasesPresenter extends CustomerBaseAction implements In
 		purchasesOrders_tab.setText(this.getMessage("customer.purchases.order.prices"));
 		
 		refresh_btn=new JFXButton(this.getMessage("button.add"));
-    	Text layoutIcon = FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.TABLE);
-    	    layoutIcon.getStyleClass().addAll("button-icon", "layout-button-icon");    	    
-    	    refresh_btn.setGraphic(layoutIcon);
+     	    refresh_btn.setGraphic(new FontAwesome().create(FontAwesome.Glyph.REFRESH));
     	    refresh_btn.getStyleClass().setAll("btn","btn-primary");  
 		
 		
@@ -338,9 +335,7 @@ public class CustomerPurchasesPresenter extends CustomerBaseAction implements In
     	//button.purchases.confirm  button.save
     	
     	JFXButton confirmBtn=new JFXButton(this.getMessage("button.purchases.confirm"));
-    	Text layoutIcon = FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.TABLE);
-    	    layoutIcon.getStyleClass().addAll("button-icon", "layout-button-icon");    	    
-    	    confirmBtn.setGraphic(layoutIcon);
+     	    confirmBtn.setGraphic(new FontAwesome().create(FontAwesome.Glyph.BOOK));
     	    confirmBtn.getStyleClass().setAll("btn","btn-primary");                     //(2)
 
 
@@ -354,9 +349,7 @@ public class CustomerPurchasesPresenter extends CustomerBaseAction implements In
     private List<JFXButton>preparePurchasedInstsButtons(){
     	
     	JFXButton addBtn=new JFXButton(this.getMessage("button.add"));
-    	Text layoutIcon = FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.TABLE);
-    	    layoutIcon.getStyleClass().addAll("button-icon", "layout-button-icon");    	    
-    	    addBtn.setGraphic(layoutIcon);
+     	    addBtn.setGraphic(new FontAwesome().create(FontAwesome.Glyph.BOOK));
     	    addBtn.getStyleClass().setAll("btn","btn-primary");                     //(2)
 
 

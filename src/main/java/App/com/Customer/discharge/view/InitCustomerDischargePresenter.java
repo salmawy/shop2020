@@ -22,6 +22,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
 import org.controlsfx.control.textfield.TextFields;
+import org.controlsfx.glyphfont.FontAwesome;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
@@ -46,8 +47,6 @@ import App.core.beans.Store;
 import App.core.exception.DataBaseException;
 import App.core.exception.EmptyResultSetException;
 import App.core.validator.Validator;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
-import de.jensd.fx.glyphs.fontawesome.utils.FontAwesomeIconFactory;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -65,7 +64,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
@@ -425,9 +423,7 @@ vehicleTypeBox.getSelectionModel().selectFirst();
 	//*********************************save btn****************************************************************************************************** 
 
 	saveBtn.setText(this.getMessage("button.save"));
-	Text layoutIcon = FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.SAVE);
-    layoutIcon.getStyleClass().addAll("button-icon", "layout-button-icon");    	    
-    saveBtn.setGraphic(layoutIcon);
+ 	saveBtn.setGraphic(new FontAwesome().create(FontAwesome.Glyph.PLUS));
     saveBtn.setStyle("-fx-margin:100px");
     saveBtn.getStyleClass().setAll("btn","btn-primary");  
 	
@@ -574,9 +570,7 @@ inputForm_loc.getChildren().setAll(gridPane);
     	
     	
     	JFXButton editBtn=new JFXButton(this.getMessage("button.edit"));
-    	Text layoutIcon = FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.EDIT);
-    	    layoutIcon.getStyleClass().addAll("button-icon", "layout-button-icon");    	    
-    	    editBtn.setGraphic(layoutIcon);
+     	    editBtn.setGraphic(new FontAwesome().create(FontAwesome.Glyph.EDIT));
     	    editBtn.getStyleClass().setAll("btn","btn-primary");  
     	    
     	    editBtn.setOnAction(e -> {

@@ -10,6 +10,8 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
+import org.controlsfx.glyphfont.FontAwesome;
+
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
@@ -29,8 +31,6 @@ import App.core.beans.LoanAccount;
 import App.core.beans.LoanPaying;
 import App.core.exception.DataBaseException;
 import App.core.exception.EmptyResultSetException;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
-import de.jensd.fx.glyphs.fontawesome.utils.FontAwesomeIconFactory;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -40,7 +40,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -303,9 +302,7 @@ private List prepareLoanersNamesHeaderNodes(){
 	//button.purchases.confirm  button.save
 	
 	JFXButton addBtn=new JFXButton(this.getMessage("button.add"));
-	Text layoutIcon = FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.TABLE);
-	    layoutIcon.getStyleClass().addAll("button-icon", "layout-button-icon");    	    
-	    addBtn.setGraphic(layoutIcon);
+  	    addBtn.setGraphic(new FontAwesome().create(FontAwesome.Glyph.PLUS));
 	    addBtn.getStyleClass().setAll("btn","btn-primary");                     //(2)
 	    addBtn.setOnAction(e -> {
 	    	payLoan();

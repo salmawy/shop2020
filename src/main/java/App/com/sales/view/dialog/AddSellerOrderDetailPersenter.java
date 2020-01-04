@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import org.controlsfx.glyphfont.FontAwesome;
+
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXSnackbar;
@@ -24,8 +26,6 @@ import App.core.exception.DataBaseException;
 import App.core.exception.EmptyResultSetException;
 import App.core.exception.InvalidReferenceException;
 import App.core.validator.Validator;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
-import de.jensd.fx.glyphs.fontawesome.utils.FontAwesomeIconFactory;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
@@ -37,7 +37,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class AddSellerOrderDetailPersenter extends SalesAction implements Initializable {
@@ -250,9 +249,7 @@ public class AddSellerOrderDetailPersenter extends SalesAction implements Initia
 		//----------------------------------------------------------------------
 		
 		save_btn=new JFXButton(this.getMessage("button.save"));
-    	Text layoutIcon = FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.TABLE);
-    	layoutIcon.getStyleClass().addAll("button-icon", "layout-button-icon");    	    
-    	save_btn.setGraphic(layoutIcon);
+      	save_btn.setGraphic(new FontAwesome().create(FontAwesome.Glyph.SAVE));
     	 save_btn.getStyleClass().setAll("btn","btn-primary","btn-sm");  
     	    save_btn.setOnMouseClicked((new EventHandler<MouseEvent>() { 
  	    	   public void handle(MouseEvent event) { 
@@ -264,9 +261,7 @@ public class AddSellerOrderDetailPersenter extends SalesAction implements Initia
     	    
     	    
     	cancel_btn=new JFXButton(this.getMessage("button.cancel"));
-        layoutIcon = FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.TABLE);
-        layoutIcon.getStyleClass().addAll("button-icon", "layout-button-icon");    	    
-        cancel_btn.setGraphic(layoutIcon);
+         cancel_btn.setGraphic(new FontAwesome().create(FontAwesome.Glyph.CLOSE));
         cancel_btn.getStyleClass().setAll("btn","btn-primary","btn-sm"); 
         cancel_btn.setOnMouseClicked((new EventHandler<MouseEvent>() { 
 	    	   public void handle(MouseEvent event) { 

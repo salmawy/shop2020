@@ -21,6 +21,7 @@ import org.hibernate.Session;
 import org.hibernate.TransactionException;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.impl.SessionImpl;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -473,11 +474,24 @@ return this.baseDao.aggregate(tablename, operation, columnName, parameters);
 	  			JasperReport jr = JasperCompileManager.compileReport(report);
 	 			
 		
- 	  	       Connection  connection =this.baseDao.getConnection();
+ 	  	       Connection  connection =null;
+ 	  	    		   
+ 	  	    		   try {
+ 	  	    			   
+  	  	    			  SessionImpl sessionImpl = (SessionImpl)getBaseDao().getMySession();
+
+ 	  	    		     connection = sessionImpl.connection();
+ 	  	    		     
+ 	  	    		  
+ 	  	    		  
+ 	  	    			   
+ 	  	    		   }catch (Exception e) {
+						// TODO: handle exception
+					}
  	  	       
  	  	       
 				param.put(JRParameter.REPORT_LOCALE, new Locale("ar", "AE", "Arabic"));
-				
+ 				
 				JasperPrint jp = JasperFillManager.fillReport(jr, param, connection);
  				JasperViewer.viewReport(jp, false, new Locale("ar", "AE", "Arabic"));
 			 	

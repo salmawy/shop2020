@@ -8,11 +8,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import org.controlsfx.glyphfont.FontAwesome;
+
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 
-import App.com.Customer.discharge.view.beans.CustomerViewBean;
-import App.com.Customer.discharge.view.edit.EditCustomerOrderView;
 import App.com.Customer.transactions.view.beans.CustomerNameViewBean;
 import App.com.Customer.transactions.view.beans.InvoiceViewbean;
 import App.com.billing.action.BillingAction;
@@ -25,13 +25,8 @@ import App.core.UIComponents.customTable.CustomTableActions;
 import App.core.applicationContext.ApplicationContext;
 import App.core.beans.Customer;
 import App.core.beans.CustomerOrder;
-import App.core.beans.Fridage;
-import App.core.beans.Season;
 import App.core.exception.DataBaseException;
 import App.core.exception.EmptyResultSetException;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
-import de.jensd.fx.glyphs.fontawesome.utils.FontAwesomeIconFactory;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -42,7 +37,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -118,9 +112,7 @@ public class InitGenerateInvoicePersenter extends BillingAction implements Initi
 		invoicesTable_loc.getChildren().addAll(invoiceTable);
 //=============================================================================================================================================
  			suggestedInvoices_btn.setText(getMessage("button.invoice.suggestedInvoices"));
- 		     Text  layoutIcon = FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.ARROW_RIGHT);
-		       layoutIcon.getStyleClass().addAll("button-icon", "layout-button-icon");    	    
-		       suggestedInvoices_btn.setGraphic(layoutIcon);
+  		    suggestedInvoices_btn.setGraphic(new FontAwesome().create(FontAwesome.Glyph.ARROW_RIGHT));
 		       suggestedInvoices_btn.getStyleClass().setAll("btn","btn-sm","btn-info");  
 		            		
 		       suggestedInvoices_btn.setOnAction(e -> {
@@ -298,10 +290,8 @@ public class InitGenerateInvoicePersenter extends BillingAction implements Initi
 	    	
 	    	
 	    	JFXButton addBtn=new JFXButton(this.getMessage("button.invoice.generate"));
-	    	Text layoutIcon = FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.PLUS);
-	    	    layoutIcon.getStyleClass().addAll("button-icon", "layout-button-icon");    	    
-	    	    addBtn.setGraphic(layoutIcon);
-	    	    addBtn.getStyleClass().setAll("btn","btn-info","btn-sm");                     //(2)
+ 	    	addBtn.setGraphic(new FontAwesome().create(FontAwesome.Glyph.PLUS));
+ 	    	addBtn.getStyleClass().setAll("btn","btn-info","btn-sm");                     //(2)
 	    	    addBtn.setOnMouseClicked((new EventHandler<MouseEvent>() { 
 	 	    	   public void handle(MouseEvent event) { 
 	 	    		      System.out.println("add has been clicked"); 
@@ -329,8 +319,8 @@ public class InitGenerateInvoicePersenter extends BillingAction implements Initi
     	this.request=new HashMap<String,Object>();
     	request.put("invoiceId", item.getId());
     	request.put("typeId", customerType_combo.getSelectionModel().getSelectedItem().getValue());
-
-    	
+    	request.put("action", 1);
+     	
     	InvoiceView form=new InvoiceView();
     	URL u=	 getClass().getClassLoader().getResource("appResources/custom.css");
 

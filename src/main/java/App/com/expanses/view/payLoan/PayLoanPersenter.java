@@ -6,6 +6,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
+import org.controlsfx.glyphfont.FontAwesome;
+
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
@@ -17,8 +19,6 @@ import App.com.expanses.action.ExpansesAction;
 import App.core.UIComponents.comboBox.ComboBoxItem;
 import App.core.applicationContext.ApplicationContext;
 import App.core.beans.LoanAccount;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
-import de.jensd.fx.glyphs.fontawesome.utils.FontAwesomeIconFactory;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -29,7 +29,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
@@ -130,9 +129,7 @@ public class PayLoanPersenter extends ExpansesAction implements Initializable {
 	    note_TA.setPromptText(this.getMessage("label.notes"));
 	    
 	    saveBtn.setText(this.getMessage("button.save"));
-		Text layoutIcon = FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.SAVE);
-	    layoutIcon.getStyleClass().addAll("button-icon", "layout-button-icon");    	    
-	    saveBtn.setGraphic(layoutIcon);
+  	    saveBtn.setGraphic(new FontAwesome().create(FontAwesome.Glyph.SAVE));
 	    saveBtn.getStyleClass().setAll("btn","btn-primary");  
 	    saveBtn.setOnAction(e -> {
 	    	save();
@@ -141,9 +138,7 @@ public class PayLoanPersenter extends ExpansesAction implements Initializable {
 	    
 	    
 	    cancel_btn.setText(this.getMessage("button.cancel"));
-		  layoutIcon = FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.SAVE);
-	    layoutIcon.getStyleClass().addAll("button-icon", "layout-button-icon");    	    
-	    cancel_btn.setGraphic(layoutIcon);
+ 	    cancel_btn.setGraphic(new FontAwesome().create(FontAwesome.Glyph.CLOSE));
 	    cancel_btn.getStyleClass().setAll("btn","btn-danger");  
 	    cancel_btn.setOnAction(e -> {
 	    	cancel();

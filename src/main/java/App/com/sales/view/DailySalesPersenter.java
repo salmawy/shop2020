@@ -19,6 +19,7 @@ import java.util.Set;
 import java.util.TimeZone;
 
 import org.controlsfx.control.textfield.TextFields;
+import org.controlsfx.glyphfont.FontAwesome;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
@@ -43,8 +44,6 @@ import App.core.exception.DataBaseException;
 import App.core.exception.EmptyResultSetException;
 import App.core.exception.InvalidReferenceException;
 import App.core.validator.Validator;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
-import de.jensd.fx.glyphs.fontawesome.utils.FontAwesomeIconFactory;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
@@ -63,7 +62,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
@@ -153,9 +151,7 @@ public class DailySalesPersenter extends SalesAction implements Initializable, C
     	    
     	    
     	edit_btn=new JFXButton(this.getMessage("button.edit"));
-    	Text layoutIcon = FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.EDIT);
-        layoutIcon.getStyleClass().addAll("button-icon", "layout-button-icon");    	    
-        edit_btn.setGraphic(layoutIcon);
+          edit_btn.setGraphic(new FontAwesome().create(FontAwesome.Glyph.EDIT));
         edit_btn.setDisable(true);
         edit_btn.getStyleClass().setAll("btn","btn-primary","btn-sm");  
         edit_btn.setOnAction(e -> {
@@ -163,9 +159,7 @@ public class DailySalesPersenter extends SalesAction implements Initializable, C
         });	
    
         detail_btn=new JFXButton(this.getMessage("button.detail"));
-        layoutIcon = FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.TABLE);
-        layoutIcon.getStyleClass().addAll("button-icon", "layout-button-icon");    	    
-        detail_btn.setGraphic(layoutIcon);
+          detail_btn.setGraphic(new FontAwesome().create(FontAwesome.Glyph.TABLE));
         detail_btn.getStyleClass().setAll("btn","btn-info","btn-sm");  
         detail_btn.setDisable(true);
         detail_btn.setOnAction(e -> {
@@ -183,9 +177,7 @@ public class DailySalesPersenter extends SalesAction implements Initializable, C
             	
             });	
         prif_btn=new JFXButton(this.getMessage("button.prif"));
-       layoutIcon = FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.ARROW_RIGHT);
-       layoutIcon.getStyleClass().addAll("button-icon", "layout-button-icon");    	    
-       prif_btn.setGraphic(layoutIcon);
+         prif_btn.setGraphic(new FontAwesome().create(FontAwesome.Glyph.ARROW_RIGHT));
        prif_btn.getStyleClass().setAll("btn","btn-sm","btn-info");  
             		
        prif_btn.setOnAction(e -> {
@@ -370,9 +362,7 @@ public class DailySalesPersenter extends SalesAction implements Initializable, C
 		 restAmount.setDisable(true);
 
 		 saveBtn.setText(this.getMessage("button.save"));
-			 layoutIcon = FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.SAVE);
-		    layoutIcon.getStyleClass().addAll("button-icon", "layout-button-icon");    	    
-		    saveBtn.setGraphic(layoutIcon);
+  		    saveBtn.setGraphic(new FontAwesome().create(FontAwesome.Glyph.SAVE));
 		    saveBtn.getStyleClass().setAll("btn","btn-primary");  
 		    saveBtn.setOnAction(e -> {
 		       	
@@ -582,9 +572,7 @@ public class DailySalesPersenter extends SalesAction implements Initializable, C
     	
     	
     	JFXButton addBtn=new JFXButton(this.getMessage("button.add"));
-    	Text layoutIcon = FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.PLUS);
-    	    layoutIcon.getStyleClass().addAll("button-icon", "layout-button-icon");    	    
-    	    addBtn.setGraphic(layoutIcon);
+      	    addBtn.setGraphic(new FontAwesome().create(FontAwesome.Glyph.PLUS));
     	    addBtn.getStyleClass().setAll("btn","btn-info","btn-sm");                     //(2)
     	    addBtn.setOnMouseClicked((new EventHandler<MouseEvent>() { 
  	    	   public void handle(MouseEvent event) { 
@@ -594,9 +582,7 @@ public class DailySalesPersenter extends SalesAction implements Initializable, C
  	    		}));
     	    
     	    JFXButton deleteBtn=new JFXButton(this.getMessage("button.delete"));
-        	 layoutIcon = FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.TRASH);
-        	    layoutIcon.getStyleClass().addAll("button-icon", "layout-button-icon");    	    
-        	    deleteBtn.setGraphic(layoutIcon);
+          	    deleteBtn.setGraphic(new FontAwesome().create(FontAwesome.Glyph.TRASH));
         	    deleteBtn.getStyleClass().setAll("btn","btn-danger","btn-sm");                     //(2)
         	    deleteBtn.setOnAction(e -> {
         	        SellerOrderDetailVB selectedItem =(SellerOrderDetailVB) orderDetail_CT.getTable().getSelectionModel().getSelectedItem();

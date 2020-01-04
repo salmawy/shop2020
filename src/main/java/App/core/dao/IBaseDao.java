@@ -244,5 +244,5 @@ public interface IBaseDao
 	public Season getCurrentSeason() throws DataBaseException, EmptyResultSetException ;
 	public Object  aggregate(String tablename,String operation,String columnName,Map <String,Object>parameters) throws DataBaseException, EmptyResultSetException ;
 
-	public Connection getConnection() throws DataBaseException;
+	public Session getMySession() throws DataBaseException;
 }

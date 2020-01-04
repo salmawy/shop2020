@@ -20,6 +20,7 @@ import java.util.TimeZone;
 import java.util.logging.Logger;
 
 import org.controlsfx.control.textfield.TextFields;
+import org.controlsfx.glyphfont.FontAwesome;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
@@ -42,8 +43,6 @@ import App.core.exception.DataBaseException;
 import App.core.exception.EmptyResultSetException;
 import App.core.exception.InvalidReferenceException;
 import App.core.validator.Validator;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
-import de.jensd.fx.glyphs.fontawesome.utils.FontAwesomeIconFactory;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
@@ -61,7 +60,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
@@ -287,9 +285,7 @@ public void initialize(URL arg0, ResourceBundle arg1) {
 	 restAmount.setDisable(true);
 
 	 saveBtn.setText(this.getMessage("button.save"));
-		Text layoutIcon = FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.SAVE);
-	    layoutIcon.getStyleClass().addAll("button-icon", "layout-button-icon");    	    
-	    saveBtn.setGraphic(layoutIcon);
+ 	    saveBtn.setGraphic(new FontAwesome().create(FontAwesome.Glyph.SAVE));
 	    saveBtn.getStyleClass().setAll("btn","btn-primary");  
 	    saveBtn.setOnAction(e -> {
 	       	
@@ -465,9 +461,7 @@ private List<JFXButton>prepareOrderDetailcontrolles(){
 	
 	
 	JFXButton addBtn=new JFXButton(this.getMessage("button.add"));
-	Text layoutIcon = FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.PLUS);
-	    layoutIcon.getStyleClass().addAll("button-icon", "layout-button-icon");    	    
-	    addBtn.setGraphic(layoutIcon);
+  	    addBtn.setGraphic(new FontAwesome().create(FontAwesome.Glyph.SAVE));
 	    addBtn.getStyleClass().setAll("btn","btn-info","btn-sm");                     //(2)
 	    addBtn.setOnMouseClicked((new EventHandler<MouseEvent>() { 
 	    	   public void handle(MouseEvent event) { 
@@ -477,9 +471,7 @@ private List<JFXButton>prepareOrderDetailcontrolles(){
 	    		}));
 	    
 	    JFXButton deleteBtn=new JFXButton(this.getMessage("button.delete"));
-    	 layoutIcon = FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.TRASH);
-    	    layoutIcon.getStyleClass().addAll("button-icon", "layout-button-icon");    	    
-    	    deleteBtn.setGraphic(layoutIcon);
+      	    deleteBtn.setGraphic(new FontAwesome().create(FontAwesome.Glyph.TRASH));
     	    deleteBtn.getStyleClass().setAll("btn","btn-danger","btn-sm");                     //(2)
     	    deleteBtn.setOnAction(e -> {
     	    	

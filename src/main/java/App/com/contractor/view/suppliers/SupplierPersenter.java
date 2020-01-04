@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import org.controlsfx.glyphfont.FontAwesome;
 import org.hibernate.criterion.Order;
 
 import com.jfoenix.controls.JFXButton;
@@ -34,8 +35,6 @@ import App.core.beans.ContractorAccountDetail;
 import App.core.exception.DataBaseException;
 import App.core.exception.EmptyResultSetException;
 import App.core.exception.InvalidReferenceException;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
-import de.jensd.fx.glyphs.fontawesome.utils.FontAwesomeIconFactory;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
@@ -53,7 +52,6 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.TreeItem;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -309,10 +307,8 @@ public class SupplierPersenter extends ContractorAction implements Initializable
 	//button.purchases.confirm  button.save
 	
 	JFXButton addBtn=new JFXButton(this.getMessage("button.add"));
-	Text layoutIcon = FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.TABLE);
-	    layoutIcon.getStyleClass().addAll("button-icon", "layout-button-icon");    	    
-	    addBtn.setGraphic(layoutIcon);
-	    addBtn.getStyleClass().setAll("btn","btn-primary");                     //(2)
+	addBtn.setGraphic(new FontAwesome().create(FontAwesome.Glyph.PLUS));
+ 	    addBtn.getStyleClass().setAll("btn","btn-primary");                     //(2)
 	    addBtn.setOnAction(e -> {
 
 	    	addTransaction();

@@ -26,6 +26,7 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.exception.DataException;
 import org.hibernate.impl.SessionImpl;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.jdbc.support.SQLErrorCodeSQLExceptionTranslator;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
@@ -891,33 +892,17 @@ public class BaseDaoImpl extends HibernateDaoSupport implements IBaseDao
 		  
 	}
 	
-	
-@Override
-public Connection getConnection( ) throws DataBaseException {
-
-
-
-
-
- Connection  connection ;
-
- Session session = null; 
-  try {  SessionImpl sessionImpl = (SessionImpl) session;
-     connection = sessionImpl.connection();}catch(DataAccessException e) {
-	  throw new
-	  DataBaseException("error.dataBase.query,reportError,"+e.getMessage()  );
-	  }
-	  finally { session.close();
-	  }
+	@Override  
+	public Session getMySession()  {
+		// TODO Auto-generated method stub
+		return super.getSession();
+	}
  
   
   
 
   
-return connection;
-
-
-}
+ 
 }
 
 

@@ -126,7 +126,8 @@
                               <AnchorPane fx:id="weightTable_loc" prefHeight="510.0" prefWidth="404.0" />
                            </children>
                         </VBox>
-                        <JFXButton fx:id="generate_btn" layoutX="458.0" layoutY="20.0" prefHeight="25.0" prefWidth="64.0" />
+                        <JFXButton fx:id="generate_btn" layoutX="464.0" layoutY="27.0" prefHeight="25.0" prefWidth="64.0" />
+                        <JFXButton fx:id="printInvoice_btn" layoutX="454.0" layoutY="52.0" prefHeight="25.0" prefWidth="64.0" />
                      </children>
                      <padding>
                         <Insets left="10.0" />

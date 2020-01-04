@@ -12,6 +12,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
 import org.controlsfx.control.textfield.TextFields;
+import org.controlsfx.glyphfont.FontAwesome;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
@@ -25,8 +26,6 @@ import App.core.Enum.ContractorTypeEnum;
 import App.core.applicationContext.ApplicationContext;
 import App.core.exception.DataBaseException;
 import App.core.validator.Validator;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
-import de.jensd.fx.glyphs.fontawesome.utils.FontAwesomeIconFactory;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.NodeOrientation;
@@ -35,7 +34,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
@@ -141,10 +139,9 @@ public class AddSupplierPersenter extends ContractorAction implements Initializa
 			    note_TA.setPromptText(this.getMessage("label.notes"));
 			    
 			    saveBtn.setText(this.getMessage("button.save"));
-				Text layoutIcon = FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.SAVE);
-			    layoutIcon.getStyleClass().addAll("button-icon", "layout-button-icon");    	    
-			    saveBtn.setGraphic(layoutIcon);
-			    saveBtn.getStyleClass().setAll("btn","btn-primary");  
+ 			    saveBtn.setGraphic(new FontAwesome().create(FontAwesome.Glyph.SAVE));
+
+ 			    saveBtn.getStyleClass().setAll("btn","btn-primary");  
 			    saveBtn.setOnAction(e -> {
 			    	save();
 			    	
@@ -152,10 +149,9 @@ public class AddSupplierPersenter extends ContractorAction implements Initializa
 			    
 			    
 			    cancel_btn.setText(this.getMessage("button.cancel"));
-				  layoutIcon = FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.SAVE);
-			    layoutIcon.getStyleClass().addAll("button-icon", "layout-button-icon");    	    
-			    cancel_btn.setGraphic(layoutIcon);
-			    cancel_btn.getStyleClass().setAll("btn","btn-danger");  
+			    cancel_btn.setGraphic(new FontAwesome().create(FontAwesome.Glyph.SAVE));
+
+ 			    cancel_btn.getStyleClass().setAll("btn","btn-danger");  
 			    cancel_btn.setOnAction(e -> {
 			    	cancel();
 			    	
