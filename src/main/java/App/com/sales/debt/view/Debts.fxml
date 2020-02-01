@@ -21,6 +21,7 @@
                                  <children>
                                     <JFXComboBox fx:id="sellerType_CB" prefHeight="25.0" prefWidth="133.0" promptText="ksasd" />
                                     <JFXTextField fx:id="sellerName_TF" promptText="sdsdsd" />
+                                    <Separator prefWidth="200.0" />
                                     <AnchorPane fx:id="sellersTable_Loc" prefHeight="327.0" prefWidth="113.0" />
                                  </children>
                                  <padding>

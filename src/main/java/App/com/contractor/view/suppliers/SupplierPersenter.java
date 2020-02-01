@@ -9,6 +9,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.controlsfx.glyphfont.FontAwesome;
 import org.hibernate.criterion.Order;
@@ -58,7 +60,8 @@ import javafx.stage.StageStyle;
 
 public class SupplierPersenter extends ContractorAction implements Initializable {
 	
-	
+	Logger logger = Logger.getLogger(this.getClass().getName());	
+
 	
 
 	  @FXML
@@ -121,7 +124,7 @@ public class SupplierPersenter extends ContractorAction implements Initializable
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		// TODO Auto-generated method stub
+	  	  logger.log(Level.INFO,"============================================================================================================");
 		init() ;
 	}
 	
@@ -133,7 +136,7 @@ public class SupplierPersenter extends ContractorAction implements Initializable
 		List contractorColumns=prepareContractorColumns();
 		List transactionsColumns=prepareTransactionsColumns();
 		List contratorHeadNodes=prepareContractorHeaderNodes();
-		contractorPredicatableTable=new PredicatableTable<ContractorVB>(contractorColumns, contratorHeadNodes, null, new ContractorableActionListner(), CustomTable.headTableCard, ContractorVB.class);
+		contractorPredicatableTable=new PredicatableTable<ContractorVB>(contractorColumns, contratorHeadNodes, null, new ContractorableActionListner(), PredicatableTable.headTableCard, ContractorVB.class);
 		transactionsCustomeTable=new CustomTable<ContractorDataVB>(transactionsColumns, null, null, null, null, CustomTable.tableCard, ContractorDataVB.class);
 
 		//=========================================================================================================================================
@@ -308,7 +311,7 @@ public class SupplierPersenter extends ContractorAction implements Initializable
 	
 	JFXButton addBtn=new JFXButton(this.getMessage("button.add"));
 	addBtn.setGraphic(new FontAwesome().create(FontAwesome.Glyph.PLUS));
- 	    addBtn.getStyleClass().setAll("btn","btn-primary");                     //(2)
+ 	    addBtn.getStyleClass().setAll("btn-xs","btn-primary");                     //(2)
 	    addBtn.setOnAction(e -> {
 
 	    	addTransaction();

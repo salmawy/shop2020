@@ -1,5 +1,7 @@
 package App.com.expanses.services.spring;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +20,7 @@ import App.com.expanses.services.IExpansesServices;
 import App.core.Enum.IncomeTypesEnum;
 import App.core.Enum.LoanTypeEnum;
 import App.core.Enum.OutcomeTypeEnum;
+import App.core.Enum.SafeTransactionTypeEnum;
 import App.core.applicationContext.ApplicationContext;
 import App.core.beans.IncLoan;
 import App.core.beans.Income;
@@ -28,6 +31,7 @@ import App.core.beans.Loaners;
 import App.core.beans.Outcome;
 import App.core.beans.OutcomeDetail;
 import App.core.beans.Safe;
+import App.core.beans.SafeTracing;
 import App.core.exception.DataBaseException;
 import App.core.exception.EmptyResultSetException;
 import App.core.exception.InvalidReferenceException;
@@ -41,11 +45,33 @@ public class ExpansesServices implements IExpansesServices {
 	IBaseService baseService;
 	Logger logger = Logger.getLogger(this.getClass().getName());	
 	private ResourceBundle settingsBundle = ResourceBundle.getBundle("ApplicationSettings_ar");
+	private Map <String,Object> entitDictionary;
 	
 	
+	@Override
+public void initEntitDictionary() {
+	
+	try {
+		entitDictionary=new HashMap();
+		
+	}catch (Exception e) {
+		// TODO: handle exception
+	}
 	
 	
+}
 
+
+
+
+
+
+public Map <String,Object> getEntitDictionary() {
+	
+	
+	
+	return entitDictionary;
+}
 public IExpansesDao getExpansesDao() {
 		return expansesDao;
 	}
@@ -732,7 +758,190 @@ public void loanIncTansaction(String name, Date date, double amount, String type
 
 	
 
+@Override
+public void changeSafeBalance(int safeId,double amount,int transactionType,String transactionName,int transactionId  ) throws DataBaseException, InvalidReferenceException {
+	
+	TransactionStatus status = null;
 
+	DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+	def.setPropagationBehavior(TransactionDefinition.PROPAGATION_NESTED);
+	def.setTimeout(Integer.parseInt(this.getSettingsBundle().getString("transactionTimeOut.base.highTimeOut")));
+	status = this.getMyTransactionManager().getTransaction(def);
+	Safe safe=(Safe)getSynchronizeBean(Safe.class, safeId);
+
+
+
+
+	try {
+		 double newBalance=safe.getBalance();
+		if(transactionType==SafeTransactionTypeEnum.add)
+			newBalance+=amount;
+		else if(transactionType==SafeTransactionTypeEnum.subtract)
+			newBalance-=amount;
+ 		
+		SafeTracing tracing=new SafeTracing();
+		tracing.setSafeId(safeId);
+		tracing.setAmount(amount);
+		tracing.setAfterAmount(newBalance);
+		tracing.setBefaorAmount(safe.getBalance());
+		tracing.setTransactionType(transactionType);
+		tracing.setTransactionId(transactionId);
+
+		tracing.setTransactionName(transactionName);
+
+		safe.setBalance(newBalance);
+		this.getBaseService().addBean(tracing);
+		this.getBaseService().addEditBean(safe);
+		entitDictionary.put(safe.getClass().getName(), safe);
+
+		
+		
+	}catch (DataBaseException e) {
+		this.getMyTransactionManager().rollback(status);
+		logger.log(Level.SEVERE,e.getMessage());
+		throw new DataBaseException(e.getMessage());
+
+	}finally {
+		closeTransaction(status);
+
+	}
+	
+	
+}
+
+@Override
+public void changeOutcomeDetailAmount(int outcomeDetailId,double amount,int transactionTypeId  ) throws DataBaseException, InvalidReferenceException {
+
+
+ 
+
+	//change outcome detail 
+	OutcomeDetail detail=	 (OutcomeDetail) this.getBaseService().getBean(OutcomeDetail.class, outcomeDetailId);
+	
+	TransactionStatus status = null;
+
+	DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+	def.setPropagationBehavior(TransactionDefinition.PROPAGATION_NESTED);
+	def.setTimeout(Integer.parseInt(this.getSettingsBundle().getString("transactionTimeOut.base.highTimeOut")));
+	status = this.getMyTransactionManager().getTransaction(def);
+
+ 	try {
+	
+	
+	
+	double newAmount=detail.getAmount();
+	
+	
+	if(transactionTypeId==SafeTransactionTypeEnum.add)
+		newAmount+=amount;
+	else if(transactionTypeId==SafeTransactionTypeEnum.subtract)
+		newAmount-=amount;
+		
+  	detail.setAmount(newAmount);
+	//=========================================================================================================================
+
+	//change outcome  
+	Outcome outcome= (Outcome) getSynchronizeBean(Outcome.class, detail.getOutcomeId());
+	newAmount=outcome.getTotalOutcome();
+	if(transactionTypeId==SafeTransactionTypeEnum.add)
+		newAmount+=amount;
+	else if(transactionTypeId==SafeTransactionTypeEnum.subtract)
+		newAmount-=amount;
+	
+	outcome.setTotalOutcome(newAmount);
+	//=========================================================================================================================
+
+	this.getBaseService().addEditBean(detail);
+	this.getBaseService().addEditBean(outcome);
+	entitDictionary.put(outcome.getClass().getName(), outcome);
+
+	 changeSafeBalance(outcome.getSafeId(), amount, SafeTransactionTypeEnum.add, detail.getType().getName(),detail.getId());
+	
+	
+	
+
+
+	}catch (DataBaseException e) {
+		this.getMyTransactionManager().rollback(status);
+		logger.log(Level.SEVERE,e.getMessage());
+		throw new DataBaseException(e.getMessage());
+
+	}finally {
+		closeTransaction(status);
+
+	}
+
+
+
+
+
+}
+ 
+ private  Object getSynchronizeBean(Class<?>beanClass, Integer identifier) throws  InvalidReferenceException {
+ 	try{
+		
+		Object bean=entitDictionary.get(beanClass.getName());
+		if(bean!=null)
+			{
+			Integer id=(Integer) invokeMethode(bean, "getId");
+			 if(id.equals(identifier)) 			 
+			return bean;
+			 }
+			
+	 
+			
+			bean =this.getBaseService().getBean(beanClass, identifier);
+			return bean;
+			
+			
+		 
+			 
+	 
+		
+	}
+ 	catch (InvalidReferenceException e) {
+ 
+ 	throw new InvalidReferenceException(beanClass.getName() +" not found ");
+ 	}
+ 	catch (Exception e) {
+e.printStackTrace();	}
+	return null;
+}
+
+
+
+
+
+
+
+private Object invokeMethode(Object instance,String methodeName) {
+	Object returnObj=null;
+	try {
+		
+		
+	Method methode= instance.getClass().getMethod(methodeName);
+	returnObj=	methode.invoke(instance);
+	
+	
+	
+	} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	} catch (NoSuchMethodException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	} catch (SecurityException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+		
+	
+	return returnObj;
+
+	
+	
+	
+}
 
 
 }

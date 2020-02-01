@@ -175,8 +175,8 @@ private void setTableActionListner(){
 			TableColumn col = new TableColumn(column.getName());
 			 col.setPrefWidth(column.getSize());
 			 col.setVisible(column.getShow());
-					 
-			
+			 col.setEditable(column.isEditable());		 
+			col.setId(column.getId());
 			 col.prefWidthProperty().bind(table.widthProperty().multiply(column.getSize() / 100.0).subtract(((table.getInsets().getLeft() + table.getInsets().getRight()) / columns.size())));
 		
 			 
@@ -421,4 +421,13 @@ private void setTableActionListner(){
 		
 		
 	}
+	
+	
+
+ 
+public  TableColumn getTableColumnById( String id) {
+ 	for ( TableColumn col : this.table.getColumns())
+        if (col.getId().equals(id)) return  col ;
+    return null ;
+}
 }

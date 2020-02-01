@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
@@ -32,6 +34,7 @@ import javafx.scene.Scene;
  */
 
 public class LoginPersenter extends BaseAction  implements Initializable {
+	Logger logger = Logger.getLogger(this.getClass().getName());	
 
     @FXML
     private ResourceBundle resources;
@@ -94,7 +97,8 @@ try {
     	
     	
     	
-    	
+	  	  logger.log(Level.INFO,"============================================================================================================");
+
    
 
     	

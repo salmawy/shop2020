@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.controlsfx.control.textfield.TextFields;
@@ -92,7 +93,7 @@ public class AddSupplierPersenter extends ContractorAction implements Initializa
 	    
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		// TODO Auto-generated method stub
+	  	  logger.log(Level.INFO,"============================================================================================================");
 		init();
 		 
 		 

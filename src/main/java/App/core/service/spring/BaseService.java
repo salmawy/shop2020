@@ -449,6 +449,8 @@ public class BaseService  implements IBaseService, IBaseRetrievalService {
 			if(bean!=null){
 				((BaseBean)bean).setChangerId(ApplicationContext.currentUser.getId());
 				((BaseBean)bean).setChangeDate(new Date());	
+				((BaseBean)bean).setChanged(1); 
+
 				
 
 			}

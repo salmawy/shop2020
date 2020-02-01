@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.controlsfx.glyphfont.FontAwesome;
@@ -84,6 +85,10 @@ public class LoansPersenter extends ExpansesAction implements Initializable , Cu
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+	  	  logger.log(Level.INFO,"============================================================================================================");
+
+		
+		
 		init();		
 	}
     

@@ -15,7 +15,7 @@ public class PurchasedInvoicesVB {
 	double tips;
 	double commision;
 	double buyPrice;
-	public static final SimpleDateFormat sdf=new SimpleDateFormat("YYYY-MM-DD"); 
+	public static final SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd"); 
 
 	public int getId() {
 		return id;

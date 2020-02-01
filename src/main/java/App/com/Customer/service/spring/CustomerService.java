@@ -18,14 +18,17 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import App.com.Customer.dao.ICustomerDao;
 import App.com.Customer.service.ICustomerService;
+import App.com.expanses.services.IExpansesServices;
 import App.core.Enum.CustomerTypeEnum;
 import App.core.Enum.OutcomeTypeEnum;
+import App.core.Enum.SafeTransactionTypeEnum;
 import App.core.applicationContext.ApplicationContext;
 import App.core.beans.Customer;
 import App.core.beans.CustomerOrder;
 import App.core.beans.Income;
 import App.core.beans.Outcome;
 import App.core.beans.OutcomeDetail;
+import App.core.beans.PurchasedCustomerInst;
 import App.core.beans.Safe;
 import App.core.beans.Season;
 import App.core.exception.DataBaseException;
@@ -37,9 +40,26 @@ import App.core.service.IBaseService;
 public class CustomerService implements ICustomerService {
 	
 	ICustomerDao customerDao;
+	IExpansesServices expansesServices;
+	
+
 	IBaseRetrievalService baseRetrievalService;
 	IBaseService baseService;
 	
+	
+	
+	public IExpansesServices getExpansesServices() {
+		return expansesServices;
+	}
+
+
+	public void setExpansesServices(IExpansesServices expansesServices) {
+		this.expansesServices = expansesServices;
+	}
+
+
+
+
 	Logger logger = Logger.getLogger(this.getClass().getName());	
 	private ResourceBundle settingsBundle = ResourceBundle.getBundle("ApplicationSettings_ar");
 	
@@ -376,7 +396,7 @@ public Double getSafeBalance(int seasonId) {
 	return safe.getBalance();
 	} catch (DataBaseException | InvalidReferenceException e) {
 		// TODO Auto-generated catch block
-		e.printStackTrace();
+		//e.printStackTrace();
 	}
 	return balance;
 	
@@ -392,7 +412,7 @@ public Double getSafeBalance(int seasonId) {
 
 
 
-public void editCustomerOrder(CustomerOrder newValue,CustomerOrder oldValue) throws DataBaseException {
+public void editCustomerOrder(CustomerOrder newOrder,CustomerOrder oldOrder) throws DataBaseException, InvalidReferenceException {
 	
 	TransactionStatus status = null;
 
@@ -402,9 +422,63 @@ public void editCustomerOrder(CustomerOrder newValue,CustomerOrder oldValue) thr
 	status = this.getMyTransactionManager().getTransaction(def);
 	
 	try {
-		deleteOldCustomerOrder(oldValue);
-	    saveCustomerOrder(newValue);
-	    
+		Map<String,Object> map=new HashMap<String, Object>();
+		this.getExpansesServices().initEntitDictionary();
+		int customerId=oldOrder.getCustomerId();
+		
+		if(!newOrder.getCustomer().getName().equals(oldOrder.getCustomer().getName()) ) {
+			
+			customerId=(int)	saveCustomer(newOrder.getCustomer()).getId();
+		 }
+		
+		newOrder.setCustomer(null);
+		newOrder.setCustomerId(customerId);
+		//====================================================================================================================
+		if(!newOrder.getNolun().equals(oldOrder.getNolun() )) {
+			map=new HashMap<String, Object>();
+			map.put("orderId",oldOrder.getId() );
+			map.put("typeId",OutcomeTypeEnum.NOLOUN );
+
+			try {
+				
+				//change outcome detail 
+				OutcomeDetail nolune=	 (OutcomeDetail) this.getBaseService().findAllBeans(OutcomeDetail.class, map, null).get(0);
+				double amount=Math.abs(nolune.getAmount()-newOrder.getNolun());
+		        int  operationType=(newOrder.getNolun()<oldOrder.getNolun() )?SafeTransactionTypeEnum.add:SafeTransactionTypeEnum.subtract;
+				
+		        
+		        this.getExpansesServices().changeOutcomeDetailAmount(nolune.getId(), amount, operationType);
+			 
+			} catch (EmptyResultSetException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		 }
+		
+		
+		if(!newOrder.getTips().equals(oldOrder.getTips())) {
+			
+			map=new HashMap<String, Object>();
+			map.put("orderId",oldOrder.getId() );
+			map.put("typeId",OutcomeTypeEnum.TIPS );
+
+			try {
+ 				//change outcome detail 
+				OutcomeDetail tips=	 (OutcomeDetail) this.getBaseService().findAllBeans(OutcomeDetail.class, map, null).get(0);
+				double amount=Math.abs(newOrder.getTips()-tips.getAmount());
+			int  operationType=(newOrder.getTips()<oldOrder.getNolun() )?SafeTransactionTypeEnum.add:SafeTransactionTypeEnum.subtract;
+				this.getExpansesServices().changeOutcomeDetailAmount(tips.getId(), amount, operationType);
+		
+			} catch (EmptyResultSetException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		 }
+		
+		newOrder.setId(oldOrder.getId());
+		this.getBaseService().addEditBean(newOrder);
+		
+ 	    
 		this.getMyTransactionManager().commit(status);
 
 	    
@@ -500,9 +574,175 @@ public void recalculateSafeBalance(int seasonId) {
 }
 
 
+	/*
+	 * 
+	 * public void confirmPurchasedOrdersPrices(List editedRecords) throws
+	 * DataBaseException {
+	 * 
+	 * 
+	 * 
+	 * 
+	 * System.out.println("confirm prices "); List <Object>beans=new
+	 * ArrayList<Object>();
+	 * //===========================================================================
+	 * ===================================
+	 * 
+	 * for (Iterator iterator = editedRecords.iterator(); iterator.hasNext();) {
+	 * PurchasedOrdersViewBean purchasedOrdersViewBean = (PurchasedOrdersViewBean)
+	 * iterator.next(); int id =purchasedOrdersViewBean.getId(); try { CustomerOrder
+	 * bean=(CustomerOrder) this.getBaseService().getBean(CustomerOrder.class, id);
+	 * bean.setUnitePrice(purchasedOrdersViewBean.getUnitePrice());
+	 * bean.setPeriodId(-1);
+	 * bean.setBuyPrice(purchasedOrdersViewBean.getBuyPrice()); beans.add(bean);
+	 * 
+	 * } catch ( InvalidReferenceException e1) { // TODO Auto-generated catch block
+	 * e1.printStackTrace(); }
+	 * 
+	 * }
+	 * //===========================================================================
+	 * ===================================
+	 * this.getBaseService().addEditBeans(beans);
+	 * 
+	 * //===========================================================================
+	 * ===================================
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * }
+	 */
+@Override
+public void payPurchasedOrder(int customerId,double amount,Date date,String notes,int seasonId,int fridageId) throws DataBaseException {
+	
+	PurchasedCustomerInst inst=new PurchasedCustomerInst();
+	inst.setCustomerId(customerId);
+	inst.setAmount(amount);
+	inst.setInstalmentDate(date);
+	inst.setNotes(notes);
+	inst.setSeasonId(seasonId);
+	
+	
+	
+	
+	TransactionStatus status = null;
+
+	DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+	def.setPropagationBehavior(TransactionDefinition.PROPAGATION_NESTED);
+	def.setTimeout(Integer.parseInt(this.getSettingsBundle().getString("transactionTimeOut.base.highTimeOut")));
+	status = this.getMyTransactionManager().getTransaction(def);
+
+	
+	try {	
+		
+		this.getBaseService().addBean(inst);
+		
+		this.getExpansesServices().outcomeTransaction(date, amount, notes, OutcomeTypeEnum.PURCHASES_WITHDRAWALS, customerId, inst.getId(), fridageId, seasonId);
+	}
+	
+	
+	
+	catch(DataBaseException dbEx) {
+		this.getMyTransactionManager().rollback(status);
+		throw new DataBaseException(dbEx.getMessage());
+		
+	}
+ finally {
+	 this.closeTransaction(status);
+    }
+ 
+	
+	
+}
+
+
+
+
+@Override
+public void editPurchasedOrder(int installmentId, int customerId,double amount,Date date,String notes,int seasonId,int fridageId) throws DataBaseException, InvalidReferenceException {
+	
+	PurchasedCustomerInst inst=(PurchasedCustomerInst) this.getBaseService().getBean(PurchasedCustomerInst.class, installmentId);
+	double oldAmount=inst.getAmount();
+	int oldCustomerId=inst.getCustomerId();
+	inst.setCustomerId(customerId);
+	inst.setAmount(amount);
+	inst.setInstalmentDate(date);
+	inst.setNotes(notes);
+	inst.setSeasonId(seasonId);
+	
+	
+	Map <String,Object>map=new HashMap<String,Object>();
+	map.put("typeId", OutcomeTypeEnum.PURCHASES_WITHDRAWALS);
+	map.put("fridageId", fridageId);
+	map.put("orderId", installmentId);
+	map.put("customerId", oldCustomerId);
+	OutcomeDetail outcomeDetail=(OutcomeDetail) this.getBaseService().getBean(OutcomeDetail.class, map);
+	
+	TransactionStatus status = null;
+
+	DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+	def.setPropagationBehavior(TransactionDefinition.PROPAGATION_NESTED);
+	def.setTimeout(Integer.parseInt(this.getSettingsBundle().getString("transactionTimeOut.base.highTimeOut")));
+	status = this.getMyTransactionManager().getTransaction(def);
+
+	
+	try {	
+		
+		this.getBaseService().addEditBean(inst);
+		if(oldAmount!=inst.getAmount()) {
+			
+	        int  operationType=(inst.getAmount()<oldAmount )?SafeTransactionTypeEnum.add:SafeTransactionTypeEnum.subtract;
+	
+		this.getExpansesServices().changeOutcomeDetailAmount(outcomeDetail.getId(), amount, operationType);
+		
+		
+		}
+		
+		
+		  if (oldCustomerId!=inst.getCustomerId()) {
+	
+			outcomeDetail.setCustomerId(inst.getCustomerId());
+			this.getBaseService().addEditBean(outcomeDetail);
+		}
+	
+	}
+	
+	
+	
+	catch(DataBaseException dbEx) {
+		this.getMyTransactionManager().rollback(status);
+		throw new DataBaseException(dbEx.getMessage());
+		
+	}
+ finally {
+	 this.closeTransaction(status);
+    }
+ 
+	
+	
+}
+
+
+
+
+
+
 
 
 
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

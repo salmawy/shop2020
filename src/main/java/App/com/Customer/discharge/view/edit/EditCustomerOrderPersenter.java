@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.controlsfx.control.textfield.TextFields;
@@ -95,7 +96,8 @@ public class EditCustomerOrderPersenter extends CustomerBaseAction implements In
     public void initialize(URL location, ResourceBundle resources) {
     	
     	errIcon=loadImage("icons/error-icon.png");
-   	
+	  	  logger.log(Level.INFO,"============================================================================================================");
+
     	
    	init();
   }
@@ -674,7 +676,7 @@ private Image loadImage(String path) {
 				   response.put("valid",true);
 				   
 				      stage.close(); 
-			} catch (DataBaseException e) {
+			} catch (DataBaseException | InvalidReferenceException e) {
 		    	   alert(AlertType.ERROR, this.getMessage("msg.err"),this.getMessage("msg.err"), this.getMessage("msg.err.general"));
 				e.printStackTrace();
 			}

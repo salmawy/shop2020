@@ -19,6 +19,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.controlsfx.control.textfield.TextFields;
@@ -116,7 +117,8 @@ public class InitCustomerDischargePresenter extends CustomerBaseAction  implemen
     public void initialize(URL location, ResourceBundle resources) {
     	
     	errIcon=loadImage("icons/error-icon.png");
-   	
+  	  logger.log(Level.INFO,"============================================================================================================");
+
     	
    	init();
    	getBook();
@@ -862,8 +864,7 @@ private void fitToAnchorePane(Node node) {
     		
     		
       	    this.bookDatePicker.setValue(getBaseService().convertToLocalDateViaMilisecond(new Date()));
-    		
-    	
+     	
     	} catch (DataBaseException | EmptyResultSetException e) {
     		// TODO Auto-generated catch block
     		e.printStackTrace();
@@ -895,14 +896,16 @@ private void fitToAnchorePane(Node node) {
     	popupwindow.setScene(scene1);
     	popupwindow.setOnHiding( ev -> {
     		
-
+try {
     		System.out.println("window closes");
     		boolean valid=(boolean) this.response.get("valid");
     		
     		if(valid)
     			loadData(fromLocalDateToDate(bookDatePicker.getValue()));
         
-    		
+}catch (Exception e) {
+	// TODO: handle exception
+}
     		
     	});
     	

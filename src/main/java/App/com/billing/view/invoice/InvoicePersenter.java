@@ -13,6 +13,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.controlsfx.glyphfont.FontAwesome;
@@ -23,6 +24,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
+import com.sun.xml.internal.ws.handler.HandlerException;
 
 import App.com.billing.action.BillingAction;
 import App.com.billing.view.beans.InvoiceWeight;
@@ -32,8 +34,10 @@ import App.core.UIComponents.customTable.Column;
 import App.core.UIComponents.customTable.CustomTable;
 import App.core.applicationContext.ApplicationContext;
 import App.core.beans.CustomerOrder;
+import App.core.exception.BusinessLogicViolationException;
 import App.core.exception.DataBaseException;
 import App.core.exception.EmptyResultSetException;
+import App.core.exception.HandleErr;
 import App.core.exception.InvalidReferenceException;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -47,7 +51,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import net.sf.jasperreports.engine.JRException;
 
-public class InvoicePersenter extends BillingAction implements Initializable {
+public class InvoicePersenter extends BillingAction  implements Initializable {
 	
 	Logger logger = Logger.getLogger(this.getClass().getName());	
 
@@ -163,8 +167,14 @@ public class InvoicePersenter extends BillingAction implements Initializable {
 	private CustomTable<InvoiceWeight> invoiceWeights;
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
- 
-		  invoiceId=(int) this.request.get("invoiceId");
+   logger.setLevel(Level.INFO);
+
+logger.log(logger.getLevel(),"============================================================================================================");
+//logger.log(logger.getLevel(),"======== Path =>"+this.getClass().getName()+"==============================================================");
+//logger.log(logger.getLevel(),"============================================================================================================");
+ 		
+
+invoiceId=(int) this.request.get("invoiceId");
 		  typeId=(int) this.request.get("typeId");
 		
 		
@@ -267,19 +277,10 @@ private void render() {
 		 printInvoice_btn.getStyleClass().setAll("btn","btn-info","btn-sm");                     //(2)
 		 printInvoice_btn.setOnMouseClicked((new EventHandler<MouseEvent>() { 
 		    	   public void handle(MouseEvent event) { 
-		    		      System.out.println("generate_btn has been clicked"); 
+		    		      System.out.println("printInvoice_btn has been clicked"); 
 		    		      
-		    		      int action =(int) request.get("action");
-		    		      switch (action) {
-						case 1:
-							generate();
-							break;
-						case 2:
-							payInvoice();
-							break;
-						default:
-							break;
-						}
+		    		   //   int action =(int) request.get("action");
+		    		    
 		    		      
 		    		    //  initGenerateInvoice();
 		    		      
@@ -288,7 +289,8 @@ private void render() {
 		    		}));
 		 
 		 
-		 
+		 printInvoice_btn.setDisable(true);
+
 		 generate_btn.setText(getMessage("button.generate"));
  		generate_btn.setGraphic(new FontAwesome().create(FontAwesome.Glyph.SAVE));
  	    generate_btn.getStyleClass().setAll("btn","btn-info","btn-sm");                     //(2)
@@ -299,7 +301,20 @@ private void render() {
 	    		      int action =(int) request.get("action");
 	    		      switch (action) {
 					case 1:
-						generate();
+						try {
+							generate();
+							alert(AlertType.CONFIRMATION, "", "", getMessage("msg.billing.invoiceHasbeenGenerated"));
+							
+						} catch (DataBaseException e) {
+							e.printStackTrace();
+					    	   alert(AlertType.ERROR, getMessage("msg.err"),getMessage("msg.err"), getMessage("msg.err.general"));
+
+						} catch (BusinessLogicViolationException e) {
+							///HandlerException hErr=new HandlerException(e);
+							System.out.print(getMessage("msg.error.inputData"));
+							//e.printStackTrace();
+							
+						}
 						break;
 					case 2:
 						payInvoice();
@@ -389,7 +404,7 @@ private void render() {
  
  
  
-		 protected void generate() {
+		 protected void generate() throws DataBaseException, BusinessLogicViolationException {
 			 
 			 
 		     
@@ -413,58 +428,74 @@ private void render() {
 		//invoice.setFinished(1);
 		invoice.setEditeDate(new Date());
 		invoice.setTotalPrice(totalPrice);
-			/*
-			 * try { this.getBaseService().editBean(invoice); } catch (DataBaseException e1)
-			 * { // TODO Auto-generated catch block e1.printStackTrace(); }
-			 */
-		
-		
-		
-		
-		if (invoice.getProductId() == 1) {
 			
-
- 			try {
-				 Resource r=new ClassPathResource("reports/billing/invoice.jrxml"); 
-
-	 		InputStream report = null;
-			try {
-				report = new FileInputStream ( r.getFile().getPath());
-			} catch (FileNotFoundException e) {
-				
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-	 		Map<String, Object> param = new HashMap<String, Object>();
-
-			param.put("orderID", new Integer(order_id));
-			
- 		    param.put("SUBREPORT_DIR", new ClassPathResource("reports/billing").getPath() + "/");
- 			param.put("order_id",invoice.getId());
-
-		 	getBaseService().printReport(param, report);
-	 		
-			} catch (DataBaseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (JRException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			
-		} else if (invoice.getProductId()  == 2) { }
+			    this.getBaseService().editBean(invoice);  
+			 
+			 
+		
+	
 		
  		}
+		else {
+			throw new BusinessLogicViolationException("msg.error.inputData");
+			
+		}
 		
 			 
 			 
 			
 }
 
+		 
+ private void  print(int orderId) {
+			 
+				
+				
+				
+				if (invoice.getProductId() == 1) {
+					
+
+		 			try {
+						 Resource r=new ClassPathResource("reports/billing/invoice.jrxml"); 
+
+			 		InputStream report = null;
+					try {
+						report = new FileInputStream ( r.getFile().getPath());
+					} catch (FileNotFoundException e) {
+						
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+			 		Map<String, Object> param = new HashMap<String, Object>();
+
+					param.put("orderID", orderId);
+					
+		 		    param.put("SUBREPORT_DIR", new ClassPathResource("reports/billing").getPath() + "/");
+		 			param.put("order_id",invoice.getId());
+
+				 	getBaseService().printReport(param, report);
+			 		
+					} catch (DataBaseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (JRException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					
+				} else if (invoice.getProductId()  == 2) { }
+			 
+			 
+		 }
+		 
+		 
+		 
+		 
+		 
 protected void payInvoice() {
 	// TODO Auto-generated method stub
 	

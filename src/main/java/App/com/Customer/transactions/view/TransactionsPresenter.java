@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.jfoenix.controls.JFXComboBox;
 
@@ -22,8 +24,6 @@ import App.core.beans.Fridage;
 import App.core.beans.Season;
 import App.core.exception.DataBaseException;
 import App.core.exception.EmptyResultSetException;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -33,7 +33,8 @@ import javafx.scene.layout.AnchorPane;
 
 public class TransactionsPresenter extends CustomerBaseAction  implements Initializable ,CustomTableActions{
 	
-	
+	Logger logger = Logger.getLogger(this.getClass().getName());	
+
 	 @FXML private AnchorPane CustomerTableLoc;
 
 
@@ -129,8 +130,8 @@ public class TransactionsPresenter extends CustomerBaseAction  implements Initia
 
 		@Override
 		public void initialize(URL arg0, ResourceBundle arg1) {
-			
-		
+			  logger.log(Level.INFO,"============================================================================================================");
+
         System.out.println(customerType_label.getText());
 			customerType_label.setText(this.getMessage("label.customer.Type"));
 			customerTypes_CB.getStyleClass().add("comboBox");
@@ -418,7 +419,7 @@ List <InvoiceViewbean> loadInvoices(int customerId ) {
 			CustomerOrder order=(CustomerOrder) it;
 			InvoiceViewbean viewBean=new InvoiceViewbean();
 			viewBean.setId(order.getId());
-			viewBean.setInvoiceDate(sdf.format(order.getDueDate()));
+			viewBean.setInvoiceDate(sdf.format(order.getOrderDate()));
 			viewBean.setProductName(order.getProduct().getName());
 			viewBean.setGrossWeight(order.getGrossweight());
 			viewBean.setNetWeight(order.getNetWeight());

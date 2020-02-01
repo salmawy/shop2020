@@ -8,6 +8,10 @@ public class Outcome extends BaseBean {
 	private Date outcomeDate;
 	private Double totalOutcome;
 	private int seasonId;
+	private Integer safeId;
+	private Safe safe;
+	
+	
 	public int getId() {
 		return id;
 	}
@@ -31,6 +35,18 @@ public class Outcome extends BaseBean {
 	}
 	public void setSeasonId(int seasonId) {
 		this.seasonId = seasonId;
+	}
+	public Integer getSafeId() {
+		return safeId;
+	}
+	public void setSafeId(Integer safeId) {
+		this.safeId = safeId;
+	}
+	public Safe getSafe() {
+		return safe;
+	}
+	public void setSafe(Safe safe) {
+		this.safe = safe;
 	}
 	
 

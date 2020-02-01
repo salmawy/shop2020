@@ -25,7 +25,7 @@
                <right>
                   <VBox prefHeight="600.0" prefWidth="250.0" BorderPane.alignment="CENTER">
                      <children>
-                        <Accordion fx:id="App_Components" nodeOrientation="RIGHT_TO_LEFT" prefHeight="800.0" prefWidth="250.0">
+                        <Accordion fx:id="App_Components" nodeOrientation="RIGHT_TO_LEFT" prefHeight="400.0" prefWidth="250.0">
                            <panes>
                               <TitledPane fx:id="customersComp" text="customers">
                                  <content>
@@ -139,7 +139,7 @@
                                                 <Font name="Roboto Bold" size="14.0" />
                                              </font>
                                           </JFXButton>
-                                          <JFXButton fx:id="payedInvoice_btn" layoutY="42.0" onAction="#LoadPanel" prefHeight="42.0" prefWidth="139.0" style="-fx-alignment: center-left;" styleClass="nav-button" text="pay Invoice" textFill="#a1aec4" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                          <JFXButton fx:id="payInvoice_btn" layoutY="42.0" onAction="#LoadPanel" prefHeight="42.0" prefWidth="139.0" style="-fx-alignment: center-left;" styleClass="nav-button" text="pay Invoice" textFill="#a1aec4" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                                              <font>
                                                 <Font name="Roboto Bold" size="14.0" />
                                              </font>

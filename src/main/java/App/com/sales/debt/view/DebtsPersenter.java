@@ -2,6 +2,7 @@ package App.com.sales.debt.view;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -9,10 +10,14 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
+import org.controlsfx.glyphfont.FontAwesome;
+
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXTreeTableView;
 
+import App.com.contractor.view.addSupplier.AddSupplierView;
 import App.com.sales.action.SalesAction;
 import App.com.sales.debt.view.beans.PrifSellerOrderVB;
 import App.com.sales.debt.view.beans.SellerDebtVB;
@@ -26,6 +31,7 @@ import App.core.UIComponents.customTable.CustomTable;
 import App.core.UIComponents.customTable.CustomTableActions;
 import App.core.UIComponents.customTable.PredicatableTable;
 import App.core.applicationContext.ApplicationContext;
+import App.core.beans.Contractor;
 import App.core.beans.Installment;
 import App.core.beans.Seller;
 import App.core.beans.SellerLoanBag;
@@ -37,8 +43,13 @@ import App.core.exception.InvalidReferenceException;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class DebtsPersenter extends SalesAction implements CustomTableActions,Initializable{
 	   
@@ -109,12 +120,14 @@ public class DebtsPersenter extends SalesAction implements CustomTableActions,In
 		
 		List<Column> orderDataColumn=prepareSellerOrderDetailColumns();
 		List<Column> prifOrderColumn=preparePrifOrderColumns();
+		List sellersHeadNodes=prepareSellersHeaderNodes();
+
 		List<Column> sellerInstallmentColumn=prepareSellerinstallmentColumns();
 		List<Column> orderDebtColumn=prepareSellerDeptColumns();
 //=========================================================================================================================================
 		
 		sellerOrdersCustomTable=new CustomTable<PrifSellerOrderVB>(prifOrderColumn, null, null, null, this, CustomTable.tableCard, SellerOrderVB.class);
-		sellersPredicatableTable=new PredicatableTable<SellerDebtVB>(orderDebtColumn, null, null, new sellrsTableActionListner(), CustomTable.tableCard, SellerOrderVB.class);
+		sellersPredicatableTable=new PredicatableTable<SellerDebtVB>(orderDebtColumn, sellersHeadNodes, null, new sellrsTableActionListner(), PredicatableTable.headTableCard, SellerOrderVB.class);
 		sellerInstallmentsCustomTable=new CustomTable<InstalmelmentVB>(sellerInstallmentColumn, null, null, null, null, CustomTable.tableCard, SellerOrderVB.class);
 		orderDataCustomTable=new CustomTable<SellerOrderDetailVB>(orderDataColumn, null, null, null, null, CustomTable.tableCard, SellerOrderVB.class);
 //=========================================================================================================================================
@@ -515,7 +528,85 @@ this.orderDataCustomTable.loadTableData(data);
 	} 
 	
 
-	
+	  private List prepareSellersHeaderNodes(){
+			//button.purchases.confirm  button.save
+			
+			JFXButton addBtn=new JFXButton(this.getMessage("button.add"));
+			addBtn.setGraphic(new FontAwesome().create(FontAwesome.Glyph.PLUS));
+		 	    addBtn.getStyleClass().setAll("btn-xs","btn-primary");                     //(2)
+			    addBtn.setOnAction(e -> {
+
+			    	addTransaction();
+			    	
+			    	
+			    	
+			    });
+
+			    List buttons =new ArrayList<JFXButton>(Arrays.asList(addBtn))  ;
+
+			return buttons;
+			
+		}
+
+	private void addTransaction() {
+
+		 
+ 		AddSupplierView form=new AddSupplierView();
+		URL u=getClass().getClassLoader().getResource("appResources/custom.css");
+  		Scene scene1= new Scene(form.getView(), 350, 420);
+		Stage popupwindow=new Stage();
+		popupwindow.setResizable(false);
+		popupwindow.initStyle(StageStyle.TRANSPARENT);
+
+	    String css =u.toExternalForm();
+		scene1.getStylesheets().addAll(css); 
+		popupwindow.initModality(Modality.APPLICATION_MODAL);
+		      
+		popupwindow.setScene(scene1);
+	popupwindow.setOnHiding( ev -> {
+			
+
+			if (response != null && response.get("valid") != null) {
+				/*
+				 * boolean valid=(boolean) response.get("valid");
+				 * 
+				 * int paid=-1; if(shop_radioBtn.isSelected()) paid=1; else
+				 * if(owner_radioBtn.isSelected()) paid=0; String contractorName=(String)
+				 * response.get("name"); Map<String,Object> map=new HashMap<String, Object>();
+				 * ````````````
+				 * map.put("name", contractorName); map.put("typeId", contractorTypeId);
+				 * map.put("ownerId", ownerId);
+				 * 
+				 * try { Contractor contractor=(Contractor)
+				 * this.getBaseService().getBean(Contractor.class, map);
+				 * LoadSuppliersNames(ownerId);
+				 * 
+				 * this.loadContractorTransactions(contractor.getId(), paid,ownerId);
+				 * //setContractorSeleted(contractor.getId());
+				 * this.name_TF.setText(contractor.getName());
+				 * contractorPredicatableTable.getTable().requestFocus();
+				 * contractorPredicatableTable.getTable().getSelectionModel().select(0);
+				 * contractorPredicatableTable.getTable().getFocusModel().focus(0); } catch
+				 * (DataBaseException e) { // TODO Auto-generated catch block
+				 * e.printStackTrace(); } catch (InvalidReferenceException e) { // TODO
+				 * Auto-generated catch block e.printStackTrace(); }
+				 * 
+				 * 
+				 * alert(AlertType.INFORMATION, "", "", this.getMessage("msg.done.save"));
+				 */}
+	    
+			
+			
+		});
+		      
+		popupwindow.showAndWait();
+		
+
+  
+		
+		
+	}
+
 	//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	class sellrsTableActionListner implements CustomTableActions 
 	{

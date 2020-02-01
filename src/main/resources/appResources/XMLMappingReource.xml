@@ -47,13 +47,15 @@
                 <value>App/core/beans/XMLMapping/users.hbm.xml</value> 
                 <value>App/core/beans/XMLMapping/vehicleType.hbm.xml</value>
                 <value>App/core/beans/XMLMapping/purchasedCustomerInst.hbm.xml</value>
+                 <value>App/core/beans/XMLMapping/safeTracing.hbm.xml</value>
+                
                 </list>  
         </property>  
         <property name="hibernateProperties">  
             <props>  
                 <prop key="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</prop>  
                 <prop key="hibernate.hbm2ddl.auto">update</prop>  
-                <prop key="hibernate.show_sql">true</prop>  
+                <prop key="hibernate.show_sql">false</prop>  
                   
             </props>  
         </property>  

@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8'?>  
+<!DOCTYPE hibernate-mapping PUBLIC  
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"  
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">  
+<hibernate-mapping>  
+<class name="App.core.beans.SafeTracing" table="SAFE_TRACING">  
+      <id name = "id" type = "int" column = "ID">
+          <generator class="increment"></generator>  
+          </id>  
+           	 <property name = "safeId" column = "SAFE_ID" />
+               <property name = "amount" column = "AMOUNT" />
+			   <property name = "befaorAmount" column = "BEFORE_AMOUNT" />
+			   <property name = "afterAmount" column = "AFTER_AMOUNT" />
+               <property name = "transactionType" column = "TRANSACTION_TYPE" />
+             	<property name = "transactionId" column = "TRANSACTION_ID" />
+                          	<property name = "transactionName" column = "TRANSACTION_NAME" />
+             
+               
+			    <property name = "changed" column = "CHANGED" />
+			 <property name = "changeDate" column = "CHANGE_DATE" />
+               <property name = "timestamp" column = "TIMESTAMP" />
+               <property name = "changerId" column = "CHANGER_ID" />
+            
+</class>  
+  
+            
+            
+            
+
+            
+</hibernate-mapping>  

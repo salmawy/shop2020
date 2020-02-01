@@ -1,8 +1,9 @@
-package App.com.expanses.view.payLoan;
+package App.com.sales.debt.payPurchasedOrder;
 
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -10,30 +11,29 @@ import java.util.logging.Logger;
 import org.controlsfx.glyphfont.FontAwesome;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 
-import App.com.expanses.action.ExpansesAction;
-import App.core.UIComponents.comboBox.ComboBoxItem;
+import App.com.Customer.action.CustomerBaseAction;
 import App.core.applicationContext.ApplicationContext;
 import App.core.beans.LoanAccount;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import App.core.exception.DataBaseException;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.NodeOrientation;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
-public class PayLoanPersenter extends ExpansesAction implements Initializable {
+public class PayOffSalerOrderPersenter extends CustomerBaseAction implements Initializable {
 	
 	
 	    Logger logger = Logger.getLogger(this.getClass().getName());	
@@ -44,8 +44,7 @@ public class PayLoanPersenter extends ExpansesAction implements Initializable {
 	    @FXML
 	    private JFXButton cancel_btn;
 
-	    @FXML
-	    private Label loanType_label;
+	    
 
 	    @FXML
 	    private JFXTextField name_TF;
@@ -68,9 +67,7 @@ public class PayLoanPersenter extends ExpansesAction implements Initializable {
 	    @FXML
 	    private AnchorPane root_pane;
 
-	    @FXML
-	    private JFXComboBox<ComboBoxItem> loanType_combo;
-
+	   
 	    @FXML
 	    private Pane coloredPane;
 
@@ -83,7 +80,10 @@ public class PayLoanPersenter extends ExpansesAction implements Initializable {
 	    
 	    private JFXDatePicker datePicker;
 	    private JFXSnackbar snackBar;
+	    private final int add=1;
+	    private final int edit=2;
 
+		private int customerId;
 	    
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -149,40 +149,39 @@ public class PayLoanPersenter extends ExpansesAction implements Initializable {
 	    
 //============================================================================================================
 	    
-	    loanType_label.setText(this.getMessage("label.type"));
-
-		loanType_combo.getItems().add(new ComboBoxItem(1,this.getMessage("label.inLoan")));
-		loanType_combo.getItems().add(new ComboBoxItem(2,this.getMessage("label.outLoan")));
-		loanType_combo.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>()
-	    {
-	        public void changed(ObservableValue<? extends Number> ov,
-	                final Number oldvalue, final Number newvalue)
-	        {
-	        	
-	        	ComboBoxItem item=loanType_combo.getSelectionModel().getSelectedItem();
-	        	if(item.getValue()==1) {
-	          title_label.setText(getMessage("label.inLoan"));
- 	        		coloredPane.setStyle("-fx-background-color: #00A65A");
-	        		
-	        	}
-	        	else if(item.getValue()==2) {
-	  	          title_label.setText(getMessage("label.outLoan"));
-
- 	        		coloredPane.setStyle("-fx-background-color: #DD4B39");
-
-	        		
-	        	}
-	        	
-	        	
-	        }
-	    });
-		loanType_combo.getSelectionModel().selectFirst();
-		
-	    
+        title_label.setText(getMessage("button.sellers.payOffOrders"));
+ 		coloredPane.setStyle("-fx-background-color: #00A65A");
+  
  //============================================================================================================
 	    snackBar=new JFXSnackbar(root_pane);
 	    
-	    
+	  int action=(int) request.get("action");
+	  String name=(String) request.get("name");
+	   customerId=(int) request.get("id");
+
+	  name_TF.setText(name);
+	  switch (action) {
+		/*
+		 * case add:
+		 * 
+		 * break;
+		 */
+case edit:
+	
+	double amount=(double) request.get("amount");
+	  String notes=(String) request.get("notes");
+	  Date payDate=	(Date) request.get("payDate");
+	  
+	  this.amount_TF.setText(String.valueOf(amount));
+	  this.note_TA.setText(notes);
+	  this.datePicker.setValue(this.getBaseService().convertToLocalDateViaMilisecond(payDate));
+	  
+	
+		
+		break;
+	default:
+		break;
+	}
 	    
 	    
 //============================================================================================================
@@ -205,7 +204,7 @@ private  boolean validateForm() {
     	
 	   String name=name_TF.getText() ;
 	    String amount =amount_TF.getText();
-        double safaBalance=this.getExpansesServices().getSafeBalance(ApplicationContext.season.getId());
+        double safaBalance=this.getExpansesService().getSafeBalance(ApplicationContext.season.getId());
 
 
         if (amount.isEmpty()){
@@ -216,12 +215,7 @@ private  boolean validateForm() {
        return false;
        
        }
-        else   if (name.isEmpty()) {
-    	snackBar.show(this.getMessage("msg.err.required.name"), 1000);
-
-           return false;
-
-       }
+       
         
         
         if (datePicker.getValue()==null) {
@@ -231,7 +225,7 @@ private  boolean validateForm() {
 
            }
         
-        LoanAccount account = this.getExpansesServices().getLoanerAccount(name);
+        LoanAccount account = this.getExpansesService().getLoanerAccount(name);
 
          if (safaBalance<Double.parseDouble(amount)) {
         
@@ -264,9 +258,34 @@ private  boolean validateForm() {
 
 
 	private void save() {
-		if(validateForm())
-    	snackBar.show(this.getMessage("button.save"),1000);
+		if(validateForm()) {
+			
+			double amount=Double.parseDouble(amount_TF.getText());
+			Date date=this.getBaseService().convertToDateViaInstant(datePicker.getValue());
+			String notes=note_TA.getText();
+			
+			int seasonId= ApplicationContext.season.getId();
+			int fridageId= ApplicationContext.fridage.getId();
+			try {
+				this.getCustomerService().payPurchasedOrder(customerId, amount, date, notes, seasonId, fridageId);
+ 		    	snackBar.show(this.getMessage("msg.done.save"),1000);
+
+			
+			} catch (DataBaseException e) {
+ 	 		    	snackBar.show(this.getMessage("msg.err"),1000);
+	 		    	e.printStackTrace();
+			}
+		}
 		
 	}
-
+	private void alert(AlertType alertType,String title,String headerText,String message) {
+		 Alert a = new Alert(alertType);
+		 a.getDialogPane().setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+		 a.setTitle(title );
+		 a.setHeaderText(headerText);
+		 a.setContentText(message); 
+	    a.show(); 
+	 
+	}
+	
 }

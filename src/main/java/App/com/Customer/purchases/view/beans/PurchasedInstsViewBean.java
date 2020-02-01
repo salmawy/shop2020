@@ -8,7 +8,7 @@ public class PurchasedInstsViewBean {
 	double amount;
 	String notes;
 	
-	public static final SimpleDateFormat sdf=new SimpleDateFormat("YYYY-MM-DD"); 
+	public static final SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd"); 
 
 	
 	public int getId() {

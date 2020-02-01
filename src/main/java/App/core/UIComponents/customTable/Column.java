@@ -17,16 +17,25 @@ public class Column {
     private String type ;
     private int size;
     private boolean show;
-
+    private boolean editable;
     public Column(String name, String id, String type, int size, boolean show) {
         this.name = name;
         this.id = id;
         this.type = type;
         this.size = size;
         this.show = show;
+        this.editable = false;
     }
     
-
+    public Column(String name, String id, String type, int size, boolean show,boolean editable) {
+        this.name = name;
+        this.id = id;
+        this.type = type;
+        this.size = size;
+        this.show = show;
+        this.editable = editable;
+    }
+    
     /**
      * @return the name
      */
@@ -96,6 +105,16 @@ public class Column {
     public void setShow(boolean show) {
         this.show = show;
     }
+
+
+	public boolean isEditable() {
+		return editable;
+	}
+
+
+	public void setEditable(boolean editable) {
+		this.editable = editable;
+	}
     
     
     

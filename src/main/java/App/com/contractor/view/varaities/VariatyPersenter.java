@@ -9,6 +9,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.controlsfx.glyphfont.FontAwesome;
 import org.hibernate.criterion.Order;
@@ -53,7 +55,8 @@ import javafx.stage.StageStyle;
 public class VariatyPersenter extends ContractorAction implements Initializable {
 	
 
-	
+	Logger logger = Logger.getLogger(this.getClass().getName());	
+
 	
 	  @FXML
 	    private JFXTextField name_TF;
@@ -86,7 +89,7 @@ public class VariatyPersenter extends ContractorAction implements Initializable 
 	private final int paid=1;
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		// TODO Auto-generated method stub
+	  	  logger.log(Level.INFO,"============================================================================================================");
 		init() ;
 	}
 	

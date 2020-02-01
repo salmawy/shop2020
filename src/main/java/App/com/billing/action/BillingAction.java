@@ -22,8 +22,7 @@ public class BillingAction extends BaseAction {
     	
     	setBillingService((IBillingService) App.springBeanFactory.getBean("billingService"));
  
-    	
-	}
+ 	}
 	 
 	public IBillingService getBillingService() {
 		return billingService;

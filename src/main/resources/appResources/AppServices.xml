@@ -21,6 +21,23 @@
     <property name="baseDao" ref="baseDao"></property>  
     </bean> 
   
+  
+  
+  <!--     ====================================== Start Expanses Service ===============================================================-->    
+    
+      
+      	<bean id="expansesDao" class="App.com.expanses.dao.hibernate.ExpansesDao">  
+    <property name="sessionFactory" ref="mysessionFactory"></property>  
+    </bean> 
+    
+      <bean id="expansesService" class="App.com.expanses.services.spring.ExpansesServices">  
+    <property name="expansesDao" ref="expansesDao"></property> 
+     <property name="baseRetrievalService" ref="baseService"></property> 
+  <property name="baseService" ref="baseService"></property>  
+   </bean> 
+    
+    <!--     ====================================== End Expanses Service =================================================================--> 
+ 
 <!--     Start :-customer service Beans -->    
  
  
@@ -31,7 +48,9 @@
       <bean id="customerService" class="App.com.Customer.service.spring.CustomerService">  
     <property name="customerDao" ref="customerDao"></property> 
      <property name="baseRetrievalService" ref="baseService"></property>  
-  	<property name="baseService" ref="baseService"></property>  
+  	<property name="baseService" ref="baseService"></property> 
+  	 <property name="expansesServices" ref="expansesService"></property>  
+  	 
      
     </bean> 
  
@@ -52,21 +71,7 @@
 
     
     
-<!--     ====================================== Start Expanses Service ===============================================================-->    
-    
-      
-      	<bean id="expansesDao" class="App.com.expanses.dao.hibernate.ExpansesDao">  
-    <property name="sessionFactory" ref="mysessionFactory"></property>  
-    </bean> 
-    
-      <bean id="expansesService" class="App.com.expanses.services.spring.ExpansesServices">  
-    <property name="expansesDao" ref="expansesDao"></property> 
-     <property name="baseRetrievalService" ref="baseService"></property> 
-  <property name="baseService" ref="baseService"></property>  
-   </bean> 
-    
-    <!--     ====================================== End Expanses Service =================================================================--> 
- 
+
  
     <!--     ====================================== Start contractor Service ===============================================================-->    
     

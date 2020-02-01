@@ -11,6 +11,8 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.airhacks.afterburner.views.FXMLView;
 import com.jfoenix.controls.JFXButton;
@@ -141,10 +143,17 @@ public class ApplicationPersenter extends BaseAction implements Initializable {
     private AnchorPane appPage;
    
    Map<String,String> panelPathes;
+
+	Logger logger = Logger.getLogger(this.getClass().getName());	
    
    
   @Override
     public void initialize(URL location, ResourceBundle resources){ 
+  	  logger.log(Level.INFO,"============================================================================================================");
+
+	  
+	  
+	  
 	  fillPanelsMap();
         intiateApp();  
     }
@@ -180,10 +189,13 @@ public class ApplicationPersenter extends BaseAction implements Initializable {
 	  varaities_btn.setText(this.getMessage("button.varaties"));
 	 
 	  generateInvoice_btn.setText(this.getMessage("button.invoice.generate"));
-
+	  payInvoice_btn.setText(this.getMessage("button.invoice.give"));
+	  payedInvoice_btn.setText(this.getMessage("button.invoice.archive"));
+	  
+	  
 	  
 	  appContainer.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
-
+	  
 	  this.getAppStage().setResizable(true);
 	  setCardLayout(this.mystackPane); 
 	  
@@ -332,9 +344,13 @@ private void fitToAnchorePane(Node node) {
 	  panelPathes.put("generateInvoice_btn", "App.com.billing.view.generateInvoice.InitGenerateInvoiceView");
 	  panelPathes.put("labour_btn", "App.com.contractor.view.labours.LabourView");
  
+	  panelPathes.put("payInvoice_btn", "App.com.billing.view.invoicePayment.InvoicePaymentView");
+	 // panelPathes.put("payedInvoice_btn", "App.com.contractor.view.labours.LabourView");
+
+ 	  //payInvoice_btn.setText(this.getMessage("button.invoice.give"));
+	//  payedInvoice_btn.setText(this.getMessage("button.invoice.archive"));
 	  
 	  
-	
 	
 	
 	
