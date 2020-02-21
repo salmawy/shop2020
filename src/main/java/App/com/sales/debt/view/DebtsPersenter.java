@@ -17,11 +17,11 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXTreeTableView;
 
-import App.com.contractor.view.addSupplier.AddSupplierView;
 import App.com.sales.action.SalesAction;
+import App.com.sales.debt.payPurchasedOrder.PayOffSalerOrderView;
+import App.com.sales.debt.view.beans.InstalmelmentVB;
 import App.com.sales.debt.view.beans.PrifSellerOrderVB;
 import App.com.sales.debt.view.beans.SellerDebtVB;
-import App.com.sales.debt.view.beans.InstalmelmentVB;
 import App.com.sales.view.beans.SellerOrderDetailVB;
 import App.com.sales.view.beans.SellerOrderVB;
 import App.core.Enum.SellerTypeEnum;
@@ -31,9 +31,7 @@ import App.core.UIComponents.customTable.CustomTable;
 import App.core.UIComponents.customTable.CustomTableActions;
 import App.core.UIComponents.customTable.PredicatableTable;
 import App.core.applicationContext.ApplicationContext;
-import App.core.beans.Contractor;
 import App.core.beans.Installment;
-import App.core.beans.Seller;
 import App.core.beans.SellerLoanBag;
 import App.core.beans.SellerOrder;
 import App.core.beans.SellerOrderWeight;
@@ -42,10 +40,13 @@ import App.core.exception.EmptyResultSetException;
 import App.core.exception.InvalidReferenceException;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.NodeOrientation;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Label;
+import javafx.scene.control.TreeItem;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -455,31 +456,18 @@ this.orderDataCustomTable.loadTableData(data);
 
         List<Column> columns=new ArrayList<Column>();
   
-       
-     
         Column  c=new Column(this.getMessage("seller.name"), "sellerName", "String", 35, true);
         columns.add(c);
        
       
-          c=new Column(this.getMessage("label.money.dueAmount"), "dueAmount", "double", 25, true);
+          c=new Column(this.getMessage("label.money.amount"), "dueAmount", "double", 15, true);
         columns.add(c);
        
-          c=new Column(this.getMessage("label.total.bananaPrice"), "totalOrdersCost", "date", 40, true);
+          c=new Column(this.getMessage("label.banana.Price"), "totalOrdersCost", "date", 50, true);
         columns.add(c);
-       
-  
-          
-          
-         
-        
+              
    return columns;
-   
-   
-   
-   
-   
-   
-   }
+    }
  
     private List<Column> preparePrifOrderColumns(){
         
@@ -488,7 +476,7 @@ this.orderDataCustomTable.loadTableData(data);
   
        
      
-        Column  c=new Column(this.getMessage("label.product"), "orderDate", "date", 50, true);
+        Column  c=new Column(this.getMessage("label.date"), "orderDate", "date", 50, true);
         columns.add(c);
        
       
@@ -497,19 +485,8 @@ this.orderDataCustomTable.loadTableData(data);
        
           c=new Column(this.getMessage("label.total.amount"), "totalOrderost", "double", 25, true);
         columns.add(c);
-       
-      
-      
-         
-        
-   return columns;
-   
-   
-   
-   
-   
-   
-   }
+        return columns;
+    }
 
 	
 	@Override
@@ -531,13 +508,21 @@ this.orderDataCustomTable.loadTableData(data);
 	  private List prepareSellersHeaderNodes(){
 			//button.purchases.confirm  button.save
 			
-			JFXButton addBtn=new JFXButton(this.getMessage("button.add"));
+			JFXButton addBtn=new JFXButton(this.getMessage("button.sellers.payOff"));
 			addBtn.setGraphic(new FontAwesome().create(FontAwesome.Glyph.PLUS));
 		 	    addBtn.getStyleClass().setAll("btn-xs","btn-primary");                     //(2)
 			    addBtn.setOnAction(e -> {
 
-			    	addTransaction();
 			    	
+			    	if(!sellersPredicatableTable.getTable().getSelectionModel().isEmpty())
+			    	payOffSellerOrders();
+			    	else {
+			    		
+			    		alert(AlertType.WARNING, "", "", this.getMessage("msg.err.should.select.seller"));
+
+			    		
+			    		
+			    	}
 			    	
 			    	
 			    });
@@ -548,10 +533,23 @@ this.orderDataCustomTable.loadTableData(data);
 			
 		}
 
-	private void addTransaction() {
+	private void payOffSellerOrders() {
 
 		 
- 		AddSupplierView form=new AddSupplierView();
+				
+				
+		SellerDebtVB seller=(SellerDebtVB)	((TreeItem<SellerDebtVB>) sellersPredicatableTable.getTable().getSelectionModel().getSelectedItem()).getValue();
+		 	// =(item.getValue());
+
+		
+		  request=new HashMap<String,Object>();
+		  request.put("id", seller.getId());
+		  request.put("name", seller.getSellerName().get()); 
+		  request.put("action", 1);
+		 
+		
+		
+ 		PayOffSalerOrderView form=new PayOffSalerOrderView();
 		URL u=getClass().getClassLoader().getResource("appResources/custom.css");
   		Scene scene1= new Scene(form.getView(), 350, 420);
 		Stage popupwindow=new Stage();
@@ -605,6 +603,18 @@ this.orderDataCustomTable.loadTableData(data);
   
 		
 		
+	}
+
+	
+//=======================================================================================================================================================================	
+	private void alert(AlertType alertType,String title,String headerText,String message) {
+		 Alert a = new Alert(alertType);
+		 a.getDialogPane().setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+		 a.setTitle(title );
+		 a.setHeaderText(headerText);
+		 a.setContentText(message); 
+	    a.show(); 
+	 
 	}
 
 	//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

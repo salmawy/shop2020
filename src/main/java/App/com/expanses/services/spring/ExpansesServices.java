@@ -49,7 +49,7 @@ public class ExpansesServices implements IExpansesServices {
 	
 	
 	@Override
-public void initEntitDictionary() {
+public void initEntityDictionary() {
 	
 	try {
 		entitDictionary=new HashMap();
@@ -343,7 +343,7 @@ public  Outcome findOutcome(Date date) {
 	
 	} catch (DataBaseException | EmptyResultSetException e) {
 		// TODO Auto-generated catch block
-		e.printStackTrace();
+	//	e.printStackTrace();
 		logger.log(logger.getLevel().INFO, "error.emptyRS incomeDate of date "+date.toString());
 	}
 	
@@ -793,6 +793,7 @@ public void changeSafeBalance(int safeId,double amount,int transactionType,Strin
 		this.getBaseService().addBean(tracing);
 		this.getBaseService().addEditBean(safe);
 		entitDictionary.put(safe.getClass().getName(), safe);
+		this.getMyTransactionManager().commit(status);
 
 		
 		
@@ -876,7 +877,85 @@ public void changeOutcomeDetailAmount(int outcomeDetailId,double amount,int tran
 
 
 }
+
+
+
+@Override
+public void changeIncomeDetailAmount(IncomeDetail incomeDetail,double amount,int transactionTypeId  ) throws DataBaseException, InvalidReferenceException {
+
+
  
+ 
+	
+	TransactionStatus status = null;
+
+	DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+	def.setPropagationBehavior(TransactionDefinition.PROPAGATION_NESTED);
+	def.setTimeout(Integer.parseInt(this.getSettingsBundle().getString("transactionTimeOut.base.highTimeOut")));
+	status = this.getMyTransactionManager().getTransaction(def);
+
+ 	try {
+	
+	
+	
+	double newAmount=incomeDetail.getAmount();
+	
+	
+	if(transactionTypeId==SafeTransactionTypeEnum.add)
+		newAmount+=amount;
+	else if(transactionTypeId==SafeTransactionTypeEnum.subtract)
+		newAmount-=amount;
+		
+	incomeDetail.setAmount(newAmount);
+	//=========================================================================================================================
+
+	//change outcome  
+	Income income= incomeDetail.getIncome();
+	newAmount=income.getTotalAmount();
+	if(transactionTypeId==SafeTransactionTypeEnum.add)
+		newAmount+=amount;
+	else if(transactionTypeId==SafeTransactionTypeEnum.subtract)
+		newAmount-=amount;
+	
+	income.setTotalAmount(newAmount);
+	//=========================================================================================================================
+
+	this.getBaseService().addEditBean(incomeDetail);
+	this.getBaseService().addEditBean(income);
+	entitDictionary.put(income.getClass().getName(), income);
+
+	 changeSafeBalance(income.getSafeId(), amount, SafeTransactionTypeEnum.add, incomeDetail.getType().getName(),incomeDetail.getId());
+	
+	
+	 
+		this.getMyTransactionManager().commit(status);
+
+
+	}catch (DataBaseException e) {
+		this.getMyTransactionManager().rollback(status);
+		logger.log(Level.SEVERE,e.getMessage());
+		throw new DataBaseException(e.getMessage());
+
+	}finally {
+		closeTransaction(status);
+
+	}
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
  private  Object getSynchronizeBean(Class<?>beanClass, Integer identifier) throws  InvalidReferenceException {
  	try{
 		

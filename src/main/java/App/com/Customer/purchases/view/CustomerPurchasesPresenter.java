@@ -505,14 +505,16 @@ public class CustomerPurchasesPresenter extends CustomerBaseAction implements In
 	private void payOrder() {
 
    	 
-		String name=((PurchasedCustomersDataVB)purchasesCustomerDataCustomTable.getTable().getSelectionModel().getSelectedItem()).getName();
+		PurchasedCustomersDataVB customer=((PurchasedCustomersDataVB)purchasesCustomerDataCustomTable.getTable().getSelectionModel().getSelectedItem());
 		PayPurchasedOrderView form=new PayPurchasedOrderView();
 		URL u=	 getClass().getClassLoader().getResource("appResources/custom.css");
 		
 		
 		request=new HashMap<String, Object>();
 		request.put("action", 1);
-		request.put("name",name);
+		request.put("name",customer.getName());
+		request.put("id",customer.getId());
+
 		
 		
 		Scene scene1= new Scene(form.getView(), 350, 420);

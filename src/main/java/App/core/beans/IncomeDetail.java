@@ -12,6 +12,7 @@ private int fridageId;
 private int typeId;
 private Integer sellerOrderId;
 private Income income;
+private Integer installmentId;
 
 private IncomeType type;
 
@@ -92,6 +93,12 @@ public void setTypeName(String typeName) {
 }
 public IncomeType getType() {
 	return type;
+}
+public Integer getInstallmentId() {
+	return installmentId;
+}
+public void setInstallmentId(Integer installmentId) {
+	this.installmentId = installmentId;
 }
 
 

@@ -1,5 +1,7 @@
 package App.com.sales.spring.spring;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -15,10 +17,12 @@ import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
+import App.com.expanses.services.IExpansesServices;
 import App.com.sales.action.SalesAction;
 import App.com.sales.dao.ISalesDao;
 import App.com.sales.spring.ISalesService;
 import App.core.Enum.IncomeTypesEnum;
+import App.core.Enum.SafeTransactionTypeEnum;
 import App.core.Enum.SellerTypeEnum;
 import App.core.applicationContext.ApplicationContext;
 import App.core.beans.CustomerOrder;
@@ -40,9 +44,40 @@ public class SalesService implements ISalesService {
 	
 	ISalesDao salesDao;
 	IBaseRetrievalService baseRetrievalService;
+	IExpansesServices expansesServices;
+
+
 	IBaseService baseService;
 	Logger logger = Logger.getLogger(this.getClass().getName());	
 	private ResourceBundle settingsBundle = ResourceBundle.getBundle("ApplicationSettings_ar");
+	private Map<String,Object>entityDictionary;
+	
+	
+	
+	
+	@Override
+public void initEntityDictionary() {
+	
+	try {
+		entityDictionary=new HashMap();
+		
+	}catch (Exception e) {
+		// TODO: handle exception
+	}
+	
+	
+}
+
+	
+	
+	public IExpansesServices getExpansesServices() {
+		return expansesServices;
+	}
+	public void setExpansesServices(IExpansesServices expansesServices) {
+		this.expansesServices = expansesServices;
+	}
+
+
 	
 	
 	public ISalesDao getSalesDao() {
@@ -131,7 +166,8 @@ public void saveSellerOrder(Seller seller, SellerOrder sellerOrder,double paidAm
 	
 	
 	try {
-		seller=saveSeller(seller);
+		
+		 seller=saveSeller(seller);
 
 		switch(seller.getTypeId()) {
 		
@@ -199,9 +235,36 @@ public void saveSellerOrder(Seller seller, SellerOrder sellerOrder,double paidAm
 }
 
 
+ @Override
+public void editeSellerOrder(Seller newSeller, SellerOrder newOrder,double paidAmount,
+		SellerOrder oldOrder, int seasonId) throws Exception  {
+	
+	//===============================================================================================================================================
 
-
-public void editSellerOrder(Seller seller, SellerOrder sellerOrder,double paidAmount,SellerOrder oldOrder) throws Exception {
+	
+	if(newSeller.getTypeId()!=oldOrder.getSeller().getTypeId()) {
+		
+		this.deleteOldSellerOrder(oldOrder);
+		this.saveSellerOrder(newSeller, newOrder, paidAmount);
+		
+	}
+//===============================================================================================================================================
+	else if(newSeller.getTypeId()==oldOrder.getSeller().getTypeId()&&newSeller.getTypeId()==SellerTypeEnum.cash) {
+		
+				editCashSellerOrder(newSeller, newOrder, paidAmount, oldOrder);
+				}
+	
+	
+	//=========================================================================================================================================
+	else if(newSeller.getTypeId()==oldOrder.getSeller().getTypeId()&&newSeller.getTypeId()==SellerTypeEnum.permenant) {
+		initEntityDictionary();
+				editPermenantSellerOrder(newSeller, newOrder, paidAmount, oldOrder, seasonId);
+		}
+			
+	
+}
+public void editCashSellerOrder(Seller seller, SellerOrder newOrder,double paidAmount,
+		SellerOrder oldOrder) throws Exception {
 	
 	TransactionStatus status = null;
 
@@ -209,11 +272,55 @@ public void editSellerOrder(Seller seller, SellerOrder sellerOrder,double paidAm
 	def.setPropagationBehavior(TransactionDefinition.PROPAGATION_NESTED);
 	def.setTimeout(Integer.parseInt(this.getSettingsBundle().getString("transactionTimeOut.base.highTimeOut")));
 	status = this.getMyTransactionManager().getTransaction(def);
-	
+	newOrder.setId(oldOrder.getId());
 	try {
-		deleteOldSellerOrder(oldOrder);
-	    saveSellerOrder(seller, sellerOrder, paidAmount);
-	    
+		Map<String,Object> map=new HashMap<String, Object>();
+		this.getExpansesServices().initEntityDictionary();
+		IncomeDetail oldPaidAmountDetail=null;
+		 Double oldPaidAmount = 0.0;
+
+		try {
+		    map=new HashMap<String, Object>();
+			map.put("sellerOrderId", oldOrder);
+			  oldPaidAmountDetail=	(IncomeDetail) this.getBaseService().getBean(IncomeDetail.class, map);
+			  oldPaidAmount = oldPaidAmountDetail.getAmount();
+
+		}catch (InvalidReferenceException e) {
+			// TODO: handle exception
+		}
+ 		if (oldPaidAmount!=paidAmount) {
+ 			 
+ 				double amount=Math.abs(oldPaidAmountDetail.getAmount()-paidAmount);
+ 	 			//add or subtract is relative to safe 
+ 	 			int operationType=(paidAmount<oldPaidAmountDetail.getAmount() )?SafeTransactionTypeEnum.add:SafeTransactionTypeEnum.subtract;
+ 				
+ 				this.getExpansesServices().changeIncomeDetailAmount(oldPaidAmountDetail, amount, operationType);
+ 		 
+ 		}
+		 
+	 
+ 				newOrder.setId(oldOrder.getId());
+		
+		
+		
+		
+		
+		
+		
+ 
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		this.getBaseService().addEditBean(newOrder);
+
 		this.getMyTransactionManager().commit(status);
 
 	    
@@ -232,6 +339,153 @@ public void editSellerOrder(Seller seller, SellerOrder sellerOrder,double paidAm
 	
 }
 
+
+public void editPermenantSellerOrder(Seller seller, SellerOrder newOrder,double paidAmount,
+		SellerOrder oldOrder, int seasonId) throws Exception {
+	
+	TransactionStatus status = null;
+
+	DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+	def.setPropagationBehavior(TransactionDefinition.PROPAGATION_NESTED);
+	def.setTimeout(Integer.parseInt(this.getSettingsBundle().getString("transactionTimeOut.base.highTimeOut")));
+	status = this.getMyTransactionManager().getTransaction(def);
+	newOrder.setId(oldOrder.getId());
+	try {
+		Map<String,Object> map=new HashMap<String, Object>();
+		this.getExpansesServices().initEntityDictionary();
+		IncomeDetail oldPaidAmountDetail=null;
+		 Double oldPaidAmount = 0.0;
+
+		try {
+		    map=new HashMap<String, Object>();
+			map.put("sellerOrderId", oldOrder.getId());
+			map.put("typeId", IncomeTypesEnum.INTST_PAY);
+			  oldPaidAmountDetail=	(IncomeDetail) this.getBaseService().getBean(IncomeDetail.class, map);
+			  oldPaidAmount = oldPaidAmountDetail.getAmount();
+
+		}catch (InvalidReferenceException e) {
+			oldPaidAmountDetail=null;
+			oldPaidAmount=0.0;
+			}
+ 			
+			boolean sellerChanged=false;
+//========================================if seller changed case============================================================================	
+			int sellerId=oldOrder.getSellerId();
+			
+			if(!seller.getName().equals(oldOrder.getSeller().getName()) ) {
+				
+				sellerId=(int)	saveSeller(seller).getId();
+				sellerChanged=true;
+			 }
+			
+			newOrder.setSeller(null);
+			newOrder.setSellerId(sellerId);
+			seller.setId(sellerId);
+			
+//========================================handel loanBag changed case============================================================================	
+			int  newLoanBagId=0;
+			
+			 
+				
+	       clearOrderFromSellerLoanBag(oldOrder.getSeller(), oldOrder.getSeasonId(), oldOrder.getTotalCost(), oldPaidAmount);
+		   newLoanBagId=saveAndUpdateSellerLoanBag(seller, newOrder.getSeasonId(), newOrder.getTotalCost(), paidAmount);
+		   newOrder.setSellerLoanBagId(newLoanBagId);
+			 
+//=====================================get installment and update it ============================================================================
+			
+				if(oldPaidAmountDetail!=null&&paidAmount>0.0) {
+				map=new HashMap<String, Object>();
+				map.put("sellerOrderId", oldOrder.getId());
+				Installment installment=(Installment) this.getBaseService().getBean(Installment.class, map);
+				installment.setSellerLoanBagId(newLoanBagId);
+				installment.setAmount(paidAmount);
+			    this.getBaseService().addEditBean(installment);
+				}	
+				else if(paidAmount==0.0&&oldPaidAmountDetail!=null) {
+					map=new HashMap<String, Object>();
+					map.put("sellerOrderId", oldOrder.getId());
+					Installment installment=(Installment) this.getBaseService().getBean(Installment.class, map);
+				
+				    this.getBaseService().deleteBean(installment);
+					
+					
+				}
+				
+			
+ //===============================change income detail =========================================================================================
+				
+			
+			  if(oldPaidAmountDetail!=null&&paidAmount==0.0)
+					  
+					 {
+		 			 	 				
+	 				  this.getBaseService().deleteBean(oldPaidAmountDetail);
+					  recalculateSafeBalance(seasonId);
+	 		 		}
+			  else if (  oldPaidAmountDetail!=null&&oldPaidAmountDetail.getAmount()!=paidAmount&&paidAmount>0.0) {
+				  
+				  if(sellerChanged)
+				  {  oldPaidAmountDetail.setSellerId(seller.getId());
+				  oldPaidAmountDetail.setSellerOrderId(newOrder.getId());
+				  	}double amount=Math.abs(oldPaidAmountDetail.getAmount()-paidAmount);
+	 	 			//add or subtract is relative to safe 
+	 	 			int operationType=(paidAmount<oldPaidAmountDetail.getAmount() )?SafeTransactionTypeEnum.subtract:SafeTransactionTypeEnum.add;
+	 				
+	 				this.getExpansesServices().changeIncomeDetailAmount(oldPaidAmountDetail, amount, operationType);
+	 				
+				  
+				  
+			  }
+			  
+			  else if (  oldPaidAmountDetail!=null&&oldPaidAmountDetail.getAmount()==paidAmount&&paidAmount>0.0&&sellerChanged) {
+				  
+				  oldPaidAmountDetail.setSellerId(seller.getId());
+				  oldPaidAmountDetail.setSellerOrderId(newOrder.getId());
+				  this.getBaseService().addEditBean(oldPaidAmountDetail);
+				  
+				  
+			  }
+			  
+			  else if (  oldPaidAmountDetail==null&&paidAmount>0.0) {
+				  
+					saveSellerInstalment(seller.getId(), oldOrder.getId(),newLoanBagId, oldOrder.getFridageId(), paidAmount, oldOrder.getOrderDate(), "");
+
+				  
+				  
+			  }
+	//============================================ detail  ================================================================		
+				List<SellerOrderWeight> orderdetail=new ArrayList<SellerOrderWeight>();
+				for (Iterator iterator = newOrder.getOrderWeights().iterator(); iterator.hasNext();) {
+					SellerOrderWeight temp = (SellerOrderWeight) iterator.next();
+					temp.setSellerOrderId(newOrder.getId());
+					orderdetail.add(temp);
+					
+				}
+				// to update seller order detail by new after saving into database and take new 
+				//its new id from database
+				this.getBaseService().addEditBeans(orderdetail);
+	
+		
+		
+		this.getBaseService().addEditBean(newOrder);
+
+		this.getMyTransactionManager().commit(status);
+
+	    
+	} catch (DataBaseException e) {
+		this.getMyTransactionManager().rollback(status);
+		logger.log(Level.SEVERE,e.getMessage());
+		throw new Exception();
+
+	}finally {
+		//this.getMyTransactionManager().rollback(status);
+		closeTransaction(status);
+
+	}
+	
+	
+	
+}
 
 
 
@@ -306,13 +560,35 @@ public int saveAndUpdateSellerLoanBag(Seller seller,int seasonId,double orderCos
 	
 	
 		this.getBaseService().addEditBean(bag);
+//---------------------------------------------------------------------------
+		String key=hashDisctionaryEntityKey(SellerLoanBag.class, bag.getId());
+		entityDictionary.put(key, bag);
+//---------------------------------------------------------------------------
+
+	return bag.getId();
+	}
+public int clearOrderFromSellerLoanBag(Seller seller,int seasonId,double orderCost,double paidAmount) throws DataBaseException {
+	double currentloan=0;
+	SellerLoanBag bag= findSellerLoanBag(seller.getId(), seasonId);
 	
+	bag.setDueLoan(bag.getDueLoan()-orderCost);;
+	bag.setPaidAmount(bag.getPaidAmount()-paidAmount);
+	currentloan=(bag.getPriorLoan()+bag.getDueLoan())-paidAmount;
+	bag.setCurrentLoan(currentloan);
+		
+	
+	
+		this.getBaseService().addEditBean(bag);
+ //---------------------------------------------------------------------------
+		String key=hashDisctionaryEntityKey(SellerLoanBag.class, bag.getId());
+		entityDictionary.put(key, bag);
+ //---------------------------------------------------------------------------
+
 	
 	return bag.getId();
 	
 	
 }
-
 public Seller  saveSeller(Seller seller) throws DataBaseException, InvalidReferenceException {
 	
 	
@@ -421,8 +697,13 @@ public SellerLoanBag findSellerLoanBag(int sellerId,int seasonId) throws DataBas
 	Map<String,Object> m=new HashMap<String,Object>();
 	m.put("sellerId", sellerId);
 	m.put("seasonId", seasonId);
-	try {
-		return 		(SellerLoanBag) this.getBaseService().findAllBeans(SellerLoanBag.class,m,null ).get(0);
+	
+	
+ 	try {
+		 SellerLoanBag bag=(SellerLoanBag) this.getBaseService().findAllBeans(SellerLoanBag.class,m,null ).get(0);
+		 String key=hashDisctionaryEntityKey(SellerLoanBag.class, bag.getId());
+		 bag=(entityDictionary.get(key)!=null)?(SellerLoanBag) entityDictionary.get(key):bag;
+		  		return bag;
 
 	} catch (DataBaseException | EmptyResultSetException e) {
 		// TODO Auto-generated catch block
@@ -433,7 +714,8 @@ public SellerLoanBag findSellerLoanBag(int sellerId,int seasonId) throws DataBas
 	bag.setSellerId(sellerId);
 
 	this.baseService.addBean(bag);
- 
+	 String key=hashDisctionaryEntityKey(SellerLoanBag.class, bag.getId());
+	 entityDictionary.put(key, bag);
 	
 	return bag;
 	
@@ -443,7 +725,7 @@ public SellerLoanBag findSellerLoanBag(int sellerId,int seasonId) throws DataBas
 	
 	
 }
-
+@Override
 public void saveSellerInstalment(int sellerId,int sellerOrderId,int sellerLoanBagId ,int fridageId,double amount,Date date,String notes) throws DataBaseException {
 	
 	Installment installment=new Installment();
@@ -465,7 +747,7 @@ public void saveSellerInstalment(int sellerId,int sellerOrderId,int sellerLoanBa
 		incomeDetail.setSellerId(sellerId);
 		incomeDetail.setTypeId(IncomeTypesEnum.INTST_PAY);
 		incomeDetail.setTypeName(String.valueOf(IncomeTypesEnum.INTST_PAY));
-
+		incomeDetail.setInstallmentId(installment.getId());
 		if(sellerOrderId!=0)
 		{
 			incomeDetail.setSellerOrderId(sellerOrderId);
@@ -475,7 +757,7 @@ public void saveSellerInstalment(int sellerId,int sellerOrderId,int sellerLoanBa
 	
 }
 
-private void deleteOldSellerOrder(SellerOrder order) throws Exception {
+private void deleteOldSellerOrder(SellerOrder order) throws DataBaseException  {
 	
 	TransactionStatus status = null;
 
@@ -555,8 +837,7 @@ private void deleteOldSellerOrder(SellerOrder order) throws Exception {
 		logger.log(Level.SEVERE,e.getMessage());
 		throw new DataBaseException("err.deleting.sellerOrder");
 
-	}finally {
-		//this.getMyTransactionManager().rollback(status);
+	}finally {		//this.getMyTransactionManager().rollback(status);
 		closeTransaction(status);
 
 	}
@@ -712,11 +993,94 @@ public double getSeasoncCurrentotalSellersLoan(int seasonId) {
 	
 	
 }
+@Override
+public SellerLoanBag getSellerLoanBag(int sellerId,int seasonId) throws DataBaseException {
+	Map<String,Object> map=new HashMap<String, Object>();
+	map.put("sellerId", sellerId);
+	map.put("seasonId", seasonId);
+	   SellerLoanBag loan=null;
+			try {
+				loan = (SellerLoanBag) this.getBaseService().getBean(SellerLoanBag.class, map);
+			} catch ( InvalidReferenceException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	        
+	
+	
+	return loan;
+	
+	
+	
+}
+
+	/*
+	 * @Override public void payOffSellerOrder(int sellerId,int sellerOrderId,double
+	 * amount,Date date,String notes,int seasonId,int fridageId) throws
+	 * DataBaseException {
+	 * 
+	 * 
+	 * SellerLoanBag loanBag=getSellerLoanBag(sellerId, seasonId);
+	 * 
+	 * Installment inst=new Installment(); inst.setSellerLoanBagId(loanBag.getId());
+	 * inst.setSellerOrderId(sellerOrderId); inst.setAmount(amount);
+	 * inst.setInstalmentDate(date); inst.setNotes(notes);
+	 * 
+	 * 
+	 * 
+	 * 
+	 * TransactionStatus status = null;
+	 * 
+	 * DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+	 * def.setPropagationBehavior(TransactionDefinition.PROPAGATION_NESTED);
+	 * def.setTimeout(Integer.parseInt(this.getSettingsBundle().getString(
+	 * "transactionTimeOut.base.highTimeOut"))); status =
+	 * this.getMyTransactionManager().getTransaction(def);
+	 * 
+	 * 
+	 * try {
+	 * 
+	 * this.getBaseService().addBean(inst); this.saveSellerInstalment(sellerId,
+	 * sellerOrderId, sellerLoanBagId, fridageId, amount, date, notes);
+	 * this.getExpansesServices().incomeTransaction(date, amount, notes,
+	 * IncomeTypesEnum.INTST_PAY, sellerId, inst.getId(), fridageId, seasonId); }
+	 * 
+	 * 
+	 * 
+	 * catch(DataBaseException dbEx) {
+	 * this.getMyTransactionManager().rollback(status); throw new
+	 * DataBaseException(dbEx.getMessage());
+	 * 
+	 * } finally { this.closeTransaction(status); }
+	 * 
+	 * 
+	 * 
+	 * }
+	 * 
+	 */
 
 
-
-
-
-
+private String hashDisctionaryEntityKey(Class<?>beanClass, Integer identifier) {
+	
+	String key="";
+	
+	key=beanClass.getName()+identifier;
+	
+	
+	
+	
+	
+	
+	return key;
+	
+	
+	
+	
+	
+	
+	
+	
+	
+}
 
 }

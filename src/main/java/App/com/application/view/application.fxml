@@ -78,6 +78,11 @@
                      </font>
                     
                   </JFXButton>
+                                          <JFXButton fx:id="sellersLoanReport_btn" layoutX="20.0" layoutY="134.0" onAction="#LoadPanel" prefHeight="42.0" prefWidth="139.0" style="-fx-alignment: center-left;" styleClass="nav-button" text="ArcDebts" textFill="#a1aec4" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                             <font>
+                                                <Font name="Roboto Bold" size="14.0" />
+                                             </font>
+                                          </JFXButton>
                 
       
       	   </children>

@@ -132,6 +132,10 @@ public class ApplicationPersenter extends BaseAction implements Initializable {
 
     @FXML
     private JFXButton payInvoice_btn;
+   
+    @FXML
+    private JFXButton sellersLoanReport_btn;
+    
  
     @FXML
     private JFXButton payedInvoice_btn;
@@ -228,6 +232,12 @@ private void fitToAnchorePane(Node node) {
 	@FXML 
 	private void LoadPanel(ActionEvent event) {
 		
+		
+		
+		try {
+		
+		
+		
 		 changeTop();
 		 
 		 
@@ -268,7 +278,9 @@ private void fitToAnchorePane(Node node) {
 
 
 
-				} catch (ClassNotFoundException e) {
+				} catch (Exception e) {
+					
+					e.printStackTrace();
 					  Platform.runLater(new Runnable() {
 
 						   @Override public void run() {
@@ -283,6 +295,8 @@ private void fitToAnchorePane(Node node) {
 						  });
 					
 				}
+				
+			 
 			
 			 }
 
@@ -297,8 +311,22 @@ private void fitToAnchorePane(Node node) {
 
 			Thread t = new Thread(task);
 			t.setDaemon(true);
-			t.start();}
-    private FXMLView loadView(String id ) throws ClassNotFoundException {
+			t.start();
+			
+		
+		
+		}catch (Exception e) {
+			changeTop();
+			
+		}
+		
+	
+	}
+ 
+
+	
+	
+	private FXMLView loadView(String id ) throws ClassNotFoundException {
 		String className=panelPathes.get(id);
 		
 		try {
@@ -360,12 +388,17 @@ private void fitToAnchorePane(Node node) {
     ObservableList<Node> childs = this.mystackPane.getChildren();
     mystackPane.setBackground(Background.EMPTY);
 
-
+try {
     if (childs.size() > 1) {
         //
         Node topNode = childs.get(childs.size()-1);
         topNode.toBack();
     }
+    
+}catch (Exception e) {
+	e.printStackTrace();
+	
+}
 }
 	private void alert(AlertType alertType,String title,String headerText,String message) {
 	 Alert a = new Alert(alertType);

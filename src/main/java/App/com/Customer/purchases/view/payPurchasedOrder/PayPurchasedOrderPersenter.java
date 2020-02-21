@@ -225,31 +225,13 @@ private  boolean validateForm() {
 
            }
         
-        LoanAccount account = this.getExpansesService().getLoanerAccount(name);
-
+ 
          if (safaBalance<Double.parseDouble(amount)) {
         
         	snackBar.show(this.getMessage("msg.err.notEnough.safeBalance"), 1000);
             return false;
         }
-       if (account == null) {
-    	   
-    	snackBar.show(this.getMessage("msg.err.notfound.name"), 1000);
-
-          return false;
-
-       }
-       if (account.getDueAmount() > 0 && account.getType().equals("OUT_LOAN")) {
-    	snackBar.show(this.getMessage("msg.err.amountShouldBecollestedFromLoaner")+" : "+account.getDueAmount(),1000);
-
-           return false;
-
-       }
-       if (Double.parseDouble(amount) > account.getDueAmount()) {
-    	snackBar.show(this.getMessage("msg.err.input.amount.greather")+" : "+account.getDueAmount(),1000);
-
-           return false;
-       }
+     
    
     	
     	return true;

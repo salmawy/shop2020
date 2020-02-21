@@ -65,6 +65,7 @@
     <property name="salesDao" ref="salesDao"></property> 
      <property name="baseRetrievalService" ref="baseService"></property> 
   <property name="baseService" ref="baseService"></property>  
+    <property name="expansesServices" ref="expansesService"></property>  
       
      
     </bean> 

@@ -916,11 +916,9 @@ private double getPaidAmount(int orderId) {
 	return income.getAmount();
 	} catch (DataBaseException e) {
 		// TODO Auto-generated catch block
-		e.printStackTrace();
-	} catch (EmptyResultSetException e) {
+ 	} catch (EmptyResultSetException e) {
 		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
+ 	}
 	
 	
 	

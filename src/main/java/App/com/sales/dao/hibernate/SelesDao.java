@@ -1,5 +1,6 @@
 package App.com.sales.dao.hibernate;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -130,20 +131,20 @@ public class SelesDao extends HibernateDaoSupport implements  ISalesDao{
 	 } 
 
 	 public List getSellersOrders(Date orderDate) throws EmptyResultSetException, DataBaseException {
-			
+			SimpleDateFormat sdf=new SimpleDateFormat("dd/MM/yyyy");
+
 			  Session session = null; 
 			  try { 
 				  session =this.getSessionFactory().openSession();
 			 
 			  String query =
 			  "from SellerOrder "
-				+ "where  to_char(  orderDate ,'dd/MM/YYYY')  = "
-		  		+ " to_char( ? ,'dd/MM/YYYY') ";
-			  query += " order by orderDate  desc";
+				+ "where  to_char(  orderDate ,'dd/MM/YYYY')  = '"+sdf.format(orderDate)+"'";
+		  				  query += " order by orderDate  desc";
 			
 			  
 			  Query queryList = session.createQuery(query);
-			  queryList.setDate(0, orderDate);
+			  //queryList.setDate(0, orderDate);
 
 			  List<Object> result =	 queryList.list();
 			  

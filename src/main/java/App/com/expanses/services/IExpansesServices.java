@@ -3,6 +3,7 @@ package App.com.expanses.services;
 import java.util.Date;
 import java.util.List;
 
+import App.core.beans.IncomeDetail;
 import App.core.beans.LoanAccount;
 import App.core.exception.DataBaseException;
 import App.core.exception.EmptyResultSetException;
@@ -15,7 +16,11 @@ public interface IExpansesServices {
 	 public List getOutcomeMonthes(int seasonId) throws EmptyResultSetException, DataBaseException ;
 	 public List getOutcomeDays(String month) throws EmptyResultSetException, DataBaseException ;
 	 public List getIncomeDays(String month) throws EmptyResultSetException, DataBaseException ;
+	 public void incomeTransaction(Date date,double amount, String notes, int typeId, int sellerId, int orderId, int fridageId,int seasonId) throws DataBaseException;
+
 	 public void outcomeTransaction(Date date,double amount, String notes, int typeId, int customerId, int orderId, int fridageId,int seasonId) throws DataBaseException;
+	
+	 
 	 public void loanPayTansaction(String name,Date date,double amount,int type,String notes,int fridageId)throws DataBaseException ;
 		
 	 public List getLoanerDebts(int loanerId, String type) throws EmptyResultSetException, DataBaseException ;	
@@ -29,5 +34,9 @@ public interface IExpansesServices {
 	 
 	void changeOutcomeDetailAmount(int outcomeDetailId, double amount, int transactionTypeId)
 			throws DataBaseException, InvalidReferenceException;
-	void initEntitDictionary();
+	
+	
+	void changeIncomeDetailAmount( IncomeDetail incomeDetail, double amount, int transactionTypeId)
+			throws DataBaseException, InvalidReferenceException;
+	void initEntityDictionary();
 }

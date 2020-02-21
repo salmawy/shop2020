@@ -4,6 +4,8 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,24 +18,25 @@ import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 
-import App.com.Customer.action.CustomerBaseAction;
+import App.com.sales.action.SalesAction;
 import App.core.applicationContext.ApplicationContext;
-import App.core.beans.LoanAccount;
+import App.core.beans.SellerLoanBag;
 import App.core.exception.DataBaseException;
+import App.core.exception.InvalidReferenceException;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.NodeOrientation;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
-public class PayOffSalerOrderPersenter extends CustomerBaseAction implements Initializable {
+public class PayOffSalerOrderPersenter extends SalesAction implements Initializable {
 	
 	
 	    Logger logger = Logger.getLogger(this.getClass().getName());	
@@ -83,7 +86,7 @@ public class PayOffSalerOrderPersenter extends CustomerBaseAction implements Ini
 	    private final int add=1;
 	    private final int edit=2;
 
-		private int customerId;
+		private int sellerId;
 	    
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -134,7 +137,14 @@ public class PayOffSalerOrderPersenter extends CustomerBaseAction implements Ini
   	    saveBtn.setGraphic(new FontAwesome().create(FontAwesome.Glyph.SAVE));
 	    saveBtn.getStyleClass().setAll("btn","btn-primary");  
 	    saveBtn.setOnAction(e -> {
-	    	save();
+	    	try {
+				save();
+				
+				
+			} catch ( DataBaseException e1) {
+ 		    	snackBar.show(this.getMessage("msg.err.general"),1000);
+				logger.log(Level.WARNING ,e1.getMessage());
+			}
 	    	
 	    });	 
 	    
@@ -150,6 +160,7 @@ public class PayOffSalerOrderPersenter extends CustomerBaseAction implements Ini
 //============================================================================================================
 	    
         title_label.setText(getMessage("button.sellers.payOffOrders"));
+        title_label.setMinWidth(200);
  		coloredPane.setStyle("-fx-background-color: #00A65A");
   
  //============================================================================================================
@@ -157,7 +168,7 @@ public class PayOffSalerOrderPersenter extends CustomerBaseAction implements Ini
 	    
 	  int action=(int) request.get("action");
 	  String name=(String) request.get("name");
-	   customerId=(int) request.get("id");
+	   sellerId=(int) request.get("id");
 
 	  name_TF.setText(name);
 	  switch (action) {
@@ -200,13 +211,15 @@ case edit:
 	}
 
 
-private  boolean validateForm() {
+private  boolean validateForm() throws DataBaseException {
     	
-	   String name=name_TF.getText() ;
-	    String amount =amount_TF.getText();
-        double safaBalance=this.getExpansesService().getSafeBalance(ApplicationContext.season.getId());
-
-
+ 	    String amount =amount_TF.getText();
+	    
+		Map<String,Object> map=new HashMap<String, Object>();
+		map.put("sellerId", sellerId);
+		map.put("seasonId", ApplicationContext.season.getId());
+        SellerLoanBag loan=this.getSalesService().getSellerLoanBag(sellerId,  ApplicationContext.season.getId());
+       
         if (amount.isEmpty()){
     	    
        	
@@ -225,28 +238,12 @@ private  boolean validateForm() {
 
            }
         
-        LoanAccount account = this.getExpansesService().getLoanerAccount(name);
 
-         if (safaBalance<Double.parseDouble(amount)) {
-        
-        	snackBar.show(this.getMessage("msg.err.notEnough.safeBalance"), 1000);
-            return false;
-        }
-       if (account == null) {
-    	   
-    	snackBar.show(this.getMessage("msg.err.notfound.name"), 1000);
-
-          return false;
-
-       }
-       if (account.getDueAmount() > 0 && account.getType().equals("OUT_LOAN")) {
-    	snackBar.show(this.getMessage("msg.err.amountShouldBecollestedFromLoaner")+" : "+account.getDueAmount(),1000);
-
-           return false;
-
-       }
-       if (Double.parseDouble(amount) > account.getDueAmount()) {
-    	snackBar.show(this.getMessage("msg.err.input.amount.greather")+" : "+account.getDueAmount(),1000);
+       
+     
+      
+       if (Double.parseDouble(amount) > loan.getDueLoan()) {
+    	snackBar.show(this.getMessage("msg.err.input.amount.greather")+" : "+loan.getDueLoan(),1000);
 
            return false;
        }
@@ -257,24 +254,21 @@ private  boolean validateForm() {
     }
 
 
-	private void save() {
+	private void save() throws NumberFormatException, DataBaseException {
 		if(validateForm()) {
-			
+	        SellerLoanBag loanBag=this.getSalesService().getSellerLoanBag(sellerId,  ApplicationContext.season.getId());
+
 			double amount=Double.parseDouble(amount_TF.getText());
 			Date date=this.getBaseService().convertToDateViaInstant(datePicker.getValue());
 			String notes=note_TA.getText();
 			
 			int seasonId= ApplicationContext.season.getId();
 			int fridageId= ApplicationContext.fridage.getId();
-			try {
-				this.getCustomerService().payPurchasedOrder(customerId, amount, date, notes, seasonId, fridageId);
+		 
+				this.getSalesService().saveSellerInstalment(sellerId, 0, loanBag.getId(), fridageId, amount, date, notes);
  		    	snackBar.show(this.getMessage("msg.done.save"),1000);
 
-			
-			} catch (DataBaseException e) {
- 	 		    	snackBar.show(this.getMessage("msg.err"),1000);
-	 		    	e.printStackTrace();
-			}
+			 
 		}
 		
 	}

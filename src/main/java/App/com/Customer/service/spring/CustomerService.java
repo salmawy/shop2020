@@ -423,7 +423,9 @@ public void editCustomerOrder(CustomerOrder newOrder,CustomerOrder oldOrder) thr
 	
 	try {
 		Map<String,Object> map=new HashMap<String, Object>();
-		this.getExpansesServices().initEntitDictionary();
+		this.getExpansesServices().initEntityDictionary();
+	
+		
 		int customerId=oldOrder.getCustomerId();
 		
 		if(!newOrder.getCustomer().getName().equals(oldOrder.getCustomer().getName()) ) {

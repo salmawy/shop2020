@@ -34,6 +34,7 @@ import App.core.Enum.SellerTypeEnum;
 import App.core.UIComponents.comboBox.ComboBoxItem;
 import App.core.UIComponents.customTable.Column;
 import App.core.UIComponents.customTable.CustomTable;
+import App.core.applicationContext.ApplicationContext;
 import App.core.beans.CustomerOrder;
 import App.core.beans.IncomeDetail;
 import App.core.beans.Seller;
@@ -165,11 +166,6 @@ public void initialize(URL arg0, ResourceBundle arg1) {
 	        return LocalDate.parse(dateString,dateTimeFormatter);
 	    }
 	});    
-
-	
-	
-	
-	
 	List <Column>SellerOrderDetailColumns=prepareSellerOrderDetailColumns();
 	List orderDetailControles=prepareOrderDetailcontrolles();
 	orderDetail_CT=new CustomTable<SellerOrderDetailVB>(SellerOrderDetailColumns, orderDetailControles, null, null, null, CustomTable.headTableCard, SellerOrderDetailVB.class);
@@ -288,71 +284,9 @@ public void initialize(URL arg0, ResourceBundle arg1) {
  	    saveBtn.setGraphic(new FontAwesome().create(FontAwesome.Glyph.SAVE));
 	    saveBtn.getStyleClass().setAll("btn","btn-primary");  
 	    saveBtn.setOnAction(e -> {
-	       	
-	        
-	       if(validateInputData()) {
-	    	   
-	    	   
-	    	   try {
-	    	   
-	    	   double paidAmount_=(paidAmount.getText().isEmpty())?0.0:Double.parseDouble(paidAmount.getText());
-	    	   int type=sellerType_CB.getSelectionModel().getSelectedItem().getValue();
-	    	   Date orderDate=getDatePickerValue();
-	    	   
-	    	   
-	    	   Seller seller=new Seller();
-	    	   seller.setName(name.getText());
-	    	   seller.setAddress(address.getText());
-	    	   seller.setPhone(phone.getText());
-	    	   seller.setTypeId(type);
-	    	   
-	    	   SellerOrder order=new SellerOrder();
-	    	   order.setOrderDate(orderDate);
-	    	   order.setFridageId(this.getFridage().getId());
-	    	   order.setSeasonId(getSeason().getId());
-	    	   order.setTotalCost(Double.parseDouble(totalAmount.getText()));
-	    	  
-	    	   List orderDetails=orderDetail_CT.getTable().getItems();
-	    	   Set<SellerOrderWeight>orerDetail=new HashSet<SellerOrderWeight>();
-	    	   for (Iterator iterator = orderDetails.iterator(); iterator.hasNext();) {
-				SellerOrderDetailVB row = (SellerOrderDetailVB) iterator.next();
-				SellerOrderWeight temp=new SellerOrderWeight();
-				temp.setAmount(row.getAmount());
-				temp.setCustomerOrderId(row.getCustomerOrderId());
-				temp.setGrossQuantity(row.getGrossWeight());
-				temp.setNetQuantity(row.getNetWeight());
-				temp.setPackageNumber(row.getCount());
-				temp.setProductId(row.getProductId());
-				temp.setUnitePrice(row.getUnitePrice());
-				orerDetail.add(temp);
-				
-			}
-	    	   
-	    	   order.setOrderWeights(orerDetail);
-	    	 
-	    	   this.getSalesService().editSellerOrder(seller, order, paidAmount_, oldOrder);
-	    	   
-	    	   
-	    	   intiateAddOrderPage();
-	    	   alert(AlertType.INFORMATION, "", "", this.getMessage("msg.done.edit"));
-	    	   Stage stage = (Stage) saveBtn.getScene().getWindow();
-			      // do what you have to do
-			      stage.close();
-	    	   
-	    	   
-	    	   
-	    	   }catch (Exception ex) {
-		    	   alert(AlertType.ERROR, this.getMessage("msg.err"),this.getMessage("msg.err"), this.getMessage("msg.err.general"));
-
-		
-			}
-	    	   
-	    	   
-	    	   
-	    	   
-	       }
-	           	
-	           });
+	    	
+	    	save();
+	    });
 	   // buttonPane.getChildren().addAll(saveBtn);
 	    
 	    
@@ -402,7 +336,74 @@ public void initialize(URL arg0, ResourceBundle arg1) {
 	
 }
 
+private void save() {
 
+   	
+    
+    if(validateInputData()) {
+ 	   
+ 	   
+ 	   try {
+ 	   
+ 	   double paidAmount_=(paidAmount.getText().isEmpty())?0.0:Double.parseDouble(paidAmount.getText());
+ 	   int type=sellerType_CB.getSelectionModel().getSelectedItem().getValue();
+ 	   Date orderDate=getDatePickerValue();
+ 	   
+ 	   
+ 	   Seller seller=new Seller();
+ 	   seller.setName(name.getText());
+ 	   seller.setAddress(address.getText());
+ 	   seller.setPhone(phone.getText());
+ 	   seller.setTypeId(type);
+ 	   
+ 	   SellerOrder order=new SellerOrder();
+ 	   order.setOrderDate(orderDate);
+ 	   order.setFridageId(this.getFridage().getId());
+ 	   order.setSeasonId(getSeason().getId());
+ 	   order.setTotalCost(Double.parseDouble(totalAmount.getText()));
+ 	  
+ 	   List orderDetails=orderDetail_CT.getTable().getItems();
+ 	   Set<SellerOrderWeight>orerDetail=new HashSet<SellerOrderWeight>();
+ 	   for (Iterator iterator = orderDetails.iterator(); iterator.hasNext();) {
+			SellerOrderDetailVB row = (SellerOrderDetailVB) iterator.next();
+			SellerOrderWeight temp=new SellerOrderWeight();
+			temp.setAmount(row.getAmount());
+			temp.setCustomerOrderId(row.getCustomerOrderId());
+			temp.setGrossQuantity(row.getGrossWeight());
+			temp.setNetQuantity(row.getNetWeight());
+			temp.setPackageNumber(row.getCount());
+			temp.setProductId(row.getProductId());
+			temp.setUnitePrice(row.getUnitePrice());
+			orerDetail.add(temp);
+			
+		}
+ 	   
+ 	   order.setOrderWeights(orerDetail);
+ 	 
+ 	   this.getSalesService().editeSellerOrder(seller, order, paidAmount_, this.oldOrder, ApplicationContext.season.getId());
+ 	   
+ 	   
+ 	   clear();
+ 	   alert(AlertType.INFORMATION, "", "", this.getMessage("msg.done.edit"));
+ 	   Stage stage = (Stage) saveBtn.getScene().getWindow();
+		      // do what you have to do
+		      stage.close();
+ 	   
+ 	   
+ 	   
+ 	   }catch (Exception ex) {
+	    	   alert(AlertType.ERROR, this.getMessage("msg.err"),this.getMessage("msg.err"), this.getMessage("msg.err.general"));
+
+	
+		}
+ 	   
+ 	   
+ 	   
+ 	   
+    }
+        	
+        
+}
 
 private List<Column> prepareSellerOrderDetailColumns(){
     
@@ -613,9 +614,6 @@ if (!totalAmount.getText().isEmpty()) {
 
 }
 
-
-
-
 private void	trackRestValue(){
 		
 		String total = totalAmount.getText();
@@ -715,7 +713,7 @@ private void	trackRestValue(){
 	  
 }
 
-	public void intiateAddOrderPage() {
+	public void clear() {
 		this.address.setText("");
 		this.paidAmount.setText("");
 		this.phone.setText("");
@@ -756,10 +754,7 @@ private void	trackRestValue(){
 			this.paidAmount.setText(String.valueOf(paidAmount));
 			//==================================================================================
 
-			Calendar c=Calendar.getInstance();
-			c.setTime(oldOrder.getOrderDate());
-			LocalDate local=  LocalDate.of( c.get(c.YEAR), c.get(c.MONTH), c.get(c.DAY_OF_MONTH));	
-			this.datePicker.setValue(local);
+ 			this.datePicker.setValue(this.getBaseService().convertToLocalDateViaMilisecond(oldOrder.getOrderDate()));
 			//==================================================================================
 			
 			totalAmount.setText(String.valueOf(oldOrder.getTotalCost()));
@@ -811,10 +806,10 @@ private void	trackRestValue(){
 		return income.getAmount();
 		} catch (DataBaseException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
 		} catch (EmptyResultSetException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+		//	e.printStackTrace();
 		}
 		
 		

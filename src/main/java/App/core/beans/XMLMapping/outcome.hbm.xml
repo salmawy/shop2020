@@ -10,7 +10,7 @@
             <property name = "outcomeDate" column = "OUTCOME_DATE" />
                <property name = "totalOutcome" column = "TOTAL_OUTCOME" />
              	<property name = "seasonId" column = "SEASON_ID" />
-             	             	<property name = "safeId" column = "SAFE_ID" />
+             	<property name = "safeId" column = "SAFE_ID" />
              	
                
         <property name = "changed" column = "CHANGED" />

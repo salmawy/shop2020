@@ -8,9 +8,10 @@
           <generator class="increment"></generator>  
           </id>  
             
-  			 <property name = "totalAmount" column = "TOTAL_INCOME" />
-               <property name = "incomeDate" column = "INCOME_DATE" />
-               <property name = "seasonId" column = "SEASON_ID" />
+  		   <property name = "totalAmount" column = "TOTAL_INCOME" />
+           <property name = "incomeDate" column = "INCOME_DATE" />
+           <property name = "seasonId" column = "SEASON_ID" />
+           <property name = "safeId" column = "SAFE_ID" />
 
 			  
 			  

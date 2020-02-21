@@ -16,6 +16,10 @@
 				<property name = "fridageId" column = "FRIDAGE_ID" />
 				<property name = "sellerOrderId" column = "SELLER_ORDER_ID" />
 				<property name = "typeId" column = "TYPE_ID" />
+				<property name = "installmentId" column = "INSTALLMENT_ID" />
+
+
+
 
              <property name = "changed" column = "CHANGED" />
            <property name = "changeDate" column = "CHANGE_DATE" />

@@ -3,12 +3,14 @@ package App.com.sales.action;
 import java.util.HashMap;
 import java.util.Map;
 
+import App.com.expanses.services.IExpansesServices;
 import App.com.sales.spring.ISalesService;
 import App.core.action.BaseAction;
 
 public class SalesAction extends BaseAction {
 	
-	
+	private IExpansesServices expansesService;
+
 	private ISalesService salesService;
 	
      public  static  Map<String, Object> orderDataMap;
@@ -20,6 +22,7 @@ public class SalesAction extends BaseAction {
 		orderDataMap =new  HashMap();
 		
 		salesService= (ISalesService) getSpringBeanFactory().getBean("salesService"); 
+		expansesService= (IExpansesServices) getSpringBeanFactory().getBean("expansesService"); 
 
 		
 		
@@ -36,6 +39,9 @@ public class SalesAction extends BaseAction {
 	}
 	public void setOrderDataMap(Map<String, Object> orderDataMap) {
 		this.orderDataMap = orderDataMap;
+	}
+	public IExpansesServices getExpansesService() {
+		return expansesService;
 	}
 	
 
