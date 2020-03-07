@@ -538,7 +538,7 @@ this.orderDataCustomTable.loadTableData(data);
 		 
 				
 				
-		SellerDebtVB seller=(SellerDebtVB)	((TreeItem<SellerDebtVB>) sellersPredicatableTable.getTable().getSelectionModel().getSelectedItem()).getValue();
+ 		SellerDebtVB seller=(SellerDebtVB)	((TreeItem<SellerDebtVB>) sellersPredicatableTable.getTable().getSelectionModel().getSelectedItem()).getValue();
 		 	// =(item.getValue());
 
 		

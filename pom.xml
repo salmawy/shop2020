@@ -168,9 +168,8 @@
 
 <!-- =================================jasper======================================== --> 
  
-<!--  
-
-mmm<dependency>
+  
+ <dependency>
 
             <groupId>net.sf.jasperreports</groupId>
 
@@ -179,10 +178,7 @@ mmm<dependency>
             <version>5.6.0</version>
 
         </dependency>
-
-       
-
-        <dependency>
+      <dependency>
 
             <groupId>net.sf.jasperreports</groupId>
 
@@ -191,19 +187,13 @@ mmm<dependency>
             <version>5.6.1</version>
 
         </dependency>
-
-        <dependency>
-
-            <groupId>net.sf.jasperreports</groupId>
-
-            <artifactId>jasperreports-functions</artifactId>
-
-            <version>5.6.0</version>
-
-        </dependency>llll
-  -->
+ 		
  
- 
+ <dependency>
+		    <groupId>net.sf.jasperreports</groupId>
+		    <artifactId>jasperreports-functions</artifactId>
+		    <version>6.11.0</version>
+		</dependency>  
  
  
   </dependencies>

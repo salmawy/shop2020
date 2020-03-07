@@ -38,6 +38,7 @@ private  Product product ;
 private  Fridage fridage ;
 private String orderTag;
 private VehicleType vehicleType;
+private int invoiceStatus;
 
 
 
@@ -227,6 +228,12 @@ public VehicleType getVehicleType() {
 }
 public void setVehicleType(VehicleType vehicleType) {
 	this.vehicleType = vehicleType;
+}
+public int getInvoiceStatus() {
+	return invoiceStatus;
+}
+public void setInvoiceStatus(int invoiceStatus) {
+	this.invoiceStatus = invoiceStatus;
 }
 
 

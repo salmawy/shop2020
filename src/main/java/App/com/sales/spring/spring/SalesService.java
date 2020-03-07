@@ -1,7 +1,5 @@
 package App.com.sales.spring.spring;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -1081,6 +1079,14 @@ private String hashDisctionaryEntityKey(Class<?>beanClass, Integer identifier) {
 	
 	
 	
+}
+
+
+
+@Override
+public List getSellersLoanSummary(Date fromDate, Date toDate, int seasonId)
+		throws EmptyResultSetException, DataBaseException {
+ 	return this.getSalesDao().getSellersLoanSummary(fromDate, toDate, seasonId);
 }
 
 }

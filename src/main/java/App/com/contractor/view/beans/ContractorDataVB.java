@@ -2,14 +2,20 @@ package App.com.contractor.view.beans;
 
 import java.text.SimpleDateFormat;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+
 public class ContractorDataVB {
 
 	private int id;
 	
 	private String date;
 	private double amount;
-	private int paid ;
+	private boolean paid ;
 	private String notes;
+	private String name;
+	
+	
 	
 	
 	
@@ -38,12 +44,7 @@ public class ContractorDataVB {
 		this.date = date;
 	}
 
-	public int getPaid() {
-		return paid;
-	}
-	public void setPaid(int paid) {
-		this.paid = paid;
-	}
+ 
 	public String getNotes() {
 		return notes;
 	}
@@ -53,12 +54,26 @@ public class ContractorDataVB {
 	public double getAmount() {
 		return amount;
 	}
+	public boolean isPaid() {
+		return paid;
+	}
+	public void setPaid(boolean paid) {
+		this.paid = paid;
+	}
 	public void setAmount(double amount) {
 		this.amount = amount;
 	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
 	
 	
-	
+	public BooleanProperty chkProperty() {
+		return new SimpleBooleanProperty(paid);
+	}
 	
 	
 	

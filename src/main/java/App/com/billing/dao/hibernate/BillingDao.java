@@ -16,7 +16,44 @@ public class BillingDao extends HibernateDaoSupport implements IBillingDao{
 	
 	
 @Override
-	public List getSuggestedCustomersOrders(int finished, int dued, int seasonId, int fridageId, int typeId) throws EmptyResultSetException, DataBaseException {
+	public List getSuggestedCustomersOrders( int seasonId, int fridageId) throws EmptyResultSetException, DataBaseException {
+	
+	
+	
+	
+
+	
+	  Session session = null; 
+	  try { 
+		  session =this.getSessionFactory().openSession();
+	  
+		    String query=" select distinct co.customer.id,co.customer.name,co.customer.typeId,co.invoiceStatus from " + "	 CustomerOrder co " +
+					  " where co.fridageId=  "+fridageId + "	and co.periodId=-1 " +
+					  " and co.seasonId=  "+seasonId;
+					 
+
+ 				 
+	  Query queryList = session.createQuery(query);
+
+	  List<Object> result =queryList.list();
+	  
+	  if(result.size() == 0) {
+		  throw new  EmptyResultSetException("error.emptyRS"); }
+	 
+	  if(result.size() > 0) 
+	  {return result;}
+	 } 
+	  catch(DataAccessException e) { throw new
+	  DataBaseException("error.dataBase.query,AgentFinancialStatus,"+e.getMessage()  );
+	  }
+	  finally { session.close(); }
+	  
+	 
+	return null;
+	} 
+	 
+@Override
+	public List getSuggestedCustomersOrders(int status, int seasonId, int fridageId, int typeId) throws EmptyResultSetException, DataBaseException {
 	
 	
 	
@@ -29,8 +66,7 @@ public class BillingDao extends HibernateDaoSupport implements IBillingDao{
 	  
 		    String query="" + "select distinct customer from " + "	 CustomerOrder co " +
 					  " where co.fridageId=  "+fridageId + "	and co.periodId=-1 " +
-					  " and co.seasonId=  "+seasonId + " and co.finished=  "+finished +
-					  " and co.dued=  "+dued ;
+					  " and co.seasonId=  "+seasonId + " and co.invoiceStatus=  "+status ;
 					  
 					  if(typeId!=0) {
 						  query+= " and co.customer.typeId ="+typeId;

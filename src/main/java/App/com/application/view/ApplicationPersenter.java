@@ -43,6 +43,7 @@ import javafx.util.Duration;
  *
  * @author ahmed
  */
+@SuppressWarnings("restriction")
 public class ApplicationPersenter extends BaseAction implements Initializable {
 
 
@@ -91,6 +92,13 @@ public class ApplicationPersenter extends BaseAction implements Initializable {
     @FXML
     private JFXButton shopDebts_btn3;
 
+    
+    @FXML
+    private JFXButton contractorPerdiocReport_btn;
+    
+    
+    
+    
     @FXML
     private Accordion App_Components;
 
@@ -191,12 +199,16 @@ public class ApplicationPersenter extends BaseAction implements Initializable {
 	  labour_btn.setText(this.getMessage("button.labour"));
 	  suppliers_btn.setText(this.getMessage("button.suppliers"));
 	  varaities_btn.setText(this.getMessage("button.varaties"));
-	 
+	  notes_btn.setText(this.getMessage("button.note"));
+
 	  generateInvoice_btn.setText(this.getMessage("button.invoice.generate"));
 	  payInvoice_btn.setText(this.getMessage("button.invoice.give"));
+	  payInvoice_btn.setVisible(false);
 	  payedInvoice_btn.setText(this.getMessage("button.invoice.archive"));
-	  
-	  
+	  payedInvoice_btn.setVisible(false);
+	  sellersLoanReport_btn.setText(getMessage("sales.report.periodic"));
+	 // 
+	  contractorPerdiocReport_btn.setText(getMessage("contractors.report.periodic"));
 	  
 	  appContainer.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
 	  
@@ -373,12 +385,12 @@ private void fitToAnchorePane(Node node) {
 	  panelPathes.put("labour_btn", "App.com.contractor.view.labours.LabourView");
  
 	  panelPathes.put("payInvoice_btn", "App.com.billing.view.invoicePayment.InvoicePaymentView");
-	 // panelPathes.put("payedInvoice_btn", "App.com.contractor.view.labours.LabourView");
+	  panelPathes.put("sellersLoanReport_btn", "App.com.sales.reports.view.periodicReport.PeriodicReportView");
+	  panelPathes.put("contractorPerdiocReport_btn", "App.com.contractor.view.periodicReport.PeriodicReportView");
 
- 	  //payInvoice_btn.setText(this.getMessage("button.invoice.give"));
-	//  payedInvoice_btn.setText(this.getMessage("button.invoice.archive"));
+ 
 	  
-	  
+	 
 	
 	
 	

@@ -28,4 +28,7 @@ public interface ISalesService {
 	void editeSellerOrder(Seller newSeller, SellerOrder newOrder, double paidAmount, SellerOrder oldOrder,
 			int seasonId) throws Exception;
 	void initEntityDictionary();
+	List getSellersLoanSummary(Date fromDate, Date toDate, int seasonId)
+			throws EmptyResultSetException, DataBaseException;
+	
 }

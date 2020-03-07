@@ -448,7 +448,7 @@ public class SupplierPersenter extends ContractorAction implements Initializable
 			viewBean.setId(transaction.getId());
 			viewBean.setAmount(transaction.getAmount());
 			viewBean.setNotes(transaction.getReport());
-			viewBean.setPaid(transaction.getPaid());
+			viewBean.setPaid(transaction.getPaid()==1);
 			if(transaction.getPaid()==0)
 				ownerTotalAmount+=transaction.getAmount();
 			else

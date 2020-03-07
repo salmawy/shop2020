@@ -90,7 +90,7 @@ public class BillingService implements IBillingService {
 		this.billingDao = billingDao;
 	}
 @Override
-	public List getSuggestedOrders(int customerId,int finished, int dued, int seasonId,int typeId,int fridageId) throws DataBaseException, EmptyResultSetException{
+	public List getSuggestedOrders(int customerId,int status, int seasonId,int typeId,int fridageId) throws DataBaseException, EmptyResultSetException{
 		
 		Map<String,Object> map=new HashMap<String, Object>();
 		if(typeId!=0)
@@ -98,11 +98,10 @@ public class BillingService implements IBillingService {
 		if(typeId!=0)
 			map.put("customer.id",customerId );
 		map.put("seasonId", seasonId);
-		map.put("finished",finished );
+		map.put("invoiceStatus",status );
 
 		map.put("fridageId",fridageId );
-		map.put("dued", dued);
-		
+ 		
 	return	this.getBaseService().findAllBeansWithDepthMapping(CustomerOrder.class, map);
 		
 	
@@ -111,10 +110,10 @@ public class BillingService implements IBillingService {
 
 
 @Override
-public List getSuggestedCustomersOrders(int finished, int dued, int seasonId, int fridageId, int typeId) throws EmptyResultSetException, DataBaseException {
+public List getSuggestedCustomersOrders(int status, int seasonId, int fridageId, int typeId) throws EmptyResultSetException, DataBaseException {
 	
 	
-	return getBillingDao().getSuggestedCustomersOrders(finished, dued, seasonId, fridageId, typeId);
+	return getBillingDao().getSuggestedCustomersOrders(status, seasonId, fridageId, typeId);
 	
 }
 
@@ -125,4 +124,8 @@ public List getCustomersOrderWeights(int orderId) throws EmptyResultSetException
 
 	return this.getBillingDao().getCustomersOrderWeights(orderId);
 	}
+@Override
+public List getSuggestedCustomersOrders(int seasonId, int fridageId) throws EmptyResultSetException, DataBaseException {
+ 	return getBillingDao().getSuggestedCustomersOrders(seasonId, fridageId);
+}
 }

@@ -15,5 +15,6 @@ public interface IContractorService {
 			int ownerId, Date date, int seasonId) throws DataBaseException;
 
 	List<String> getSuggestedContractorName(String searchString, int ownerId, int typeId);
-
+	List getContractorAccount(String name, int seasonId, int typeId, Date fromDate, Date toDate, int paid,int ownerId)
+			throws DataBaseException, EmptyResultSetException;
 }

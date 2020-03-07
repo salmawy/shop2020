@@ -35,6 +35,8 @@
                <property name = "unitePrice" column = "UNITE_PRICE" />
 			   <property name = "orderTag" column = "ORDER_TAG" />
           		<property name = "vechileTypeId" column = "VECHILE_TYPE_ID" />
+            <property name = "invoiceStatus" column = "INVOICE_STATUS" />
+          
           
             
        <property name = "changeDate" column = "CHANGE_DATE" />

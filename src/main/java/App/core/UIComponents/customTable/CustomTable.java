@@ -131,7 +131,7 @@ private void setTableActionListner(){
 
 			Column column = (Column) columns.get(i);
 			
-			if(column.getId().equals("chk")){
+			if(column.getType().equals("chk")){
 				
 				TableColumn<RowClass, Boolean> selectedCol = new TableColumn<RowClass, Boolean>();
 				selectedCol.setMinWidth(50);
@@ -328,13 +328,13 @@ private void setTableActionListner(){
 		
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+		//	e.printStackTrace();
 		} catch (NoSuchMethodException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+		//	e.printStackTrace();
 		} catch (SecurityException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+		//	e.printStackTrace();
 		}
 			
 		

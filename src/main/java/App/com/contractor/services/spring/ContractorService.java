@@ -205,6 +205,12 @@ this.getExpansesService().outcomeTransaction(date, amount, notes, OutcomeTypeEnu
 	 public List<String> getSuggestedContractorName(String searchString,int ownerId,int typeId) {
 		 return this.contractorDao.getSuggestedContractorName(searchString, ownerId, typeId);
 	 }
+@Override
+public List getContractorAccount(String name, int seasonId, int typeId, Date fromDate, Date toDate, int paid,
+		int ownerId) throws DataBaseException, EmptyResultSetException {
+	// TODO Auto-generated method stub
+	return this.getContractorDao().getContractorAccount(name, seasonId, typeId, fromDate, toDate, paid, ownerId);
+}
 
 	
 }

@@ -14,4 +14,6 @@ public interface ISalesDao {
 		public List getSellersOrders(Date orderDate) throws EmptyResultSetException, DataBaseException ;
 		 public List getSellersDebts( int seasonId,int active) throws EmptyResultSetException, DataBaseException;
 		 public List getIncome(Date date) throws EmptyResultSetException, DataBaseException ;
+		List getSellersLoanSummary(Date fromDate, Date toDate, int seasonId)
+				throws EmptyResultSetException, DataBaseException;
 }

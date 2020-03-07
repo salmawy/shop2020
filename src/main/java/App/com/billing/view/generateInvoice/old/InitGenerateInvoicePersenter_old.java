@@ -1,4 +1,4 @@
-package App.com.billing.view.invoicePayment;
+package App.com.billing.view.generateInvoice.old;
 
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -40,7 +40,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class InvoicePaymentPersenter extends BillingAction //implements Initializable, CustomTableActions 
+public class InitGenerateInvoicePersenter_old extends BillingAction //implements Initializable, CustomTableActions
 {
 	/*
 	 * 
@@ -89,12 +89,7 @@ public class InvoicePaymentPersenter extends BillingAction //implements Initiali
 	 * 
 	 * customerType_combo.setOnAction(e -> {
 	 * loadsuggestedCustomers(customerType_combo.getSelectionModel().getSelectedItem
-	 * ().getValue());
-	 * 
-	 * 
-	 * 
-	 * 
-	 * });
+	 * ().getValue()); });
 	 * //===========================================================================
 	 * ==================================================================
 	 * List<Column>customersColumns=prepareCustomerTabelColumns();
@@ -189,23 +184,25 @@ public class InvoicePaymentPersenter extends BillingAction //implements Initiali
 	 * 
 	 * SimpleDateFormat sdf=new SimpleDateFormat("yyyy-mm-dd");
 	 * 
-	 * List invoices=new ArrayList<>(); List<InvoiceViewbean> invoicsViewBeans=new
-	 * ArrayList(); try { // public List getSuggestedOrders(int customerId,int
-	 * finished, int dued, int seasonId,int typeId,int fridageId) throws
-	 * DataBaseException, EmptyResultSetException{
+	 * List invoices=new ArrayList<>(); List invoicsViewBeans=new ArrayList(); try {
 	 * 
-	 * invoices = this.getBillingService().getSuggestedOrders(0,1, 0,
+	 * invoices = this.getBillingService().getSuggestedOrders(0,0, 0,
 	 * ApplicationContext.season.getId(), 0, ApplicationContext.fridage.getId());
 	 * 
 	 * 
 	 * 
 	 * for (Object it : invoices) { CustomerOrder order=(CustomerOrder) it;
 	 * InvoiceViewbean viewBean=new InvoiceViewbean();
-	 * viewBean.setId(order.getId());
+	 * viewBean.setId(order.getId()); //
+	 * viewBean.setInvoiceDate(sdf.format(order.getDueDate()));
 	 * viewBean.setProductName(order.getProduct().getName());
 	 * viewBean.setGrossWeight(order.getGrossweight());
 	 * viewBean.setNetWeight(order.getNetWeight());
-	 * viewBean.setNolun(order.getNolun()); viewBean.setTips(order.getNolun());
+	 * viewBean.setNolun(order.getNolun()); //
+	 * viewBean.setTotalAmount(order.getTotalPrice());
+	 * viewBean.setTips(order.getNolun()); //
+	 * viewBean.setCommision(order.getCommision()); //
+	 * viewBean.setNetAmount(order.getNetPrice());
 	 * viewBean.setOrderTag(order.getOrderTag()); invoicsViewBeans.add(viewBean);
 	 * 
 	 * 
@@ -214,7 +211,7 @@ public class InvoicePaymentPersenter extends BillingAction //implements Initiali
 	 * invoiceCustomeTable.loadTableData(invoicsViewBeans);
 	 * 
 	 * } catch ( EmptyResultSetException e) { // TODO Auto-generated catch block
-	 * //alert(AlertType.WARNING, "", "", getMessage("msg.warning.noData"));
+	 * alert(AlertType.WARNING, "", "", this.getMessage("msg.warning.noData"));
 	 * 
 	 * invoiceCustomeTable.getTable().getItems().clear() ; } catch
 	 * (DataBaseException e) { // TODO Auto-generated catch block
@@ -235,10 +232,9 @@ public class InvoicePaymentPersenter extends BillingAction //implements Initiali
 	 * 
 	 * SimpleDateFormat sdf=new SimpleDateFormat("yyyy-mm-dd");
 	 * 
-	 * List invoices=new ArrayList<>(); List<InvoiceViewbean> invoicsViewBeans=new
-	 * ArrayList(); try {
+	 * List invoices=new ArrayList<>(); List invoicsViewBeans=new ArrayList(); try {
 	 * 
-	 * invoices = this.getBillingService().getSuggestedOrders(customerId,1, 0,
+	 * invoices = this.getBillingService().getSuggestedOrders(customerId,0, 0,
 	 * ApplicationContext.season.getId(), 0, ApplicationContext.fridage.getId());
 	 * 
 	 * 

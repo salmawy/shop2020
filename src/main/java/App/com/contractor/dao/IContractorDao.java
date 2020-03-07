@@ -1,5 +1,6 @@
 package App.com.contractor.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import App.core.exception.DataBaseException;
@@ -12,4 +13,6 @@ public interface IContractorDao {
 
 	List<String> getSuggestedContractorName(String searchString, int ownerId, int typeId);
 
+	List getContractorAccount(String name, int seasonId, int typeId, Date fromDate, Date toDate, int paid,int ownerId)
+			throws DataBaseException, EmptyResultSetException;
 }

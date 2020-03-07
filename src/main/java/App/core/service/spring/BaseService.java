@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.logging.Logger;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.hibernate.Session;
@@ -55,6 +56,7 @@ import net.sf.jasperreports.view.JasperViewer;
 @SuppressWarnings("unchecked")
 public class BaseService  implements IBaseService, IBaseRetrievalService {
 	private IBaseDao baseDao;
+	Logger logger = Logger.getLogger(this.getClass().getName());	
 
 	private final ResourceBundle serviceBundle =null; // = ResourceBundle.getBundle("com.sps.core.resources.ApplicationResources_services_ar");
 	private ResourceBundle settingsBundle = ResourceBundle.getBundle("ApplicationSettings_ar");
@@ -490,13 +492,15 @@ return this.baseDao.aggregate(tablename, operation, columnName, parameters);
  	  	    		   }catch (Exception e) {
 						// TODO: handle exception
 					}
- 	  	       
- 	  	       
+ 
+ 	  				logger.log(logger.getLevel().INFO,"paramters=> "+ param.toString());
+
 				param.put(JRParameter.REPORT_LOCALE, new Locale("ar", "AE", "Arabic"));
- 				
+			
 				JasperPrint jp = JasperFillManager.fillReport(jr, param, connection);
+				
  				JasperViewer.viewReport(jp, false, new Locale("ar", "AE", "Arabic"));
-			 	
+ 				
 	}
 
 	@Override

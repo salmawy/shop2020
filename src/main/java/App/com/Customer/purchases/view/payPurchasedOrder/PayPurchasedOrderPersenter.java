@@ -18,21 +18,21 @@ import com.jfoenix.controls.JFXTextField;
 
 import App.com.Customer.action.CustomerBaseAction;
 import App.core.applicationContext.ApplicationContext;
-import App.core.beans.LoanAccount;
 import App.core.exception.DataBaseException;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.NodeOrientation;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
+@SuppressWarnings("restriction")
 public class PayPurchasedOrderPersenter extends CustomerBaseAction implements Initializable {
 	
 	

@@ -1,5 +1,6 @@
 package App.com.contractor.dao.hibernate;
 
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -63,6 +64,9 @@ public class ContractorDao extends HibernateDaoSupport implements IContractorDao
 		
 	}
 	
+ 
+	
+	
 @Override
 	 public List<String> getSuggestedContractorName(String searchString,int ownerId,int typeId) {
 
@@ -98,7 +102,81 @@ public class ContractorDao extends HibernateDaoSupport implements IContractorDao
 
 	        return list;
 
-	    } 
+	    }
+
+
+
+
+@Override
+public List getContractorAccount(String name, int seasonId, int typeId, Date fromDate, Date toDate, int paid,int ownerId) throws EmptyResultSetException, DataBaseException {
+
+	
+	
+
+	
+	  Session session = null; 
+	  try { 
+		  session =this.getSessionFactory().openSession();
+	  
+
+
+
+	  String q ="select "
+	  		+ " cad "
+ 	  		
+	  		+ " from "
+	  		+ " ContractorAccountDetail cad  "
+	  		+ " where  cad.seasonId= "+seasonId ;
+	  if(paid!=-1)
+		  q +="	and cad.paid="+paid;
+	  if( typeId!=0 )
+		  q +="	and cad.contractorAccount.contractor.typeId ="+typeId;
+    if( ownerId!=0 )
+			  q +="	and cad.contractorAccount.contractor.ownerId ="+ownerId;
+		  
+	  if(toDate!=null&&fromDate!=null) {
+		  q +="	and cad.detailDate >= :fromDate";
+		  q +="	and cad.detailDate <= :toDate";
+ 
+	  }
+	  if(name!=null&&name!="")
+		  q +="	and cad.contractorAccount.contractor.name like  '%"+typeId+"%'";
+	  
+ 
+	  Query queryList = session.createQuery(q);
+	  if(toDate!=null&&fromDate!=null) {
+		  queryList.setParameter("fromDate", fromDate);
+		  queryList.setParameter("toDate", toDate);
+
+		  
+	  }
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  List result =queryList.list();
+
+	
+	  if(result.size() == 0) {
+		  throw new  EmptyResultSetException("error.emptyRS"); }
+	  
+	  if(result.size() > 0) 
+	  {return result;}
+	 } 
+	  catch(DataAccessException e) { throw new
+	  DataBaseException("error.dataBase.query,ContractorAccountDetail,"+e.getMessage()  );
+	  }
+	  finally { session.close(); }
+	  
+	 
+	return null;
+	
+
+} 
 	 
 	 
 	

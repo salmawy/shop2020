@@ -6,12 +6,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.springframework.dao.DataAccessException;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
+import com.sun.jndi.cosnaming.IiopUrl.Address;
+
 import App.com.sales.dao.ISalesDao;
-import App.core.beans.SellerLoanBag;
 import App.core.exception.DataBaseException;
 import App.core.exception.EmptyResultSetException;
 
@@ -231,8 +233,57 @@ public class SelesDao extends HibernateDaoSupport implements  ISalesDao{
 
 	 
 	 
+@Override
+public List getSellersLoanSummary(Date fromDate,Date toDate,int seasonId) throws EmptyResultSetException, DataBaseException {
+	
+	
+	  Session session = null; 
 
+	  try { 
+		  session =this.getSessionFactory().openSession();
+
+	  SQLQuery  query = session.createSQLQuery("select  " + 
+	  		"SLB.PRIOR_LOAN,  " + 
+	  		 
+	  		"nvl(( select sum( SO.TOTAL_COST )from seller_order  so where SO.SELLER_LOAN_BAG_ID=slb.id \r\n" + 
+	  		"    and SO.ORDER_DATE between :fromDate and :toDate   ),0)as TOTAL_COST ," + 
+	  	 
+	  		"nvl((select sum(INST.AMOUNT )from INSTALMENT inst    where INST.SELLER_BAG_LOAN_ID=slb.id \r\n" + 
+	  		"    and INST.INSTALMENT_DATE between :fromDate and :toDate   ),0)as AMOUNT ,   " + 
+	  		"    SLB.CURRENT_LOAN  ,S.NAME " + 
+	  		"from seller_loan_bag slb  , seller s  " + 
+	  		"where SLB.SEASON_ID=:seasonId " + 
+	  		"and SLB.CURRENT_LOAN>0  and s.id=SLB.SELLER_ID  " + 
+	  		"group by SLB.SELLER_ID,slb.PRIOR_LOAN,slb.id,SLB.CURRENT_LOAN,S.NAME"
+	  		+ " order by CURRENT_LOAN desc ");
+	  query.setParameter("fromDate", fromDate);
+	  query.setParameter("toDate", toDate);
+	  query.setParameter("seasonId", seasonId);
+
+	   
+
+	  List result = query.list();
+ 
+	
+	
+	  if(result.size() == 0) {
+		  throw new  EmptyResultSetException("error.emptyRS"); }
+	  
+	  if(result.size() > 0) 
+	  {return result;}
+	 } 
+	  catch(DataAccessException e) { throw new
+	  DataBaseException("error.dataBase.query,AgentFinancialStatus,"+e.getMessage()  );
+	  }
+	  finally { session.close(); }
+	  
 	 
+	return null;}
+	
+	
+	
+	
+ 
 }
 	
 	
