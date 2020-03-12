@@ -1,4 +1,4 @@
-package App.com.billing.view.invoice;
+package App.com.billing.view.invoice.archived;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -29,6 +29,7 @@ import com.sun.xml.internal.ws.handler.HandlerException;
 import App.com.billing.action.BillingAction;
 import App.com.billing.view.beans.InvoiceWeight;
 import App.core.Enum.CustomerTypeEnum;
+import App.core.Enum.InvoiceStatusEnum;
 import App.core.Enum.ProductTypeEnum;
 import App.core.UIComponents.customTable.Column;
 import App.core.UIComponents.customTable.CustomTable;
@@ -170,11 +171,9 @@ public class InvoicePersenter extends BillingAction  implements Initializable {
    logger.setLevel(Level.INFO);
 
 logger.log(logger.getLevel(),"============================================================================================================");
-//logger.log(logger.getLevel(),"======== Path =>"+this.getClass().getName()+"==============================================================");
-//logger.log(logger.getLevel(),"============================================================================================================");
- 		
+   		
 
-invoiceId=(int) this.request.get("invoiceId");
+		  invoiceId=(int) this.request.get("invoiceId");
 		  typeId=(int) this.request.get("typeId");
 		
 		
@@ -300,7 +299,7 @@ private void render() {
 	    		      
 	    		      int action =(int) request.get("action");
 	    		      switch (action) {
-					case 1:
+					case InvoiceStatusEnum.UNDER_EDIT:
 						try {
 							generate();
 							alert(AlertType.CONFIRMATION, "", "", getMessage("msg.billing.invoiceHasbeenGenerated"));
@@ -316,7 +315,7 @@ private void render() {
 							
 						}
 						break;
-					case 2:
+					case InvoiceStatusEnum.UNDER_DELIVERY:
 						payInvoice();
 						break;
 					default:

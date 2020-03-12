@@ -1,4 +1,4 @@
-package App.com.billing.view.invoice;
+package App.com.billing.view.invoice.pay;
 
 import com.airhacks.afterburner.views.FXMLView;
 
