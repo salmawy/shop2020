@@ -41,7 +41,7 @@ public class SelesDao extends HibernateDaoSupport implements  ISalesDao{
 				  throw new  EmptyResultSetException("error.emptyRS"); }
 			 
 			  if(result.size() > 0) 
-			  { return (result.get(0)==null)?null:result.get(0) ;}
+			  { return (result.get(0)==null)?0:result.get(0) ;}
 	      
 	        
 		  }catch(DataAccessException e) {

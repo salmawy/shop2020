@@ -19,8 +19,10 @@ public class SalesAction extends BaseAction {
      public static final int CashId=200;
 
 	public SalesAction() {
-		orderDataMap =new  HashMap();
-		
+		orderDataMap =new  HashMap<String, Object> ();
+	//	request =new  HashMap<String, Object> ();
+	//	response =new  HashMap<String, Object> ();
+
 		salesService= (ISalesService) getSpringBeanFactory().getBean("salesService"); 
 		expansesService= (IExpansesServices) getSpringBeanFactory().getBean("expansesService"); 
 

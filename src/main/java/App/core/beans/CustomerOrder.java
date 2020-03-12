@@ -30,7 +30,7 @@ private Double unitePrice;
 
 private Double  ratio;
 private Double buyPrice;
-private int periodId;
+private int periodId=-1;
 private int fridageId;
 private Integer vechileTypeId;
 private  Customer customer ;

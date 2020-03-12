@@ -19,11 +19,10 @@ import org.controlsfx.glyphfont.FontAwesome;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
-import com.jfoenix.controls.JFXTextField;
 
 import App.com.Customer.transactions.view.beans.InvoiceViewbean;
 import App.com.billing.action.BillingAction;
-import App.com.billing.view.invoice.InvoiceView;
+import App.com.billing.view.invoice.generate.InvoiceView;
 import App.core.Enum.CustomerTypeEnum;
 import App.core.Enum.InvoiceStatusEnum;
 import App.core.UIComponents.comboBox.ComboBoxItem;
@@ -427,21 +426,44 @@ public class InitGenerateInvoicePersenter extends BillingAction implements Initi
 	    }
 
 
+	@SuppressWarnings("static-access")
 	protected void initGenerateInvoice() {
 
     	
 		InvoiceViewbean item=(InvoiceViewbean) this.invoiceCustomeTable.getTable().getSelectionModel().getSelectedItem();
-    	int action=invoiceStatus_CB.getSelectionModel().getSelectedItem().getValue();
-    	this.request=new HashMap<String,Object>();
+     	this.request=new HashMap<String,Object>();
     	request.put("invoiceId", item.getId());
     	request.put("typeId", customerType_CB.getSelectionModel().getSelectedItem().getValue());
-    	request.put("action", action);
-     	
-    	InvoiceView form=new InvoiceView();
-    	URL u=	 getClass().getClassLoader().getResource("appResources/custom.css");
+    	int invoiceStatus=invoiceStatus_CB.getSelectionModel().getSelectedItem().getValue();
+    	
+    	Scene scene1=null;
+     	if(invoiceStatus==InvoiceStatusEnum.UNDER_EDIT) {
+    		
+    		App.com.billing.view.invoice.generate.InvoiceView  form=new InvoiceView();
+        	 scene1= new Scene(form.getView(), 850, 600);
 
-    	Scene scene1= new Scene(form.getView(), 850, 600);
-    	Stage popupwindow=new Stage();
+    	}
+     	else if(invoiceStatus==InvoiceStatusEnum.UNDER_DELIVERY) {
+
+    		
+    		App.com.billing.view.invoice.pay.InvoiceView  form=new App.com.billing.view.invoice.pay.InvoiceView();
+        	 scene1= new Scene(form.getView(), 850, 600);
+
+    	
+     	}
+     	else if (invoiceStatus==InvoiceStatusEnum.ARCHIVED) {
+
+    		
+    		App.com.billing.view.invoice.archived.InvoiceView  form=new App.com.billing.view.invoice.archived.InvoiceView ();
+        	 scene1= new Scene(form.getView(), 850, 600);
+
+    	
+     	}
+    	
+      	
+     	URL u=	 getClass().getClassLoader().getResource("appResources/custom.css");
+
+     	Stage popupwindow=new Stage();
     	popupwindow.setMinHeight(400);
     	popupwindow.setMinWidth(900);
 
@@ -456,10 +478,7 @@ public class InitGenerateInvoicePersenter extends BillingAction implements Initi
     		
 
     		System.out.println("window closes");
-    		//boolean valid=(boolean) this.response.get("valid");
-    		
-    		//if(valid)
-    			//loadData(fromLocalDateToDate(bookDatePicker.getValue()));
+    		search();
         
     		
     		

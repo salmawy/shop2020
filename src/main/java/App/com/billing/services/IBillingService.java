@@ -2,6 +2,7 @@ package App.com.billing.services;
 
 import java.util.List;
 
+import App.core.beans.CustomerOrder;
 import App.core.exception.DataBaseException;
 import App.core.exception.EmptyResultSetException;
 
@@ -14,6 +15,8 @@ public interface IBillingService {
 
 	List getCustomersOrderWeights(int orderId) throws EmptyResultSetException, DataBaseException;
 	List getSuggestedCustomersOrders(int seasonId, int fridageId) throws EmptyResultSetException, DataBaseException;
+
+	void generateInvoice(CustomerOrder invoice) throws DataBaseException;
 
  
 	

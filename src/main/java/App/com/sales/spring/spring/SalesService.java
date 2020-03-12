@@ -115,7 +115,7 @@ public List getAllCustomersOrdersTags(int seasonId,int fridageId,int productId,i
 	try {
 		result=this.getBaseService().findAllBeans(CustomerOrder.class,map,null);
 	} catch (DataBaseException | EmptyResultSetException e) {
-		e.printStackTrace();
+	//	e.printStackTrace();
 	}
 return result;
 	
@@ -655,7 +655,7 @@ public void saveIncomeDetail(IncomeDetail incomeDetail,Date date) throws DataBas
 			return income;
 		} catch (DataBaseException | EmptyResultSetException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+		//	e.printStackTrace();
 			logger.log(logger.getLevel().INFO, "error.emptyRS incomeDate of date "+date.toString());
 		}
 		

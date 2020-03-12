@@ -1,44 +1,6 @@
 package App.com.billing.view.invoicePayment;
 
-import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ResourceBundle;
-
-import org.controlsfx.glyphfont.FontAwesome;
-
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXComboBox;
-
-import App.com.Customer.transactions.view.beans.CustomerNameViewBean;
-import App.com.Customer.transactions.view.beans.InvoiceViewbean;
 import App.com.billing.action.BillingAction;
-import App.com.billing.view.invoice.InvoiceView;
-import App.core.Enum.CustomerTypeEnum;
-import App.core.UIComponents.comboBox.ComboBoxItem;
-import App.core.UIComponents.customTable.Column;
-import App.core.UIComponents.customTable.CustomTable;
-import App.core.UIComponents.customTable.CustomTableActions;
-import App.core.applicationContext.ApplicationContext;
-import App.core.beans.Customer;
-import App.core.beans.CustomerOrder;
-import App.core.exception.DataBaseException;
-import App.core.exception.EmptyResultSetException;
-import javafx.event.EventHandler;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.geometry.NodeOrientation;
-import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 
 public class InvoicePaymentPersenter extends BillingAction //implements Initializable, CustomTableActions 
 {

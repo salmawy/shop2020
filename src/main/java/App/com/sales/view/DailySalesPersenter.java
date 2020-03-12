@@ -31,6 +31,7 @@ import App.com.sales.view.beans.SellerOrderDetailVB;
 import App.com.sales.view.beans.SellerOrderVB;
 import App.com.sales.view.dialog.AddSellerOrderDetailView;
 import App.com.sales.view.edit.EditSellerOrderView;
+import App.core.Enum.ProductTypeEnum;
 import App.core.Enum.SellerTypeEnum;
 import App.core.UIComponents.comboBox.ComboBoxItem;
 import App.core.UIComponents.customTable.Column;
@@ -134,7 +135,16 @@ public class DailySalesPersenter extends SalesAction implements Initializable, C
 	
 	
 	Validator myvaValidator;
+	Map <Integer,Double>OrderDetailCash;
+	String OrderDetailCashKey="OrderDetailCashKey";
 
+	
+	
+	public DailySalesPersenter() {
+ 
+ OrderDetailCash=new HashMap<Integer, Double>();
+ 
+}
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
@@ -599,8 +609,15 @@ public class DailySalesPersenter extends SalesAction implements Initializable, C
     }
 
 
-   private void addOrderDetail() {
+   @SuppressWarnings("static-access")
+private void addOrderDetail() {
 		
+		this.request=new HashMap<String,Object>();
+
+		this.request.put(OrderDetailCashKey, OrderDetailCash);
+	   
+	   
+	   
 		AddSellerOrderDetailView form=new AddSellerOrderDetailView();
 		URL u=	 getClass().getClassLoader().getResource("appResources/custom.css");
 
@@ -610,11 +627,10 @@ public class DailySalesPersenter extends SalesAction implements Initializable, C
 	    String css =u.toExternalForm();
 		scene1.getStylesheets().addAll(css); 
 		popupwindow.initModality(Modality.APPLICATION_MODAL);
-		popupwindow.setTitle("This is a pop up window");
-		      
+ 		popupwindow.setTitle(this.getMessage("add.seller.order.detailData"));
+
 		popupwindow.setScene(scene1);
 	popupwindow.setOnHiding( ev -> {
-			
 
 			System.out.println("window closes");
 			
@@ -660,13 +676,46 @@ public class DailySalesPersenter extends SalesAction implements Initializable, C
 	   
 	 this.orderDetail_CT.getTable().getItems().add(viewBean);
 	 updateTotalAmountValue(viewBean.getAmount(), 1);
+	 double quantity=0.0;
+	 if(Integer.parseInt(String.valueOf(m.get("productId") )) ==ProductTypeEnum.local_bannana) {
+		 quantity=Double.parseDouble(String.valueOf(m.get("grossWeight") ))  ;
+	 }
+	 else if (Integer.parseInt(String.valueOf(m.get("productId") )) ==ProductTypeEnum.imported) {
+		 quantity=Double.parseDouble(String.valueOf(m.get("count") ))  ;
+
+	 }
+		 
+	 updateCashOrderDetail(Integer.parseInt(String.valueOf(m.get("customerOrderId")))   ,quantity  );
 	   }
 
    }
 
    
    
-   private void updateTotalAmountValue(double value,int mode) {
+   private void updateCashOrderDetail(Integer orderId,double quantity) {
+	
+	   
+	   try{
+		   
+		   
+		
+		quantity+=  (OrderDetailCash.get(orderId)!=null) ?OrderDetailCash.get(orderId):0.0;
+		OrderDetailCash.put(orderId, quantity);
+			
+			 
+			 
+		 
+	   }catch (Exception e) {
+e.printStackTrace();	}
+	   
+	   
+	   
+	   
+	   
+	   
+	
+}
+private void updateTotalAmountValue(double value,int mode) {
 	//mode 1 => addition else subtract
 	double  oldValue=(totalAmount.getText()!=null&&totalAmount.getText()!=""&&totalAmount.getText().length()>0)?Double.parseDouble(totalAmount.getText()):0.0;
 
@@ -826,7 +875,7 @@ public void intiateAddOrderPage() {
     this.name.setText("");
 
    orderDetail_CT.getTable().getItems().clear();
-   
+   this.OrderDetailCash=new HashMap<Integer, Double>();
 }
 
 

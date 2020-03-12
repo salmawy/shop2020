@@ -83,7 +83,15 @@ public class AddSellerOrderDetailPersenter extends SalesAction implements Initia
 	    private   JFXTextField amount;
 	    private Map<String, Double> orderWithDrawalQuantity;
 	    private Map<String, Object> orderDataMap;
-
+	    private Map<Integer, Double> OrderDetailCash;
+	    
+	    public AddSellerOrderDetailPersenter() {
+	    	
+	    	OrderDetailCash=(Map<Integer, Double>) this.request.get("OrderDetailCashKey");
+	    	
+ 		}
+	    
+	    
 	@SuppressWarnings({ "unchecked", "unused" })
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -195,7 +203,7 @@ public class AddSellerOrderDetailPersenter extends SalesAction implements Initia
             public void changed(ObservableValue<? extends Number> ov,
                     final Number oldvalue, final Number newvalue)
             {
-            	
+            	clearInputForm();
             	ComboBoxItem item=productType.getSelectionModel().getSelectedItem();
             	fillInputForm(item.getValue());
             	loadCustomerOrders();
@@ -397,7 +405,23 @@ public class AddSellerOrderDetailPersenter extends SalesAction implements Initia
 		
 	}
 
-	
+	private void clearInputForm() {
+		
+		this.amount.setText("");
+		this.count.setText("");
+		this.unitePrice.setText("");
+		this.netWeight.setText("");
+		this.grossWeight.setText("");
+		this.amount.setText("");
+ 
+		
+		
+		
+		
+		
+		
+		
+	}
     private void fitToAnchorePane(Node node) {
     	
     	
@@ -604,7 +628,19 @@ private void packageNumberTracker() {
     
     
     }
-	
+    //imported banana
+    if(productType.getSelectionModel().getSelectedItem().getValue()==2){
+           String unitePriceValue=unitePrice.getText();
+        String number=count.getText();
+        if(!unitePriceValue.isEmpty()&&!number.isEmpty()){
+       
+                             int packageNumber=Integer.parseInt(count.getText());
+                             int totalAmount=Integer.parseInt(unitePriceValue)*packageNumber;
+                               this.amount.setText(String.valueOf(totalAmount));}
+    
+    
+    
+    }
 }
 	private void loadCustomerOrders() {
 		
@@ -638,7 +674,9 @@ private void packageNumberTracker() {
         String weight = grossWeight.getText();
         String packageNumber = count.getText();
         String UnitePrice = unitePrice.getText();
-
+        
+        int customerId=customer_cb.getSelectionModel().getSelectedItem().getValue();
+        double cashedQuantity=(OrderDetailCash.get(customerId)!=null)?OrderDetailCash.get(customerId):0.0;
         int productId = productType.getSelectionModel().getSelectedItem().getValue();
 
         switch (productId) {
@@ -666,11 +704,14 @@ private void packageNumberTracker() {
             
 
                 
-                else   if (confirmWeight(orderId, Double.parseDouble(weight), productId)) {
+                else   if (productId==ProductTypeEnum.local_bannana && confirmWeight(orderId, Double.parseDouble(weight)+cashedQuantity, productId)) {
                 	snackBar.show(this.getMessage("msg.err.notEnough.weight"), 1000);
 
                     return false;
                 } 
+                   
+                   
+            
                  break;
             case 2:
                  orderId = ((customer_cb.getSelectionModel().getSelectedItem())==null)?0:customer_cb.getSelectionModel().getSelectedItem().getValue();
@@ -697,7 +738,7 @@ private void packageNumberTracker() {
                 }
             
               
-                else   if (confirmWeight(orderId, Double.parseDouble(weight), productId)) {
+                else   if (!confirmWeight(orderId, Double.parseDouble(packageNumber)+cashedQuantity, productId)) {
                 	snackBar.show(this.getMessage("msg.err.notEnough.count"), 1000);
 
                     return false;
@@ -749,40 +790,40 @@ private void packageNumberTracker() {
 
     }
    
-private boolean confirmWeight(int orderId, double quantity,int productId) {
-	
-Map m=new HashMap();
-m.put("customerOrderId =", orderId);
-
-String columnName=(productId==ProductTypeEnum.bannana)?"grossQuantity":"packageNumber";
-	try {
-		CustomerOrder order=(CustomerOrder) this.getBaseRetrievalService().getBean(CustomerOrder.class, orderId);
-
+	private boolean confirmWeight(int orderId, double quantity,int productId) {
 		
+	Map <String,Object>m=new HashMap<String,Object>();
+	m.put("customerOrderId =", orderId);
+ 	String columnName=(productId==ProductTypeEnum.local_bannana)?"grossQuantity":"packageNumber";
 		try {
-			double withDrawaled=(Double)this.getSalesService().aggregate("SellerOrderWeight", "sum", columnName, m);
-				double avilable=(order.getGrossweight() - withDrawaled);
-		return(quantity<=avilable);
-		} catch (EmptyResultSetException e) {
+			CustomerOrder order=(CustomerOrder) this.getBaseRetrievalService().getBean(CustomerOrder.class, orderId);
+	
+			
+			try {
+				double withDrawaled=Double.parseDouble(String.valueOf(this.getSalesService().aggregate("SellerOrderWeight", "sum", columnName, m)));
+ 
+				double avaliableQuantity=(order.getGrossweight() - withDrawaled);
+			return(quantity<=avaliableQuantity);
+			} catch (EmptyResultSetException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
+		
+		} catch (DataBaseException | InvalidReferenceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	
-	
-	} catch (DataBaseException | InvalidReferenceException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
-	
-	
-	
-	
-	return false;
-	
-	
-	
-	
-	
+		
+		
+		
+		
+		return false;
+		
+		
+		
+		
+		
 }
 void addOrderWithDrawalQuantity(String name, Double quantity) {
 

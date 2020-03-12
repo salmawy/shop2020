@@ -25,7 +25,7 @@ public class CustomerViewBean {
     private String storeName;
     private int finished;
 	private SimpleBooleanProperty chk;
-
+ private String finishedLabel;
 
  
     public CustomerViewBean(Integer orderId, String customerName, String productName, Double nowlun, Double quantity, Integer count, Double gift, String storeName, int finished) {
@@ -167,7 +167,7 @@ public class CustomerViewBean {
     public int getFinished() {
         return finished;
     }
-
+  
     /**
      * @param finished the finished to set
      */
@@ -186,6 +186,14 @@ public class CustomerViewBean {
     
 	public BooleanProperty chkProperty() {
 		return this.chk;
+	}
+
+	public String getFinishedLabel() {
+		return finishedLabel;
+	}
+
+	public void setFinishedLabel(String finishedLabel) {
+		this.finishedLabel = finishedLabel;
 	}
     
     

@@ -102,7 +102,8 @@ public List getCustomersOrderWeights(int orderId) throws EmptyResultSetException
 	    String query="select "
 	    		+ " sum(amount),"
 	    		+ "	unitePrice,"
-	    		+ " sum(netQuantity) "
+	    		+ " sum(netQuantity), "
+	    		+ " sum(packageNumber) "
 	    		+ " from  SellerOrderWeight"
 	    		+ " where  customerOrderId="+orderId 
 	    		+ " group by unitePrice " ;

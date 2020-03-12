@@ -1,6 +1,5 @@
 eclipse.preferences.version=1
 encoding//src/main/java/App/com/Customer/discharge/view/InitCustomerDischargePresenter.java=UTF-8
-encoding//src/main/java/App/com/billing/view/invoice/InvoicePersenter.java=UTF-8
 encoding//src/main/java/App/com/contractor/view/periodicReport/PeriodicReportPersenter.java=UTF-8
 encoding//src/main/java/App/com/expanses/view/expanses/ExpansesPersenter.java=UTF-8
 encoding//src/main/java/App/com/expanses/view/payLoan/PayLoanPersenter.java=UTF-8
@@ -8,7 +7,5 @@ encoding//src/main/java/App/com/sales/reports/view/periodicReport/PeriodicReport
 encoding//src/main/java/App/com/sales/view/DailySalesPersenter.java=UTF-8
 encoding//src/main/java/App/com/sales/view/beans/SellerOrderDetailVB.java=UTF-8
 encoding//src/main/java/App/com/sales/view/dialog/AddSellerOrderDetailPersenter.java=UTF-8
-encoding//src/main/resources/reports/billing/invoice.jrxml=UTF-8
-encoding//src/main/resources/reports/billing/invoiceDetail.jrxml=UTF-8
 encoding//src/main/resources/reports/contractors/priodicContractorLoans.jrxml=UTF-8
 encoding//src/main/resources/reports/sales/priodicSellerLoans.jrxml=UTF-8

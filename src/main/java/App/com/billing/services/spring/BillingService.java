@@ -1,20 +1,32 @@
 package App.com.billing.services.spring;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import App.com.Customer.service.ICustomerService;
 import App.com.billing.dao.IBillingDao;
 import App.com.billing.services.IBillingService;
 import App.com.expanses.services.IExpansesServices;
+import App.core.Enum.IncomeTypesEnum;
+import App.core.Enum.OutcomeTypeEnum;
 import App.core.applicationContext.ApplicationContext;
 import App.core.beans.CustomerOrder;
+import App.core.beans.IncomeDetail;
+import App.core.beans.LoanAccount;
+import App.core.beans.LoanPaying;
+import App.core.beans.Loaners;
+import App.core.beans.Outcome;
+import App.core.beans.OutcomeDetail;
 import App.core.exception.DataBaseException;
 import App.core.exception.EmptyResultSetException;
 import App.core.service.IBaseRetrievalService;
@@ -128,4 +140,42 @@ public List getCustomersOrderWeights(int orderId) throws EmptyResultSetException
 public List getSuggestedCustomersOrders(int seasonId, int fridageId) throws EmptyResultSetException, DataBaseException {
  	return getBillingDao().getSuggestedCustomersOrders(seasonId, fridageId);
 }
+
+@Override
+public void generateInvoice(CustomerOrder invoice ) throws DataBaseException {
+
+	TransactionStatus status = null;
+
+	DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+	def.setPropagationBehavior(TransactionDefinition.PROPAGATION_NESTED);
+	def.setTimeout(Integer.parseInt(this.getSettingsBundle().getString("transactionTimeOut.base.highTimeOut")));
+	status = this.getMyTransactionManager().getTransaction(def);
+
+	try { 
+		
+		
+		
+		
+		 this.getBaseService().editBean(invoice);  
+		 this.getExpansesService().outcomeTransaction(new Date(), invoice.getTips(), invoice.getNotes(), OutcomeTypeEnum.INVOICE_TIPS, invoice.getCustomerId(), invoice.getId(), ApplicationContext.fridage.getId(), ApplicationContext.season.getId());		 
+		 
+			this.getMyTransactionManager().commit(status);
+
+			 
+		
+	}catch (DataBaseException e) {
+		this.getMyTransactionManager().rollback(status);
+		logger.log(Level.SEVERE,e.getMessage());
+		throw new DataBaseException(e.getMessage());
+
+	}finally {
+		closeTransaction(status);
+
+	}
+		
+		
+	
+
+}
+
 }

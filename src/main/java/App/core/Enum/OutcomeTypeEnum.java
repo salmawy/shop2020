@@ -12,7 +12,7 @@ public class OutcomeTypeEnum {
 	public final static int 	maintaince=	8;
 	public final static int OUT_PAY_LOAN=	9;
 	public final static int K_V	=10;
-	public final static int ORDER_TIPS=	11;
+	public final static int INVOICE_TIPS=	11;
 	public final static int TIPS=	12;
 	public final static int K_S=	13;
 	public final static int NOLOUN	=14;
