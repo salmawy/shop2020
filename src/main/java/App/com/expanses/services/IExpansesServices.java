@@ -5,6 +5,7 @@ import java.util.List;
 
 import App.core.beans.IncomeDetail;
 import App.core.beans.LoanAccount;
+import App.core.beans.Outcome;
 import App.core.exception.DataBaseException;
 import App.core.exception.EmptyResultSetException;
 import App.core.exception.InvalidReferenceException;
@@ -39,4 +40,10 @@ public interface IExpansesServices {
 	void changeIncomeDetailAmount( IncomeDetail incomeDetail, double amount, int transactionTypeId)
 			throws DataBaseException, InvalidReferenceException;
 	void initEntityDictionary();
+	List getIncomeDates(int seasonId) throws EmptyResultSetException, DataBaseException;
+	List inExactMatchSearchloanerName(String loanerName, String loanerType)
+			throws EmptyResultSetException, DataBaseException;
+	void editOutcomeTransaction(Date date, double amount, String notes, int typeId, int customerId, int orderId,
+			int fridageId, int seasonId, int detailId) throws DataBaseException;
+	Outcome findOutcome(Date date);
 }

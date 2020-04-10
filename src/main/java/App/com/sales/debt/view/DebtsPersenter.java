@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.controlsfx.glyphfont.FontAwesome;
@@ -54,7 +55,6 @@ import javafx.stage.StageStyle;
 
 public class DebtsPersenter extends SalesAction implements CustomTableActions,Initializable{
 	   
-	Logger logger = Logger.getLogger(this.getClass().getName());	
 
 	
 	@FXML
@@ -98,8 +98,11 @@ public class DebtsPersenter extends SalesAction implements CustomTableActions,In
 	    CustomTable<InstalmelmentVB> sellerInstallmentsCustomTable;
 	    PredicatableTable<SellerDebtVB> sellersPredicatableTable;
 
-	    
-	    
+		Logger logger = Logger.getLogger(this.getClass().getName());	
+
+	    public DebtsPersenter() {
+
+	    	logger.log(Level.INFO,"============================================================================================================");		}
 	    
 	    
 	    
@@ -187,7 +190,7 @@ public class DebtsPersenter extends SalesAction implements CustomTableActions,In
 		
 		try {
 			
-			List debts=this.getSalesService().getSellersDebts(ApplicationContext.currentUser.getId(),1);
+			List debts=this.getSalesService().getSellersDebts(ApplicationContext.season.getId(),1);
 		   List data=new ArrayList();
 			for (Iterator iterator = debts.iterator(); iterator.hasNext();) {
 				SellerLoanBag bag = (SellerLoanBag) iterator.next();

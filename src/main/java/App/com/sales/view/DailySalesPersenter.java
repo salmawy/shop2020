@@ -17,6 +17,8 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.TimeZone;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.controlsfx.control.textfield.TextFields;
 import org.controlsfx.glyphfont.FontAwesome;
@@ -70,38 +72,24 @@ import javafx.util.StringConverter;
 public class DailySalesPersenter extends SalesAction implements Initializable, CustomTableActions{
 
 	
-	    @FXML
-	    private AnchorPane gridPane_loc;
-	
+    @FXML
+    private AnchorPane root_Pan;
+
+    @FXML
+    private HBox headerPane;
+
+    @FXML
+    private StackPane stackPane;
+ 	
 	    private AnchorPane bookDetailPane;
-
-	    @FXML
-	    private AnchorPane root_Pan;
-
-	    @FXML
-	    private AnchorPane orderDetail_loc;
-
-	    @FXML
-	    private HBox headerPane;
-
-
+ 
 	    private AnchorPane bookMasterPane;
-
-	    @FXML
-	    private StackPane stackPane;
-
-	    @FXML
-	    private HBox buttonPane;
-	    
-	    @FXML
-	    private   JFXButton saveBtn;
-	    
-	    
-	    
+       
 	    private GridPane gridPane;
 
    
     private JFXButton edit_btn;
+    private JFXButton add_btn;
     private JFXButton detail_btn;
     private JFXButton prif_btn;
 
@@ -120,7 +108,7 @@ public class DailySalesPersenter extends SalesAction implements Initializable, C
     private CustomTable <SellerOrderDetailVB> orderDetail_CT;
 
     private Label sellerTypeLabel=new Label(this.getMessage("seller.type"));
-
+   
     private Label nameLabel=new Label(this.getMessage("seller.name"));
 	
     private Label phoneLabel=new Label(this.getMessage("customer.phone"));
@@ -139,11 +127,24 @@ public class DailySalesPersenter extends SalesAction implements Initializable, C
 	String OrderDetailCashKey="OrderDetailCashKey";
 
 	
-	
+	Logger logger = Logger.getLogger(this.getClass().getName());	
+
 	public DailySalesPersenter() {
- 
+	  	  logger.log(Level.INFO,"============================================================================================================");
+
  OrderDetailCash=new HashMap<Integer, Double>();
- 
+   nameLabel.setMinWidth(80);
+   phoneLabel.setMinWidth(80);
+   addressLabel.setMinWidth(80);
+   totalLabel.setMinWidth(80);
+   paidAmountLabel.setMinWidth(80);
+   restLabel.setMinWidth(80);
+
+ 	
+ 	
+ 	
+ 	
+ 	
 }
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -158,14 +159,21 @@ public class DailySalesPersenter extends SalesAction implements Initializable, C
 		
 		
 	//
-    	    
+		add_btn=new JFXButton(this.getMessage("button.add"));
+		add_btn.setGraphic(new FontAwesome().create(FontAwesome.Glyph.PLUS));
+ 		add_btn.getStyleClass().setAll("btn","btn-primary","btn-sm");  
+		add_btn.setOnAction(e -> {
+      	addEditOrder(0);
+      });	  
     	    
     	edit_btn=new JFXButton(this.getMessage("button.edit"));
           edit_btn.setGraphic(new FontAwesome().create(FontAwesome.Glyph.EDIT));
         edit_btn.setDisable(true);
         edit_btn.getStyleClass().setAll("btn","btn-primary","btn-sm");  
         edit_btn.setOnAction(e -> {
-        	editOrder();
+            SellerOrderVB orderVB=	(SellerOrderVB) this.sellerOrdersCustomTable.getTable().getSelectionModel().getSelectedItem();
+
+        	addEditOrder(orderVB.getId());
         });	
    
         detail_btn=new JFXButton(this.getMessage("button.detail"));
@@ -268,9 +276,7 @@ public class DailySalesPersenter extends SalesAction implements Initializable, C
 		stackPane.getChildren().addAll(bookMasterPane);
 		
 		//===============upper section=====================================
-		orderDetail_loc.getChildren().addAll(orderDetail_CT.getCutomTableComponent());
-		orderDetail_CT.getCutomTableComponent().setPrefSize(700, 270);
-		sellerOrdersCustomTable.getCutomTableComponent().setMaxHeight(200);
+ 		sellerOrdersCustomTable.getCutomTableComponent().setMaxHeight(200);
 		fillHeaderButtons(1);
 		
 		//================================
@@ -371,105 +377,10 @@ public class DailySalesPersenter extends SalesAction implements Initializable, C
 		 restAmount.getStyleClass().add("TextField");
 		 restAmount.setDisable(true);
 
-		 saveBtn.setText(this.getMessage("button.save"));
-  		    saveBtn.setGraphic(new FontAwesome().create(FontAwesome.Glyph.SAVE));
-		    saveBtn.getStyleClass().setAll("btn","btn-primary");  
-		    saveBtn.setOnAction(e -> {
-		       	
-		        
-		       if(validateInputData()) {
-		    	   
-		    	   
-		    	   try {
-		    	   
-		    	   double paidAmount_=(paidAmount.getText().isEmpty())?0.0:Double.parseDouble(paidAmount.getText());
-		    	   int type=sellerType_CB.getSelectionModel().getSelectedItem().getValue();
-		    	   Seller seller=new Seller();
-		    	   seller.setName(name.getText());
-		    	   seller.setAddress(address.getText());
-		    	   seller.setPhone(phone.getText());
-		    	   seller.setTypeId(type);
-		    	   
-		    	   SellerOrder order=new SellerOrder();
-		    	   order.setOrderDate(new Date());
-		    	   order.setFridageId(this.getFridage().getId());
-		    	   order.setSeasonId(getSeason().getId());
-		    	   order.setTotalCost(Double.parseDouble(totalAmount.getText()));
-		    	   List orderDetails=orderDetail_CT.getTable().getItems();
-		    	   Set<SellerOrderWeight>orerDetail=new HashSet<SellerOrderWeight>();
-		    	   for (Iterator iterator = orderDetails.iterator(); iterator.hasNext();) {
-					SellerOrderDetailVB row = (SellerOrderDetailVB) iterator.next();
-					SellerOrderWeight temp=new SellerOrderWeight();
-					temp.setAmount(row.getAmount());
-					temp.setCustomerOrderId(row.getCustomerOrderId());
-					temp.setGrossQuantity(row.getGrossWeight());
-					temp.setNetQuantity(row.getNetWeight());
-					temp.setPackageNumber(row.getCount());
-					temp.setProductId(row.getProductId());
-					temp.setUnitePrice(row.getUnitePrice());
-					orerDetail.add(temp);
-					
-				}
-		    	   
-		    	   order.setOrderWeights(orerDetail);
-		    	   this.getSalesService().saveSellerOrder(seller, order, paidAmount_);
-		    	   
-		    	   intiateAddOrderPage();
-		    	   alert(AlertType.INFORMATION, "", "", this.getMessage("msg.done.save"));
-		    	   
-		    	   }catch (Exception ex) {
-			    	   alert(AlertType.ERROR, this.getMessage("msg.err"),this.getMessage("msg.err"), this.getMessage("msg.err.general"));
-
-			
-				}
-		    	   
-		    	   
-		    	   
-		    	   
-		       }
-		           	
-		           });
-		   // buttonPane.getChildren().addAll(saveBtn);
-		    
+ 		  
 		    
  //====================================================================================================
-		    gridPane.setCenterShape(true);
-		    gridPane.setAlignment(gridPane.getAlignment().CENTER);
-		    
-		    gridPane.add(sellerTypeLabel, 0, 0);
-		    gridPane.add(sellerType_CB, 1, 0);
-		    
-		    
-		    gridPane.add(nameLabel, 0, 1);
-		    gridPane.add(name, 1, 1);
-		    
-		    gridPane.add(phoneLabel, 0, 2);
-		    gridPane.add(phone, 1, 2);
-		    
-		    
-		    gridPane.add(addressLabel, 0, 3);
-		    gridPane.add(address, 1, 3);
-		    
-		    gridPane.add(totalLabel, 0, 4);
-		    gridPane.add(totalAmount, 1, 4);
-		    
-		    gridPane.add(paidAmountLabel, 0, 5);
-		    gridPane.add(paidAmount, 1, 5);
-		    
-		    
-		    gridPane.add(restLabel, 0, 6);
-		    gridPane.add(restAmount, 1, 6);
-		    
-		    
-		  //  gridPane.add(sellerTypeLabel, 0, 7);
-		    
-			gridPane.setVgap(5);
-			gridPane_loc.getChildren().clear();
-			fitToAnchorePane(gridPane);
-			gridPane_loc.getChildren().setAll(gridPane);
-		    
-		    
-		  	
+		   
 
 
 			loadLastSales();
@@ -481,7 +392,7 @@ public class DailySalesPersenter extends SalesAction implements Initializable, C
 		
 		headerPane.getChildren().clear();
 		if(mode==1)
-		headerPane.getChildren().addAll(new ArrayList(Arrays.asList(edit_btn,detail_btn,datePicker)));
+		headerPane.getChildren().addAll(new ArrayList(Arrays.asList(add_btn, edit_btn,detail_btn,datePicker)));
 		else {
 			headerPane.getChildren().addAll(new ArrayList(Arrays.asList(prif_btn)));
 
@@ -983,14 +894,14 @@ private double getPaidAmount(int orderId) {
 
 
 
-private void editOrder() {
+private void addEditOrder(int orderId) {
 	
 	
-    SellerOrderVB orderVB=	(SellerOrderVB) this.sellerOrdersCustomTable.getTable().getSelectionModel().getSelectedItem();
+   // SellerOrderVB orderVB=	(SellerOrderVB) this.sellerOrdersCustomTable.getTable().getSelectionModel().getSelectedItem();
 
 	this.request=new HashMap<String,Object>();
 	
-	request.put("orderId", orderVB.getId());
+	request.put("orderId", orderId);
 	
 	EditSellerOrderView form=new EditSellerOrderView();
 	URL u=	 getClass().getClassLoader().getResource("appResources/custom.css");
@@ -1001,6 +912,10 @@ private void editOrder() {
     String css =u.toExternalForm();
 	scene1.getStylesheets().addAll(css); 
 	popupwindow.initModality(Modality.APPLICATION_MODAL);
+	if(orderId==0)
+		popupwindow.setTitle(this.getMessage("msg.info.add.sellerOrder"));
+
+	else 
 	popupwindow.setTitle(this.getMessage("msg.info.edit.sellerOrder"));
 	      
 	popupwindow.setScene(scene1);

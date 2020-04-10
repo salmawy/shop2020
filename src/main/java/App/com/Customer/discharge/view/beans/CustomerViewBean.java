@@ -17,6 +17,8 @@ public class CustomerViewBean {
     
     private Integer orderId;
     private String customerName;
+    private String customerType;
+
     private String productName;
     private Double nowlun;
     private Double quantity;
@@ -194,6 +196,14 @@ public class CustomerViewBean {
 
 	public void setFinishedLabel(String finishedLabel) {
 		this.finishedLabel = finishedLabel;
+	}
+
+	public String getCustomerType() {
+		return customerType;
+	}
+
+	public void setCustomerType(String customerType) {
+		this.customerType = customerType;
 	}
     
     

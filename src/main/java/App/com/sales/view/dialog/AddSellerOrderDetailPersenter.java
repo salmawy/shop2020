@@ -676,7 +676,7 @@ private void packageNumberTracker() {
         String UnitePrice = unitePrice.getText();
         
         int customerId=customer_cb.getSelectionModel().getSelectedItem().getValue();
-        double cashedQuantity=(OrderDetailCash.get(customerId)!=null)?OrderDetailCash.get(customerId):0.0;
+        double cashedQuantity=(OrderDetailCash!=null&&OrderDetailCash.get(customerId)!=null)?OrderDetailCash.get(customerId):0.0;
         int productId = productType.getSelectionModel().getSelectedItem().getValue();
 
         switch (productId) {
@@ -704,7 +704,7 @@ private void packageNumberTracker() {
             
 
                 
-                else   if (productId==ProductTypeEnum.local_bannana && confirmWeight(orderId, Double.parseDouble(weight)+cashedQuantity, productId)) {
+                else   if (productId==ProductTypeEnum.local_bannana && !confirmWeight(orderId, Double.parseDouble(weight)+cashedQuantity, productId)) {
                 	snackBar.show(this.getMessage("msg.err.notEnough.weight"), 1000);
 
                     return false;

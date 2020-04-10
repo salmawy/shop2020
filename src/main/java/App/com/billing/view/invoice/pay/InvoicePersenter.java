@@ -142,8 +142,7 @@ public class InvoicePersenter extends BillingAction  implements Initializable {
 
 	private Label vehicleType_label;
 
-	private Validator myvaValidator;
-	
+ 	
 	public InvoicePersenter() {
 		  invoiceId=(int) this.request.get("invoiceId");
 		  typeId=(int) this.request.get("typeId");
@@ -336,9 +335,9 @@ return columns;
 		    		}));
 		 
 		 
-		 printInvoice_btn.setDisable(true);
+		// printInvoice_btn.setDisable(true);
 
-		 generate_btn.setText(getMessage("button.generate"));
+		 generate_btn.setText(getMessage("button.invoice.pay"));
 		generate_btn.setGraphic(new FontAwesome().create(FontAwesome.Glyph.SAVE));
 	    generate_btn.getStyleClass().setAll("btn","btn-info","btn-sm");                     //(2)
 	    generate_btn.setOnMouseClicked((new EventHandler<MouseEvent>() { 
@@ -347,8 +346,7 @@ return columns;
 	    		      
 						try {
 							generate();
-							printInvoice_btn.setDisable(false);
-							alert(AlertType.CONFIRMATION, "", "", getMessage("msg.billing.invoiceHasbeenGenerated"));
+ 							alert(AlertType.CONFIRMATION, "", "", getMessage("msg.billing.invoiceHasbeenGenerated"));
 							
 						} catch (DataBaseException e) {
 							e.printStackTrace();
@@ -514,36 +512,19 @@ return columns;
 			 
 		     
 		// TODO add your handling code here:
-		if (validateForm()) {
-		double netWeight = Double.parseDouble(netWeight_TF.getText());
-		double totalPrice = Double.parseDouble(totalAmount_TF.getText());
-		double netPrice = Double.parseDouble(netAmount_TF.getText());
-		double tips = Double.parseDouble(gift_TF.getText());
-		double commision = Double.parseDouble(commision_TF.getText());
- 		double ratio = Double.parseDouble(lost_TF.getText());
-		String notes = notes_TA.getText();
+	 
+ 
 		
-		invoice.setNetWeight(netWeight);
-		invoice.setNetPrice(netPrice);
-		invoice.setTips(tips);
-		invoice.setCommision(commision);
-		invoice.setRatio(ratio);
-		invoice.setNotes(notes);
-		invoice.setFinished(1);
-		invoice.setInvoiceStatus(InvoiceStatusEnum.UNDER_DELIVERY);
-		invoice.setEditeDate(new Date());
-		invoice.setTotalPrice(totalPrice);
-		
+	 
+		invoice.setDued(1);
+		invoice.setDueDate(new Date());
+		invoice.setInvoiceStatus(InvoiceStatusEnum.ARCHIVED);
+  		
 	
-		this.getBillingService().generateInvoice(invoice);
+		this.getBillingService().payInvoice(invoice);
+ 	
 		generate_btn.setDisable(true);
-	
-		
- 		}
-		else {
-			throw new BusinessLogicViolationException("msg.error.inputData");
-			
-		}
+ 	 
 		
 			 
 			 

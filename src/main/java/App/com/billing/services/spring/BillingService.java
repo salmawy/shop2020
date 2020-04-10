@@ -17,6 +17,7 @@ import App.com.Customer.service.ICustomerService;
 import App.com.billing.dao.IBillingDao;
 import App.com.billing.services.IBillingService;
 import App.com.expanses.services.IExpansesServices;
+import App.core.Enum.CustomerTypeEnum;
 import App.core.Enum.IncomeTypesEnum;
 import App.core.Enum.OutcomeTypeEnum;
 import App.core.applicationContext.ApplicationContext;
@@ -176,6 +177,50 @@ public void generateInvoice(CustomerOrder invoice ) throws DataBaseException {
 		
 	
 
+}
+@Override
+public void payInvoice(CustomerOrder invoice) throws DataBaseException {
+
+
+
+	TransactionStatus status = null;
+
+	DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+	def.setPropagationBehavior(TransactionDefinition.PROPAGATION_NESTED);
+	def.setTimeout(Integer.parseInt(this.getSettingsBundle().getString("transactionTimeOut.base.highTimeOut")));
+	status = this.getMyTransactionManager().getTransaction(def);
+
+	try { 
+		
+		
+		
+		
+ 
+    
+    if(invoice.getCustomer().getTypeId()==CustomerTypeEnum.purchases||invoice.getCustomer().getTypeId()==CustomerTypeEnum.kareem||invoice.getCustomer().getTypeId()==CustomerTypeEnum.mahmed)
+     {
+    	
+    	this.getExpansesService().outcomeTransaction(invoice.getDueDate(), invoice.getNetPrice(), "", OutcomeTypeEnum.ORDER_PAY, invoice.getCustomerId(), invoice.getId(), ApplicationContext.fridage.getId(), ApplicationContext.season.getId());
+     }
+
+ this.getBaseService().addEditBean(invoice);
+	
+ 
+	this.getMyTransactionManager().commit(status);
+
+	 
+
+}catch (DataBaseException e) {
+this.getMyTransactionManager().rollback(status);
+logger.log(Level.SEVERE,e.getMessage());
+throw new DataBaseException(e.getMessage());
+
+}finally {
+closeTransaction(status);
+
+}
+	
+	
 }
 
 }

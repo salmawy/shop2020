@@ -207,10 +207,10 @@ public class SelesDao extends HibernateDaoSupport implements  ISalesDao{
 		  String query =
 		  "from SellerLoanBag "
 			+ " where seasonId = :seasonId";
-		
+ 
 		  query+=(active==0)?"  and currentLoan=0 ":" and currentLoan>0  ";
 		  query += " order by sellerId  desc";
-		
+		  
 		  
 		  Query queryList = session.createQuery(query);
 		  queryList.setParameter("seasonId", seasonId);

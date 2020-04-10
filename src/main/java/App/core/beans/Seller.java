@@ -48,6 +48,7 @@ public class Seller extends BaseBean {
 	}
 	public void setTypeId(int typeId) {
 		this.typeId = typeId;
+		this.type=String.valueOf(typeId);
 	}
 	
 	

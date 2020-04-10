@@ -48,6 +48,7 @@
                 <value>App/core/beans/XMLMapping/vehicleType.hbm.xml</value>
                 <value>App/core/beans/XMLMapping/purchasedCustomerInst.hbm.xml</value>
                  <value>App/core/beans/XMLMapping/safeTracing.hbm.xml</value>
+                   <value>App/core/beans/XMLMapping/customerType.hbm.xml</value>
                 
                 </list>  
         </property>  

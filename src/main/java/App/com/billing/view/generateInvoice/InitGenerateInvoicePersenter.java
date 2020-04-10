@@ -22,7 +22,6 @@ import com.jfoenix.controls.JFXDatePicker;
 
 import App.com.Customer.transactions.view.beans.InvoiceViewbean;
 import App.com.billing.action.BillingAction;
-import App.com.billing.view.invoice.generate.InvoiceView;
 import App.core.Enum.CustomerTypeEnum;
 import App.core.Enum.InvoiceStatusEnum;
 import App.core.UIComponents.comboBox.ComboBoxItem;
@@ -435,12 +434,13 @@ public class InitGenerateInvoicePersenter extends BillingAction implements Initi
     	request.put("invoiceId", item.getId());
     	request.put("typeId", customerType_CB.getSelectionModel().getSelectedItem().getValue());
     	int invoiceStatus=invoiceStatus_CB.getSelectionModel().getSelectedItem().getValue();
-    	
+    	String title="";
     	Scene scene1=null;
      	if(invoiceStatus==InvoiceStatusEnum.UNDER_EDIT) {
     		
-    		App.com.billing.view.invoice.generate.InvoiceView  form=new InvoiceView();
-        	 scene1= new Scene(form.getView(), 850, 600);
+    		App.com.billing.view.invoice.generate.InvoiceView  form=new App.com.billing.view.invoice.generate.InvoiceView();
+        	// scene1= new Scene(form.getView(), 850, 600);
+        	// title=getMessage("button.invoice.generate")  ;
 
     	}
      	else if(invoiceStatus==InvoiceStatusEnum.UNDER_DELIVERY) {
@@ -448,15 +448,15 @@ public class InitGenerateInvoicePersenter extends BillingAction implements Initi
     		
     		App.com.billing.view.invoice.pay.InvoiceView  form=new App.com.billing.view.invoice.pay.InvoiceView();
         	 scene1= new Scene(form.getView(), 850, 600);
-
+        	 title=getMessage("button.invoice.give");
     	
      	}
      	else if (invoiceStatus==InvoiceStatusEnum.ARCHIVED) {
 
-    		
+    		   //
     		App.com.billing.view.invoice.archived.InvoiceView  form=new App.com.billing.view.invoice.archived.InvoiceView ();
         	 scene1= new Scene(form.getView(), 850, 600);
-
+        	 title=getMessage("button.invoice.archive");
     	
      	}
     	
@@ -471,7 +471,7 @@ public class InitGenerateInvoicePersenter extends BillingAction implements Initi
         String css =u.toExternalForm();
     	scene1.getStylesheets().addAll(css); 
     	popupwindow.initModality(Modality.APPLICATION_MODAL);
-    	popupwindow.setTitle(this.getMessage("button.invoice.generate"));
+    	popupwindow.setTitle(title);
     	      
     	popupwindow.setScene(scene1);
     	popupwindow.setOnHiding( ev -> {

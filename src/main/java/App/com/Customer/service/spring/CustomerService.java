@@ -199,29 +199,14 @@ public class CustomerService implements ICustomerService {
 		
 //=============================== save outcome transactions=====================================
 
-		OutcomeDetail tips=new OutcomeDetail();
-		tips.setAmount(customerOrder.getTips());
-		tips.setFridageId(customerOrder.getFridageId());
-		tips.setSpenderName(ApplicationContext.currentUser.getUsername());
-		tips.setCustomerId(customerOrder.getCustomer().getId());
-		tips.setTypeId(OutcomeTypeEnum.TIPS);
-		tips.setTypeName(String .valueOf(OutcomeTypeEnum.TIPS));
-		tips.setOrderId(customerOrder.getId());
+		 this.expansesServices.initEntityDictionary();
+		this.getExpansesServices().outcomeTransaction(customerOrder.getOrderDate(), customerOrder.getTips(), customerOrder.getNotes(), 
+				OutcomeTypeEnum.TIPS, customerOrder.getCustomer().getId(), customerOrder.getId(), ApplicationContext.fridage.getId(), ApplicationContext.season.getId());
 		
-		
-		OutcomeDetail nolun=new OutcomeDetail();
-		nolun.setAmount(customerOrder.getNolun());
-		nolun.setFridageId(customerOrder.getFridageId());
-		nolun.setSpenderName(ApplicationContext.currentUser.getUsername());
-		nolun.setCustomerId(customerOrder.getCustomer().getId());
-		nolun.setTypeId(OutcomeTypeEnum.NOLOUN);
-		nolun.setTypeName(String .valueOf(OutcomeTypeEnum.NOLOUN));
-		nolun.setOrderId(customerOrder.getId());
-
-		Outcome outome=findOutcome(customerOrder.getOrderDate());
-		saveOutcomeDetail(tips, outome);
-		saveOutcomeDetail(nolun, outome);
-
+		this.getExpansesServices().outcomeTransaction(customerOrder.getOrderDate(), customerOrder.getNolun(), customerOrder.getNotes(), 
+				OutcomeTypeEnum.NOLOUN, customerOrder.getCustomer().getId(), customerOrder.getId(), ApplicationContext.fridage.getId(), ApplicationContext.season.getId());
+	 
+ 
 		
 		this.getMyTransactionManager().commit(status);
 

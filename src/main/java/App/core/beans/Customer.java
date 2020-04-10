@@ -10,6 +10,7 @@ public class Customer  extends BaseBean{
 	private String address;
 	private String phone;
 	private int typeId;
+	private CustomerType type;
 	
 	
 	
@@ -45,6 +46,12 @@ public class Customer  extends BaseBean{
 	}
 	public void setTypeId(int typeId) {
 		this.typeId = typeId;
+	}
+	public CustomerType getType() {
+		return type;
+	}
+	public void setType(CustomerType type) {
+		this.type = type;
 	}
 
 	

@@ -19,6 +19,6 @@ public interface IBillingService {
 	void generateInvoice(CustomerOrder invoice) throws DataBaseException;
 
  
-	
+	public void payInvoice(CustomerOrder invoice) throws DataBaseException ;
 
 }

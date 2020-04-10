@@ -330,22 +330,37 @@ this.getBaseService().editBean(outcome);
 
 
 
-
+@Override
 public  Outcome findOutcome(Date date) {
 
 	
 	 
-	
+	Outcome outcome=null;
 	try {
 		
-		return	(Outcome) this.getExpansesDao().getOutcome(date).get(0);
+		outcome=	(Outcome) this.getExpansesDao().getOutcome(date).get(0);
 		
-	
+		  try
+			  { 
+			  Outcome temp=	(Outcome) getSynchronizeBean(Outcome.class, outcome.getId());
+			  outcome=temp;
+			  entitDictionary.put(outcome.getClass().getName(), outcome);
+			  }catch (Exception e) {
+				// TODO: handle exception
+				  
+			  
+			  }
+		
+		
+	 
+		 return outcome;
+	 
+	 
 	} catch (DataBaseException | EmptyResultSetException e) {
 		// TODO Auto-generated catch block
 	//	e.printStackTrace();
 		logger.log(logger.getLevel().INFO, "error.emptyRS incomeDate of date "+date.toString());
-	}
+	} 
 	
 	
 	TransactionStatus status = null;
@@ -358,10 +373,11 @@ public  Outcome findOutcome(Date date) {
 	
 	try {
 		
-		Outcome outcome=new Outcome();
+		  outcome=new Outcome();
 		outcome.setOutcomeDate(date);
 		outcome.setTotalOutcome(0.0);
-		
+		outcome.setSeasonId(ApplicationContext.season.getId());
+
 		this.getBaseService().addBean(outcome);
 		this.getMyTransactionManager().commit(status);
 		return outcome;
@@ -474,6 +490,65 @@ public void outcomeTransaction(Date date,double amount, String notes, int typeId
 	
 	
 	}
+@Override
+public void editOutcomeTransaction(Date date,double amount, String notes, int typeId, int customerId, int orderId, int fridageId,int seasonId,int detailId) throws DataBaseException 
+{
+TransactionStatus status = null;
+
+DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+def.setPropagationBehavior(TransactionDefinition.PROPAGATION_NESTED);
+def.setTimeout(Integer.parseInt(this.getSettingsBundle().getString("transactionTimeOut.base.highTimeOut")));
+status = this.getMyTransactionManager().getTransaction(def);
+
+try {
+
+	
+	
+	
+	this.entitDictionary=new HashMap<String, Object>();
+	OutcomeDetail detail=(OutcomeDetail)	this.getBaseService().getBean(OutcomeDetail.class, detailId);
+	this.getBaseService().deleteBean(detail);
+	
+	
+	
+	
+	OutcomeDetail outcomeDetail=new OutcomeDetail();
+	outcomeDetail.setAmount(amount);
+	outcomeDetail.setFridageId(fridageId);
+	outcomeDetail.setSpenderName(ApplicationContext.currentUser.getUsername());
+	outcomeDetail.setCustomerId(customerId);
+	outcomeDetail.setTypeId(typeId);
+	outcomeDetail.setTypeName(String .valueOf(typeId));
+
+	outcomeDetail.setOrderId(orderId);
+	Outcome outcome=findOutcome(date);
+	saveOutcomeDetail(outcomeDetail,outcome);
+	recalculateSafeBalance(seasonId);
+
+	
+	this.getMyTransactionManager().commit(status);
+	logger.log(Level.INFO,this.getClass().getName()+"=>tranasction completed succfully");
+	
+	
+}catch (DataBaseException | InvalidReferenceException e) {
+	this.getMyTransactionManager().rollback(status);
+	logger.log(Level.SEVERE,e.getMessage());
+	throw new DataBaseException(e.getMessage());
+
+}finally {
+	closeTransaction(status);
+
+}
+	
+	
+
+
+	
+
+
+}
+
+
 
 @Override
 public LoanAccount getLoanerAccount(String name) {
@@ -581,7 +656,17 @@ public void recalculateSafeBalance(int seasonId) {
 		map2=new HashMap<String, Object>();
 		map2.put("seasonId", seasonId);
 		
-		Safe safe=(Safe)this.getBaseService().findAllBeans(Safe.class,map2,null).get(0);
+		Safe safe=null;
+				try{
+			
+			
+					safe=(Safe)this.getBaseService().findAllBeans(Safe.class,map2,null).get(0);
+					Safe temp=(Safe) getSynchronizeBean(Safe.class, safe.getId()) ;
+					safe=temp;
+				
+				}catch (Exception e) {
+					// TODO: handle exception
+				}
 		double temp=totalIncome-totaloutcome;
 		safe.setBalance(safe.getBaseAmount()+temp);
 		this.getBaseService().addEditBean(safe);
@@ -970,7 +1055,9 @@ public void changeIncomeDetailAmount(IncomeDetail incomeDetail,double amount,int
 	 
 			
 			bean =this.getBaseService().getBean(beanClass, identifier);
-			return bean;
+			  entitDictionary.put(bean.getClass().getName(), bean);
+
+ 			return bean;
 			
 			
 		 
@@ -1021,6 +1108,23 @@ private Object invokeMethode(Object instance,String methodeName) {
 	
 	
 }
+
+@Override
+public List getIncomeDates(int seasonId) throws EmptyResultSetException, DataBaseException {
+
+	return getExpansesDao().getIncomeDates(seasonId);
+}
+
+
+@Override
+public
+List inExactMatchSearchloanerName(String loanerName, String loanerType)
+		throws EmptyResultSetException, DataBaseException{
+	
+	return getExpansesDao().inExactMatchSearchloanerName(loanerName, loanerType);
+	
+}
+
 
 
 }

@@ -165,6 +165,7 @@ public void saveSellerOrder(Seller seller, SellerOrder sellerOrder,double paidAm
 	
 	try {
 		
+		this.initEntityDictionary();
 		 seller=saveSeller(seller);
 
 		switch(seller.getTypeId()) {
@@ -705,12 +706,14 @@ public SellerLoanBag findSellerLoanBag(int sellerId,int seasonId) throws DataBas
 
 	} catch (DataBaseException | EmptyResultSetException e) {
 		// TODO Auto-generated catch block
-		e.printStackTrace();
+		//e.printStackTrace();
 	}
 	SellerLoanBag bag=new SellerLoanBag();
 	bag.setPriorLoan(0.0);
 	bag.setSellerId(sellerId);
-
+	bag.setSeasonId(ApplicationContext.season.getId());
+	
+	
 	this.baseService.addBean(bag);
 	 String key=hashDisctionaryEntityKey(SellerLoanBag.class, bag.getId());
 	 entityDictionary.put(key, bag);

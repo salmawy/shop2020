@@ -120,6 +120,16 @@ private  Label dateLabel=new Label(this.getMessage("label.date"));
 
 Validator myvaValidator;
 
+	private int mode;
+  private final int Add_mode=0;
+private final int edit_mode=1;
+private int orderId;
+public EditSellerOrderPersenter() {
+ 
+	  orderId=	(int) this.request.get("orderId");
+mode=(orderId==0)?Add_mode:edit_mode;
+
+}
 @Override
 public void initialize(URL arg0, ResourceBundle arg1) {
 	// TODO Auto-generated method stub
@@ -193,24 +203,7 @@ public void initialize(URL arg0, ResourceBundle arg1) {
                 final Number oldvalue, final Number newvalue)
         {
         	
-        	ComboBoxItem item=sellerType_CB.getSelectionModel().getSelectedItem();
-        	if(item.getValue()==SellerTypeEnum.cash) {
-        		
-        		name.setDisable(true);
-        		name.setText("");
-        		paidAmount.setText(totalAmount.getText());
-        		restAmount.setText("0.0");
-
-        		
-        	}
-        	else {
-        		
-        		name.setDisable(false);
-        		paidAmount.setText("0.0");
-        		restAmount.setText("0.0");
-        		
-        		
-        	}
+        	 sellerTypeChangeHandler();
         	
         	
         }
@@ -327,11 +320,12 @@ public void initialize(URL arg0, ResourceBundle arg1) {
 		gridPane_loc.getChildren().clear();
 		fitToAnchorePane(gridPane);
 		gridPane_loc.getChildren().setAll(gridPane);
-	    
-	    
+	    //================================================================================================================================
+	   
+		if(mode==edit_mode)
 	  	loadOrderData();
 
-
+		sellerTypeChangeHandler();
 
 	
 }
@@ -355,7 +349,7 @@ private void save() {
  	   seller.setAddress(address.getText());
  	   seller.setPhone(phone.getText());
  	   seller.setTypeId(type);
- 	   
+ 
  	   SellerOrder order=new SellerOrder();
  	   order.setOrderDate(orderDate);
  	   order.setFridageId(this.getFridage().getId());
@@ -379,9 +373,10 @@ private void save() {
 		}
  	   
  	   order.setOrderWeights(orerDetail);
- 	 
+ 	 if(this.orderId!=0)
  	   this.getSalesService().editeSellerOrder(seller, order, paidAmount_, this.oldOrder, ApplicationContext.season.getId());
- 	   
+ 	 else
+ 		 this.getSalesService().saveSellerOrder(seller, order, paidAmount_);
  	   
  	   clear();
  	   alert(AlertType.INFORMATION, "", "", this.getMessage("msg.done.edit"));
@@ -462,7 +457,7 @@ private List<JFXButton>prepareOrderDetailcontrolles(){
 	
 	
 	JFXButton addBtn=new JFXButton(this.getMessage("button.add"));
-  	    addBtn.setGraphic(new FontAwesome().create(FontAwesome.Glyph.SAVE));
+  	    addBtn.setGraphic(new FontAwesome().create(FontAwesome.Glyph.PLUS));
 	    addBtn.getStyleClass().setAll("btn","btn-info","btn-sm");                     //(2)
 	    addBtn.setOnMouseClicked((new EventHandler<MouseEvent>() { 
 	    	   public void handle(MouseEvent event) { 
@@ -655,7 +650,7 @@ private void	trackRestValue(){
 
 		}      
 		
-		else if (getDatePickerValue()==null) {
+		else if (datePicker.getValue()==null||  getDatePickerValue()==null) {
 			 a.setContentText(this.getMessage("msg.err.required.date")); 
 			  
 			    // show the dialog 
@@ -732,8 +727,7 @@ private void	trackRestValue(){
 	private void loadOrderData() {
 		
 		
-	int orderId=	(int) this.request.get("orderId");
-		try {
+ 		try {
 		 oldOrder=	(SellerOrder) this.getBaseService().getBean(SellerOrder.class, orderId);
 //==================================================================================
 		if(oldOrder.getSeller().getTypeId()==1) 
@@ -891,4 +885,28 @@ this.orderDetail_CT.loadTableData(data);
 		
 	}
 
+	
+	private void sellerTypeChangeHandler() {
+		
+		ComboBoxItem item=sellerType_CB.getSelectionModel().getSelectedItem();
+    	if(item.getValue()==SellerTypeEnum.cash) {
+    		
+    		name.setDisable(true);
+    		name.setText("");
+    		paidAmount.setText(totalAmount.getText());
+    		restAmount.setText("0.0");
+
+    		
+    	}
+    	else {
+    		
+    		name.setDisable(false);
+    		paidAmount.setText("0.0");
+    		restAmount.setText("0.0");
+    		
+    		
+    	}
+		
+		
+	}
 }
