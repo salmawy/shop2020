@@ -7,9 +7,9 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="App.com.Customer.transactions.view.TransactionsPresenter">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="540.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="App.com.Customer.transactions.view.TransactionsPresenter">
    <children>
-      <SplitPane dividerPositions="0.8617234468937875" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <SplitPane dividerPositions="0.6783567134268537" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
             <AnchorPane prefHeight="168.0" prefWidth="574.0">
                <children>
@@ -21,7 +21,7 @@
                                  <children>
                                     <Pane prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0,1.5);">
                                        <children>
-                                          <Pane prefHeight="100.0" prefWidth="50.0" style="-fx-background-color: #DD4B39;" />
+                                          <Pane prefHeight="100.0" prefWidth="50.0" style="-fx-background-color: #006bb3;" />
                                           <VBox layoutX="63.0" layoutY="26.0">
                                              <children>
                                                 <Label id="totalVan_label" fx:id="totalVan_label" prefHeight="36.0" prefWidth="80.0" style="-fx-font-size: 12;" text="Likes">
@@ -40,7 +40,7 @@
                                     </Pane>
                                     <Pane prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0,1.5);">
                                        <children>
-                                          <Pane prefHeight="100.0" prefWidth="50.0" style="-fx-background-color: #00C0EF;" />
+                                          <Pane prefHeight="100.0" prefWidth="50.0" style="-fx-background-color: #0099ff;" />
                                           <VBox layoutX="68.0" layoutY="25.0">
                                              <children>
                                                 <Label id="totalCar_label" fx:id="totalCar_label" prefHeight="36.0" prefWidth="80.0" style="-fx-font-size: 12;" text="MESSAGES">
@@ -59,7 +59,7 @@
                                     </Pane>
                                     <Pane prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0,1.5);">
                                        <children>
-                                          <Pane prefHeight="100.0" prefWidth="50.0" style="-fx-background-color: #00A65A;" />
+                                          <Pane prefHeight="100.0" prefWidth="50.0" style="-fx-background-color: #33adff;" />
                                           <VBox layoutX="67.0" layoutY="29.0">
                                              <children>
                                                 <Label id="totalAmount_label" fx:id="totalAmount_label" prefHeight="36.0" prefWidth="80.0" style="-fx-font-size: 12;" text="Bookmarks">
@@ -78,7 +78,7 @@
                                     </Pane>
                                     <Pane prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0,1.5);">
                                        <children>
-                                          <Pane prefHeight="100.0" prefWidth="50.0" style="-fx-background-color: #F39C12;" />
+                                          <Pane prefHeight="100.0" prefWidth="50.0" style="-fx-background-color: #66c2ff;" />
                                           <VBox layoutX="66.0" layoutY="34.0">
                                              <children>
                                                 <Label id="totoalCommision_label" fx:id="totoalCommision_label" prefHeight="36.0" prefWidth="80.0" style="-fx-font-size: 12;" text="Uploads">
@@ -97,7 +97,7 @@
                                     </Pane>
                                     <Pane prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0,1.5);">
                                        <children>
-                                          <Pane prefHeight="100.0" prefWidth="50.0" style="-fx-background-color: #DD4B39;" />
+                                          <Pane prefHeight="100.0" prefWidth="50.0" style="-fx-background-color: #99d6ff;" />
                                           <VBox layoutX="63.0" layoutY="26.0">
                                              <children>
                                                 <Label id="totoalSmokes_label" fx:id="totoalSmokes_label" prefHeight="36.0" prefWidth="80.0" style="-fx-font-size: 12;" text="Likes">
@@ -127,7 +127,7 @@
                                  <children>
                                     <Pane prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0,1.5);">
                                        <children>
-                                          <Pane prefHeight="100.0" prefWidth="50.0" style="-fx-background-color: #DD4B39;" />
+                                          <Pane prefHeight="100.0" prefWidth="50.0" style="-fx-background-color: #006bb3;" />
                                           <VBox layoutX="63.0" layoutY="26.0">
                                              <children>
                                                 <Label id="van_label" fx:id="van_label" prefHeight="36.0" prefWidth="80.0" style="-fx-font-size: 12;" text="Likes">
@@ -146,7 +146,7 @@
                                     </Pane>
                                     <Pane prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0,1.5);">
                                        <children>
-                                          <Pane prefHeight="100.0" prefWidth="50.0" style="-fx-background-color: #00C0EF;" />
+                                          <Pane prefHeight="100.0" prefWidth="50.0" style="-fx-background-color: #0099ff;" />
                                           <VBox layoutX="68.0" layoutY="25.0">
                                              <children>
                                                 <Label id="car_label" fx:id="car_label" prefHeight="36.0" prefWidth="80.0" style="-fx-font-size: 12;" text="MESSAGES">
@@ -165,7 +165,7 @@
                                     </Pane>
                                     <Pane prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0,1.5);">
                                        <children>
-                                          <Pane prefHeight="100.0" prefWidth="50.0" style="-fx-background-color: #00A65A;" />
+                                          <Pane prefHeight="100.0" prefWidth="50.0" style="-fx-background-color: #33adff;" />
                                           <VBox layoutX="67.0" layoutY="29.0">
                                              <children>
                                                 <Label id="amount_label" fx:id="amount_label" prefHeight="36.0" prefWidth="80.0" style="-fx-font-size: 12;" text="Bookmarks">
@@ -184,7 +184,7 @@
                                     </Pane>
                                     <Pane prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0,1.5);">
                                        <children>
-                                          <Pane prefHeight="100.0" prefWidth="50.0" style="-fx-background-color: #F39C12;" />
+                                          <Pane prefHeight="100.0" prefWidth="50.0" style="-fx-background-color: #66c2ff;" />
                                           <VBox layoutX="66.0" layoutY="34.0">
                                              <children>
                                                 <Label id="commision_label" fx:id="commision_label" prefHeight="36.0" prefWidth="80.0" style="-fx-font-size: 12;" text="Uploads">
@@ -203,7 +203,7 @@
                                     </Pane>
                                     <Pane prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0,1.5);">
                                        <children>
-                                          <Pane prefHeight="100.0" prefWidth="50.0" style="-fx-background-color: #DD4B39;" />
+                                          <Pane prefHeight="100.0" prefWidth="50.0" style="-fx-background-color: #99d6ff;" />
                                           <VBox layoutX="63.0" layoutY="26.0" prefHeight="63.0" prefWidth="77.0">
                                              <children>
                                                 <Label id="smokes_label" fx:id="smokes_label" prefHeight="36.0" prefWidth="80.0" style="-fx-font-size: 12;" text="Likes">

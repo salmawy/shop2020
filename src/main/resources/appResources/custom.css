@@ -5,8 +5,20 @@
   -fx-background-insets: 12; 
   -fx-background-radius: 6;
 }
-
-
+/* .menu .label */
+/* { */
+/*     -fx-text-fill: white; */
+/* } */
+.menu-item >.label {
+/* 	-fx-font-size:9; */
+	-fx-text-fill: black;
+	}
+.menu >.label {
+/* 	-fx-font-size:9; */
+	-fx-text-fill: white;
+	}
+.menu-item { -fx-padding: 1 5 1 5; }
+.menu { -fx-padding: 1 5 1 5; }
 .jfx-snackbar-content{
 	
 	

@@ -14,6 +14,9 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.controlsfx.glyphfont.FontAwesome;
+import org.controlsfx.glyphfont.Glyph;
+
 import com.airhacks.afterburner.views.FXMLView;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSpinner;
@@ -32,11 +35,16 @@ import javafx.scene.control.Accordion;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Control;
+import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
 /**
@@ -47,118 +55,127 @@ import javafx.util.Duration;
 public class ApplicationPersenter extends BaseAction implements Initializable {
 
 
-	@FXML
-    private TitledPane contractorComp;
+	 
 
-    @FXML
-    private HBox spinnerPane;
+	    @FXML
+	    private TitledPane contractorComp;
 
-    @FXML
-    private JFXButton payIInvoice_btn;
+	    @FXML
+	    private Menu settings_menu;
 
-    @FXML
-    private JFXButton arcSellersLoan_btn;
+	    @FXML
+	    private HBox spinnerPane;
 
-    @FXML
-    private JFXButton purchasesBTN;
+	    @FXML
+	    private JFXButton arcSellersLoan_btn;
 
-    @FXML
-    private JFXButton sellerDebts_btn;
+	    @FXML
+	    private TitledPane inventoryComp;
 
-    @FXML
-    private JFXButton varaities_btn;
+	    @FXML
+	    private JFXButton purchasesBTN;
 
-    @FXML
-    private TitledPane invoicesComp;
+	    @FXML
+	    private JFXButton sellerDebts_btn;
 
-    @FXML
-    private JFXButton suppliers_btn;
+	    @FXML
+	    private JFXButton varaities_btn;
 
-    @FXML
-    private HBox topContainer;
+	    @FXML
+	    private TitledPane invoicesComp;
 
-    @FXML
-    private AnchorPane appContainer;
+	    @FXML
+	    private JFXButton suppliers_btn;
 
-    @FXML
-    private JFXButton transactionsBTN;
+	    @FXML
+	    private AnchorPane appContainer;
 
-    @FXML
-    private AnchorPane anchorPane;
+	    @FXML
+	    private JFXButton transactionsBTN;
 
-    @FXML
-    private TitledPane expansesComp;
+	    @FXML
+	    private AnchorPane anchorPane;
 
-    @FXML
-    private JFXButton shopDebts_btn3;
+	    @FXML
+	    private TitledPane expansesComp;
 
-    
-    @FXML
-    private JFXButton contractorPerdiocReport_btn;
-    
-    
-    
-    
-    @FXML
-    private Accordion App_Components;
+	    @FXML
+	    private Accordion App_Components;
 
-    @FXML
-    private JFXButton dailySelling_btn;
+	    @FXML
+	    private JFXButton dailySelling_btn;
 
-    @FXML
-    private JFXButton Expanses_btn3;
+	    @FXML
+	    private Label title_label;
 
-    @FXML
-    private JFXSpinner spinner;
+	    @FXML
+	    private JFXSpinner spinner;
 
-    @FXML
-    private JFXButton dischargingBTN;
+	    @FXML
+	    private JFXButton sellersLoanReport_btn;
 
-    @FXML
-    private JFXButton notes_btn;
+	    @FXML
+	    private JFXButton dischargingBTN;
 
-    @FXML
-    private JFXButton shopDebts_btn;
+	    @FXML
+	    private JFXButton notes_btn;
 
-    @FXML
-    private TitledPane inventoryComp;
+	    @FXML
+	    private JFXButton shopDebts_btn;
 
-    @FXML
-    private TitledPane sellerComp;
+	    @FXML
+	    private MenuBar menuBar_mb;
 
-    @FXML
-    private JFXButton generateInvoice_btn;
+	    @FXML
+	    private Menu show_menu;
 
-    @FXML
-    private StackPane mystackPane;
+	    @FXML
+	    private JFXButton payedInvoice_btn;
 
-    @FXML
-    private JFXButton labour_btn;
+	    @FXML
+	    private JFXButton payInvoice_btn;
 
-    @FXML
-    private JFXButton Expanses_btn;
+	    @FXML
+	    private TitledPane sellerComp;
 
-    @FXML
-    private JFXButton payInvoice_btn;
-   
-    @FXML
-    private JFXButton sellersLoanReport_btn;
-    
- 
-    @FXML
-    private JFXButton payedInvoice_btn;
-    
-    @FXML
-    private TitledPane customersComp;
+	    @FXML
+	    private JFXButton generateInvoice_btn;
 
-    @FXML
-    private AnchorPane appPage;
-   
-   Map<String,String> panelPathes;
+	    @FXML
+	    private StackPane mystackPane;
+
+	    @FXML
+	    private JFXButton labour_btn;
+
+	    @FXML
+	    private JFXButton contractorPerdiocReport_btn;
+
+	    @FXML
+	    private JFXButton Expanses_btn;
+
+	    @FXML
+	    private TitledPane customersComp;
+
+	    @FXML
+	    private AnchorPane appPage;
+
+	    @FXML
+	    private MenuItem saveDB_MI;
+	    @FXML
+	    private MenuItem settleDay_MI;
+	    @FXML
+	    private MenuItem changePassword_MI;
+	    @FXML
+	    private MenuItem restoreDB_MI;
+	    @FXML
+	    private MenuItem archive_MI;
+
+   //========================================================================================================================================
+   Map<String,String[]> panelPathes;
 
 	Logger logger = Logger.getLogger(this.getClass().getName());	
    
-   
+	private String title="";
   @Override
     public void initialize(URL location, ResourceBundle resources){ 
   	  logger.log(Level.INFO,"============================================================================================================");
@@ -211,7 +228,40 @@ public class ApplicationPersenter extends BaseAction implements Initializable {
 	  contractorPerdiocReport_btn.setText(getMessage("contractors.report.periodic"));
 	  
 	  appContainer.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
-	  
+	//================================================================================================================
+	  Glyph glyph=new FontAwesome().create(FontAwesome.Glyph.GEAR);
+	  glyph.setColor(Color.WHITE);
+ 	 settings_menu.setGraphic(glyph);
+ 	 //============================================================
+ 	   glyph=new FontAwesome().create( FontAwesome.Glyph.TH_LIST);
+	  glyph.setColor(Color.WHITE);
+ 	 show_menu.setGraphic(glyph);
+ 	 //============================================================
+ 	  glyph=new FontAwesome().create( FontAwesome.Glyph.TH_LIST);
+	  glyph.setColor(Color.WHITE);
+ 	 show_menu.setGraphic(glyph);
+ 	 //============================================================
+ 	 
+ 	  glyph=new FontAwesome().create( FontAwesome.Glyph.ARCHIVE);
+	 glyph.setColor(Color.BLACK);
+	  archive_MI.setGraphic(glyph);
+ 	 //============================================================
+	  glyph=new FontAwesome().create( FontAwesome.Glyph.RECYCLE);
+	  glyph.setColor(Color.BLACK);
+	  restoreDB_MI.setGraphic(glyph);
+ 	 //============================================================
+ 	  glyph=new FontAwesome().create( FontAwesome.Glyph.SAVE);
+	   glyph.setColor(Color.BLACK);
+ 	saveDB_MI.setGraphic(glyph);
+ 	 //============================================================
+	  glyph=new FontAwesome().create( FontAwesome.Glyph.EDIT);
+	   glyph.setColor(Color.BLACK);
+	changePassword_MI.setGraphic(glyph);
+	 //============================================================
+	 glyph=new FontAwesome().create( FontAwesome.Glyph.FILE);
+	   glyph.setColor(Color.BLACK);
+	settleDay_MI.setGraphic(glyph);
+	 //============================================================
 	  this.getAppStage().setResizable(true);
 	  setCardLayout(this.mystackPane); 
 	  
@@ -283,6 +333,7 @@ private void fitToAnchorePane(Node node) {
 								
 							  fitToAnchorePane(anchorPane);
 							  appContainer.getChildren().setAll(anchorPane);
+							  title_label.setText(title);
 
 					   }
 					  });
@@ -339,7 +390,9 @@ private void fitToAnchorePane(Node node) {
 	
 	
 	private FXMLView loadView(String id ) throws ClassNotFoundException {
-		String className=panelPathes.get(id);
+		String className=panelPathes.get(id)[0];
+		  title=panelPathes.get(id)[1];
+		
 		
 		try {
 			
@@ -368,25 +421,26 @@ private void fitToAnchorePane(Node node) {
 	
 	
 	
-	  panelPathes=new HashMap<String,String>();
+	  panelPathes=new HashMap<String,String[]>();
 
-	  panelPathes.put("arcSellersLoan_btn", "");
-	  panelPathes.put("dischargingBTN", "App.com.Customer.discharge.view.InitCustomerDischargeView");
-	  panelPathes.put("purchasesBTN", "App.com.Customer.purchases.view.CustomerPurchasesView");
-	  panelPathes.put("transactionsBTN", "App.com.Customer.transactions.view.TransactionsView");
-	  panelPathes.put("dailySelling_btn", "App.com.sales.view.DailySalesView");
-	  panelPathes.put("sellerDebts_btn", "App.com.sales.debt.view.DebtsView");
-	  panelPathes.put("Expanses_btn", "App.com.expanses.view.expanses.ExpansesView");
-	  panelPathes.put("shopDebts_btn", "App.com.sales.debt.view.DebtsView");
-	  panelPathes.put("notes_btn", "App.com.contractor.view.notes.NotesView");
-	  panelPathes.put("varaities_btn", "App.com.contractor.view.varaities.VaraityView");
-	  panelPathes.put("suppliers_btn", "App.com.contractor.view.suppliers.SupplierView");
-	  panelPathes.put("generateInvoice_btn", "App.com.billing.view.generateInvoice.InitGenerateInvoiceView");
-	  panelPathes.put("labour_btn", "App.com.contractor.view.labours.LabourView");
+	 // panelPathes.put("arcSellersLoan_btn", new String [] {"App.com.Customer.discharge.view.InitCustomerDischargeView",getMessage("title.customer.collecting")});
+	 ;
+	  panelPathes.put("dischargingBTN", new String [] {"App.com.Customer.discharge.view.InitCustomerDischargeView",getMessage("title.customer.collecting")});
+	  panelPathes.put("purchasesBTN", new String [] {"App.com.Customer.purchases.view.CustomerPurchasesView",getMessage("title.customer.transactions")});
+	  panelPathes.put("transactionsBTN", new String [] {"App.com.Customer.transactions.view.TransactionsView",getMessage("title.customer.purchases")});
+	  panelPathes.put("dailySelling_btn",new String [] { "App.com.sales.view.DailySalesView",getMessage("title.seller.dailySales")});
+	  panelPathes.put("sellerDebts_btn", new String [] {"App.com.sales.debt.view.DebtsView",getMessage("title.seller.debts")});
+	  panelPathes.put("Expanses_btn", new String [] {"App.com.expanses.view.expanses.ExpansesView",getMessage("title.expanses.Safe")});
+	  panelPathes.put("shopDebts_btn",new String [] { "App.com.sales.debt.view.DebtsView",getMessage("title.expanses.shopDebts")});
+	  panelPathes.put("notes_btn", new String [] {"App.com.contractor.view.notes.NotesView",getMessage("title.withdrawls.notes")});
+	  panelPathes.put("varaities_btn",new String [] { "App.com.contractor.view.varaities.VaraityView",getMessage("title.withdrawls.varaities")});
+	  panelPathes.put("suppliers_btn",new String [] { "App.com.contractor.view.suppliers.SupplierView",getMessage("title.withdrawls.suppliers")});
+	  panelPathes.put("generateInvoice_btn",new String [] { "App.com.billing.view.generateInvoice.InitGenerateInvoiceView",getMessage("title.invoice.generate")});
+	  panelPathes.put("labour_btn", new String [] {"App.com.contractor.view.labours.LabourView",getMessage("title.withdrawls.labur")});
  
-	  panelPathes.put("payInvoice_btn", "App.com.billing.view.invoicePayment.InvoicePaymentView");
-	  panelPathes.put("sellersLoanReport_btn", "App.com.sales.reports.view.periodicReport.PeriodicReportView");
-	  panelPathes.put("contractorPerdiocReport_btn", "App.com.contractor.view.periodicReport.PeriodicReportView");
+	  panelPathes.put("payInvoice_btn", new String [] {"App.com.billing.view.invoicePayment.InvoicePaymentView",getMessage("title.invoice.generate")});
+	  panelPathes.put("sellersLoanReport_btn", new String [] {"App.com.sales.reports.view.periodicReport.PeriodicReportView",getMessage("sales.report.periodic")});
+	  panelPathes.put("contractorPerdiocReport_btn",new String [] { "App.com.contractor.view.periodicReport.PeriodicReportView",getMessage("contractors.report.periodic")});
 
  
 	  

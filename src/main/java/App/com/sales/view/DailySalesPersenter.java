@@ -156,8 +156,9 @@ public class DailySalesPersenter extends SalesAction implements Initializable, C
 		headerPane.setSpacing(10);
 		bookDetailPane=new AnchorPane();
 		bookMasterPane=new AnchorPane();
-		
-		
+		//bookMasterPane.setPrefWidth(1000);
+	//	bookMasterPane.setMinWidth();(1000);
+
 	//
 		add_btn=new JFXButton(this.getMessage("button.add"));
 		add_btn.setGraphic(new FontAwesome().create(FontAwesome.Glyph.PLUS));

@@ -140,21 +140,18 @@ public class InitCustomerDischargePresenter extends CustomerBaseAction  implemen
     
     
          List<Column> columns=new ArrayList<Column>();
-        Column c=new Column(" ", "chk", "chk", 5, true);
-        columns.add(c);
-         
-        
-        c=new Column("orderId", "orderId", "int", 0, false);
-         columns.add(c);
        
          
-         c=new Column(this.getMessage("customer.name"), "customerName", "string", 20, true);
+   
+       
+         
+         Column   c=new Column(this.getMessage("customer.name"), "customerName", "string", 20, true);
            columns.add(c);
         
            c=new Column(this.getMessage("label.customer.Type"), "customerType", "string", 10, true);
            columns.add(c); 
            
-          c=new Column(this.getMessage("label.nolun"), "nowlun", "double", 15, true);
+          c=new Column(this.getMessage("label.nolun"), "nowlun", "double", 10, true);
            columns.add(c);
           
            
@@ -162,13 +159,13 @@ public class InitCustomerDischargePresenter extends CustomerBaseAction  implemen
            columns.add(c);
           
            
-           c=new Column(this.getMessage("label.count"), "count", "int", 10, true);
+           c=new Column(this.getMessage("label.count"), "count", "int", 15, true);
            columns.add(c);
           
-           c=new Column(this.getMessage("label.gift"), "gift", "double", 10, true);
+           c=new Column(this.getMessage("label.gift"), "gift", "double", 15, true);
            columns.add(c);
           
-           c=new Column(this.getMessage("label.store.name"), "storeName", "string", 5, true);
+           c=new Column(this.getMessage("label.store.name"), "storeName", "string", 10, true);
            columns.add(c);
           
            c=new Column(this.getMessage("finished"), "finishedLabel", "string", 5, true);

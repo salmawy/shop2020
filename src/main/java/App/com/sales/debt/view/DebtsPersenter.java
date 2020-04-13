@@ -140,7 +140,8 @@ public class DebtsPersenter extends SalesAction implements CustomTableActions,In
 		fitToAnchorePane(sellerInstallmentsCustomTable.getCutomTableComponent());
 		fitToAnchorePane(orderDataCustomTable.getCutomTableComponent());
 		sellerOrdersCustomTable.getCutomTableComponent().setPrefSize(200, 500);
-		sellersPredicatableTable.getCutomTableComponent().setPrefSize(150, 500);
+		sellersPredicatableTable.getCutomTableComponent().setPrefSize(150, 450);
+ 		sellersPredicatableTable.setTablePrefTableHeight(450);
 
 //=========================================================================================================================================
 		orderData_loc.getChildren().addAll(orderDataCustomTable.getCutomTableComponent());

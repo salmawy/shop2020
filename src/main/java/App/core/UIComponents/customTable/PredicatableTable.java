@@ -386,4 +386,62 @@ private void setTableActionListner(){
 		  }
 		return null;
 		 }
+	
+	public void setTablePrefTableHeight(double value ) {
+ 
+		
+		if(activeCard==tableCard) {
+			
+			tablePane.setPrefHeight(value);
+			
+		}else if (activeCard==headTableCard) {
+			
+			this.tableContainer.setPrefHeight(value);
+		}
+		}
+
+	
+	public void setTablePrefTableWidth(double value ) {
+ 
+		
+		if(activeCard==tableCard) {
+			
+			tablePane.setPrefWidth(value);
+			
+		}else if (activeCard==headTableCard) {
+			
+			this.tableContainer.setPrefWidth(value);
+		}
+		}
+
+
+	public void setTableMaxTableHeight(double value ) {
+ 
+		
+		if(activeCard==tableCard) {
+			
+			tablePane.setPrefHeight(value);
+			
+		}else if (activeCard==headTableCard) {
+			
+			this.tableContainer.setMaxHeight(value);
+		}
+		}
+
+	
+	public void setTableMaxTableWidth(double value ) {
+ 
+		
+		if(activeCard==tableCard) {
+			
+			tablePane.setPrefWidth(value);
+			
+		}else if (activeCard==headTableCard) {
+			
+			this.tableContainer.setMaxWidth(value);
+		}
+		}
+
+
+
 }

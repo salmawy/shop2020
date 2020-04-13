@@ -16,9 +16,6 @@
       <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <content>
             <BorderPane prefHeight="413.0" prefWidth="608.0">
-               <top>
-                  <HBox fx:id="topContainer" prefHeight="65.0" prefWidth="608.0" style="-fx-min-height: 42; -fx-background-color: #005c99;" BorderPane.alignment="CENTER" />
-               </top>
                <bottom>
                   <HBox prefHeight="31.0" prefWidth="608.0" style="-fx-min-height: 10; -fx-background-color: #005c99;" BorderPane.alignment="CENTER" />
                </bottom>
@@ -174,21 +171,72 @@
                   </VBox>
                </right>
                <center>
-                  <AnchorPane fx:id="appPage" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                  <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #ffffff;" BorderPane.alignment="CENTER">
                      <children>
-                        <StackPane fx:id="mystackPane" prefHeight="315.0" prefWidth="356.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <VBox prefHeight="50.0" prefWidth="100.0">
                            <children>
-                              <HBox fx:id="spinnerPane" alignment="CENTER" opacity="0.51" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #ffffff;">
+                              <HBox alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #ffffff;">
                                  <children>
-                                    <JFXSpinner fx:id="spinner" radius="25.0" />
+                                    <Label fx:id="title_label" alignment="CENTER" contentDisplay="CENTER" minWidth="-Infinity" prefWidth="300.0" text="مرحبا" textAlignment="CENTER" textFill="#c30707">
+                                       <font>
+                                          <Font name="Arial Bold Italic" size="28.0" />
+                                       </font>
+                                    </Label>
                                  </children>
                               </HBox>
-                              <AnchorPane fx:id="appContainer" prefHeight="315.0" prefWidth="356.0" style="-fx-background-color: #f5f5f0;" />
+                              <Separator prefWidth="200.0" />
                            </children>
-                        </StackPane>
+                        </VBox>
+                        <AnchorPane fx:id="appPage" prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <StackPane fx:id="mystackPane" prefHeight="315.0" prefWidth="356.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <HBox fx:id="spinnerPane" alignment="CENTER" opacity="0.51" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #ffffff;">
+                                       <children>
+                                          <JFXSpinner fx:id="spinner" radius="25.0" />
+                                       </children>
+                                    </HBox>
+                                    <AnchorPane fx:id="appContainer" prefHeight="315.0" prefWidth="356.0" style="-fx-background-color: #ffffff;" />
+                                 </children>
+                              </StackPane>
+                           </children>
+                        </AnchorPane>
                      </children>
-                  </AnchorPane>
+                  </VBox>
                </center>
+               <left>
+                  <VBox maxWidth="-Infinity" prefWidth="1.0" style="-fx-background-color: #ffffff;" BorderPane.alignment="CENTER" />
+               </left>
+               <top>
+                  <VBox nodeOrientation="RIGHT_TO_LEFT" prefHeight="54.0" prefWidth="606.0" style="-fx-background-color: #005c99;" BorderPane.alignment="CENTER">
+                     <children>
+                        <VBox maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="20.0" prefWidth="100.0">
+                           <children>
+                              <MenuBar fx:id="menuBar_mb" maxHeight="-Infinity" prefHeight="18.0" prefWidth="606.0" style="-fx-background-color: #004d80; -fx-max-height: 15;">
+                                <menus>
+                                  <Menu fx:id="settings_menu" mnemonicParsing="false" text="الإعدادت">
+                                    <items>
+                                      <MenuItem fx:id="saveDB_MI" mnemonicParsing="false" text="حفظ قاعدة البيانات" />
+                                          <MenuItem fx:id="settleDay_MI" mnemonicParsing="false" text="تسوية اليوم" />
+                                          <MenuItem fx:id="changePassword_MI" mnemonicParsing="false" text="تغيير كلمة المرور" />
+                                          <MenuItem fx:id="restoreDB_MI" mnemonicParsing="false" text="إسترجاع قاعدة البيانات" />
+                                    </items>
+                                  </Menu>
+                                  <Menu fx:id="show_menu" mnemonicParsing="false" text="عرض">
+                                    <items>
+                                          <MenuItem fx:id="archive_MI" mnemonicParsing="false" text="الأرشيف" />
+                                    </items>
+                                  </Menu>
+                                </menus>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </MenuBar>
+                           </children>
+                        </VBox>
+                     </children>
+                  </VBox>
+               </top>
             </BorderPane>
          </content>
       </ScrollPane>

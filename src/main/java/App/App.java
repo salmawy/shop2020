@@ -1,5 +1,6 @@
 
 package App;
+import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,6 +21,7 @@ import App.core.service.IBaseRetrievalService;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class App extends Application {
 	
@@ -64,15 +66,19 @@ public void start(Stage primaryStage) {
 
 	AppStage.setTitle("FXML Login Sample");
 	AppStage.setResizable(false);
-//	AppStage.initStyle(StageStyle.TRANSPARENT);
+	AppStage.initStyle(StageStyle.TRANSPARENT);
 	AppStage.setMinWidth(300);
     
+	URL u=	 getClass().getClassLoader().getResource("appResources/custom.css");
+	 String css =u.toExternalForm();
+	 
 	
-	System.out.println(primaryStage.getMaxHeight()); 
+ 	System.out.println(primaryStage.getMaxHeight()); 
 
         LoginView login = new LoginView();
         
-        Scene scene = new Scene(login.getView(), 400, 250);
+        Scene scene = new Scene(login.getView(), 466, 309);
+        scene.getStylesheets().addAll(css);
 
 		 
 	

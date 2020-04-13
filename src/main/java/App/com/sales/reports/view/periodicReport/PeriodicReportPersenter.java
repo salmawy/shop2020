@@ -16,6 +16,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.controlsfx.glyphfont.FontAwesome;
 import org.springframework.core.io.ClassPathResource;
@@ -77,7 +79,15 @@ public class PeriodicReportPersenter extends SalesAction implements Initializabl
 
 	private CustomTable<SellerLoanVB> loans;
 
-	
+
+	Logger logger = Logger.getLogger(this.getClass().getName());	
+
+    public PeriodicReportPersenter() {
+
+    	logger.log(Level.INFO,"============================================================================================================");		
+    
+    
+	}
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
