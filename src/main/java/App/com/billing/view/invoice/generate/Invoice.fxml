@@ -54,7 +54,7 @@
                      <children>
                         <VBox layoutX="14.0" layoutY="39.0" prefHeight="556.0" prefWidth="404.0" style="-fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 6.0, 0.7, 0.0,1.5); -fx-background-color: #ffffff;">
                            <children>
-                              <Pane prefHeight="45.0" prefWidth="404.0" style="-fx-background-color: #66b3ff;">
+                              <Pane prefHeight="45.0" prefWidth="404.0" style="-fx-background-color: #5bc0de;">
                                  <children>
                                     <Label fx:id="weights_label" alignment="CENTER" contentDisplay="CENTER" layoutX="104.0" layoutY="-3.0" prefHeight="51.0" prefWidth="274.0" text="بيان الأوزان" textAlignment="CENTER" textFill="WHITE">
                                        <effect>

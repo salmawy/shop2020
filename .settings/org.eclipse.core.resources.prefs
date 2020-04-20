@@ -3,6 +3,7 @@ encoding//src/main/java/App/com/Customer/discharge/view/InitCustomerDischargePre
 encoding//src/main/java/App/com/contractor/view/periodicReport/PeriodicReportPersenter.java=UTF-8
 encoding//src/main/java/App/com/expanses/view/expanses/ExpansesPersenter.java=UTF-8
 encoding//src/main/java/App/com/expanses/view/payLoan/PayLoanPersenter.java=UTF-8
+encoding//src/main/java/App/com/inventory/view/main/InventoryPersenter.java=UTF-8
 encoding//src/main/java/App/com/sales/reports/view/periodicReport/PeriodicReportPersenter.java=UTF-8
 encoding//src/main/java/App/com/sales/view/DailySalesPersenter.java=UTF-8
 encoding//src/main/java/App/com/sales/view/beans/SellerOrderDetailVB.java=UTF-8

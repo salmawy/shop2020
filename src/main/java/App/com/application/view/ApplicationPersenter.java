@@ -23,6 +23,7 @@ import com.jfoenix.controls.JFXSpinner;
 
 import App.core.action.BaseAction;
 import javafx.animation.FadeTransition;
+import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -45,6 +46,8 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
 /**
@@ -169,6 +172,9 @@ public class ApplicationPersenter extends BaseAction implements Initializable {
 	    private MenuItem restoreDB_MI;
 	    @FXML
 	    private MenuItem archive_MI;
+	    
+	    @FXML
+	    private HBox buttom_box;
 
    //========================================================================================================================================
    Map<String,String[]> panelPathes;
@@ -264,13 +270,23 @@ public class ApplicationPersenter extends BaseAction implements Initializable {
 	 //============================================================
 	  this.getAppStage().setResizable(true);
 	  setCardLayout(this.mystackPane); 
-	  
-	  
-	  
+	//============================================================
 
+	  Rectangle rec =new Rectangle();
+ 	   rec.setFill(Color.RED);
+ 	  rec.setWidth(30);	  
+ 	  rec.setWidth(20);	  
+ 	  rec.setLayoutX(appContainer.getLayoutX());
+ 	  rec.setLayoutY(appContainer.getLayoutY());
+ 	  TranslateTransition transition=new TranslateTransition();
+ 	 transition.setDuration(Duration.seconds(2));
+ 	transition.setToX(appContainer.getWidth()+appContainer.getLayoutX());
+ 	transition.setToY(appContainer.getHeight()+appContainer.getLayoutY());
 
-		 
-		 
+ 	transition.setNode(rec);	 
+ 	transition.play();
+ 	
+ 	appContainer.getChildren().add(rec);
   }  
      
   

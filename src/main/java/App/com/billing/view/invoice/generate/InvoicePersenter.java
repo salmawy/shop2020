@@ -395,7 +395,7 @@ return columns;
 //========================================================================================
 		 
 		 printInvoice_btn.setText(getMessage("button.print"));
-		 printInvoice_btn.setGraphic(new FontAwesome().create(FontAwesome.Glyph.SAVE));
+		 printInvoice_btn.setGraphic(new FontAwesome().create(FontAwesome.Glyph.PRINT));
 		 printInvoice_btn.getStyleClass().setAll("btn","btn-info","btn-sm");                     //(2)
 		 printInvoice_btn.setOnMouseClicked((new EventHandler<MouseEvent>() { 
 		    	   public void handle(MouseEvent event) { 

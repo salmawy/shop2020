@@ -439,8 +439,8 @@ public class InitGenerateInvoicePersenter extends BillingAction implements Initi
      	if(invoiceStatus==InvoiceStatusEnum.UNDER_EDIT) {
     		
     		App.com.billing.view.invoice.generate.InvoiceView  form=new App.com.billing.view.invoice.generate.InvoiceView();
-        	// scene1= new Scene(form.getView(), 850, 600);
-        	// title=getMessage("button.invoice.generate")  ;
+        	 scene1= new Scene(form.getView(), 850, 600);
+         title=getMessage("button.invoice.generate")  ;
 
     	}
      	else if(invoiceStatus==InvoiceStatusEnum.UNDER_DELIVERY) {
@@ -459,7 +459,10 @@ public class InitGenerateInvoicePersenter extends BillingAction implements Initi
         	 title=getMessage("button.invoice.archive");
     	
      	}
-    	
+     	else {
+     		
+     		return;
+     	}
       	
      	URL u=	 getClass().getClassLoader().getResource("appResources/custom.css");
 

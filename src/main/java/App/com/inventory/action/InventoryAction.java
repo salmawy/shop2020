@@ -1,30 +1,31 @@
-package App.com.sales.action;
+package App.com.inventory.action;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import App.com.expanses.services.IExpansesServices;
-import App.com.inventory.spring.IInventoryService;
 import App.com.sales.spring.ISalesService;
 import App.core.action.BaseAction;
 
-public class SalesAction extends BaseAction {
+public class InventoryAction extends BaseAction {
 	
 	private IExpansesServices expansesService;
 
 	private ISalesService salesService;
 	
-	private IInventoryService inventoryService;
-      public  static  Map<String, Object> request;
+     public  static  Map<String, Object> orderDataMap;
+     public  static  Map<String, Object> request;
      public  static  Map<String, Object> response;
      public static final int CashId=200;
 
-	public SalesAction() {
- 
+	public InventoryAction() {
+		orderDataMap =new  HashMap<String, Object> ();
+	//	request =new  HashMap<String, Object> ();
+	//	response =new  HashMap<String, Object> ();
+
 		salesService= (ISalesService) getSpringBeanFactory().getBean("salesService"); 
 		expansesService= (IExpansesServices) getSpringBeanFactory().getBean("expansesService"); 
-		inventoryService= (IInventoryService) getSpringBeanFactory().getBean("inventoryService"); 
 
-		
 		
 		
 		
@@ -35,15 +36,14 @@ public class SalesAction extends BaseAction {
 	public void setSalesService(ISalesService salesService) {
 		this.salesService = salesService;
 	}
-	 
+	public Map<String, Object> getOrderDataMap() {
+		return orderDataMap;
+	}
+	public void setOrderDataMap(Map<String, Object> orderDataMap) {
+		this.orderDataMap = orderDataMap;
+	}
 	public IExpansesServices getExpansesService() {
 		return expansesService;
-	}
-	public IInventoryService getInventoryService() {
-		return inventoryService;
-	}
-	public void setInventoryService(IInventoryService inventoryService) {
-		this.inventoryService = inventoryService;
 	}
 	
 

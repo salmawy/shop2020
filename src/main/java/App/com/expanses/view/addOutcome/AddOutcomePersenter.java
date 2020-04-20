@@ -93,7 +93,8 @@ public class AddOutcomePersenter extends ExpansesAction implements Initializable
 	    private JFXDatePicker datePicker;
  	   private  int id;
 
-	    public AddOutcomePersenter() {
+	    @SuppressWarnings("unchecked")
+		public AddOutcomePersenter() {
 	    	
 	    	
 	    	id=(int) request.get("outcomeDetailId");
