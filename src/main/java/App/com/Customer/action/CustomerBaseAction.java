@@ -22,7 +22,7 @@ public class CustomerBaseAction extends BaseAction {
 	  
 	  public CustomerBaseAction() {
 	  customerService= (ICustomerService) getSpringBeanFactory().getBean("customerService"); 
-		expansesService= (IExpansesServices) getSpringBeanFactory().getBean("expansesService"); 
+		expansesService= (IExpansesServices) getSpringBeanFactory().getBean("expansesServices"); 
 
 	  }
 

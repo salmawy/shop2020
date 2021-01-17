@@ -33,7 +33,7 @@ public class ContractorAction extends BaseAction {
     public ContractorAction() {
     	owners=new ArrayList (Arrays.asList(new ComboBoxItem(1,getMessage("label.owner.name.kareem")), new ComboBoxItem(2,getMessage("label.owner.name.mahmed"))));
     	setContractorService( (IContractorService) getSpringBeanFactory().getBean("contractorService")); 
-		setExpansesServices((IExpansesServices) getSpringBeanFactory().getBean("expansesService")); 
+		setExpansesServices((IExpansesServices) getSpringBeanFactory().getBean("expansesServices")); 
 
 	}
 	public IExpansesServices getExpansesServices() {

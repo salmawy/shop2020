@@ -385,7 +385,8 @@ public class BaseDaoImpl extends HibernateDaoSupport implements IBaseDao
 			throw new DataBaseException("error.dataBase.delete,"+beans.get(0).getClass().getSimpleName()+","+e.getMessage());	
 		}
 	}	
-	
+
+	@Override
 	public List <Object>findAllBeans(Class<?> beanClass, List<Object> nExpression, List<Object> nOrder , int fromRecord , int maxResult) throws DataBaseException,EmptyResultSetException
 	{
 		List <Object>result = new ArrayList<Object>();

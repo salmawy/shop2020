@@ -16,7 +16,7 @@ public class ExpansesAction  extends BaseAction{
 
 	public ExpansesAction() {
 		
-		expansesServices= (IExpansesServices) getSpringBeanFactory().getBean("expansesService"); 
+		expansesServices= (IExpansesServices) getSpringBeanFactory().getBean("expansesServices"); 
 
 		
 		

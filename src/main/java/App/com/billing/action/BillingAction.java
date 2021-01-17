@@ -23,7 +23,7 @@ public class BillingAction extends BaseAction {
     public BillingAction() {
     	
     	setBillingService((IBillingService) App.springBeanFactory.getBean("billingService"));
-    	setExpansesService((IExpansesServices) App.springBeanFactory.getBean("expansesService"));
+    	setExpansesService((IExpansesServices) App.springBeanFactory.getBean("expansesServices"));
     	setCustomerService((ICustomerService) App.springBeanFactory.getBean("customerService"));
 
     
